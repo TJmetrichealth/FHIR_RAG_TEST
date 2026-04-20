@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.env
+
+# Caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+eval/cache/
+*.chroma/
+.chromadb/
+
+# Synthea JAR + intermediate
+tools/synthea-with-dependencies.jar
+data/synthea_base/*.json.gz
+data/synthea_base/**/*.json
+!data/synthea_base/.gitkeep
+
+# Generated large artefacts (data/ itself is versioned up to freeze)
+narratives/llm_narratives/*.txt
+narratives/llm_narratives/*.meta.json
+narratives/llm_narratives/_cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
