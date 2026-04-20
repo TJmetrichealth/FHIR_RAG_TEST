@@ -45,5 +45,5 @@ select = ["E", "F", "W", "I", "UP", "B", "C4"]
 ignore = ["E501"]
 
 [tool.pytest.ini_options]
-testpaths = ["overlay/tests", "systems/tests", "questions", "narratives"]
+testpaths = ["overlay/tests", "systems/tests", "questions", "narratives", "features/tests"]
 python_files = ["test_*.py"]

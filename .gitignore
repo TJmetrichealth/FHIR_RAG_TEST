@@ -17,6 +17,7 @@ eval/cache/
 
 # Synthea JAR + intermediate
 tools/synthea-with-dependencies.jar
+tools/jre/
 data/synthea_base/*.json.gz
 data/synthea_base/**/*.json
 !data/synthea_base/.gitkeep
