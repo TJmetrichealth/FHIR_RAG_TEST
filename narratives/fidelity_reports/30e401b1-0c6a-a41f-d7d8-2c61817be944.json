@@ -1,0 +1,40 @@
+{
+  "audited_at": "2026-04-21",
+  "checks_by_class": {
+    "admin_count": {
+      "found": 1,
+      "total": 1
+    },
+    "admin_date": {
+      "found": 3,
+      "total": 3
+    },
+    "descriptor": {
+      "found": 1,
+      "total": 1
+    },
+    "regimen_end": {
+      "found": 1,
+      "total": 1
+    },
+    "regimen_start": {
+      "found": 1,
+      "total": 1
+    },
+    "schedule": {
+      "found": 1,
+      "total": 1
+    },
+    "tier_description": {
+      "found": 1,
+      "total": 1
+    }
+  },
+  "errors": [],
+  "missing_items": [],
+  "n_checks": 9,
+  "n_found": 9,
+  "patient_id": "30e401b1-0c6a-a41f-d7d8-2c61817be944",
+  "score": 1.0,
+  "tier": 2
+}

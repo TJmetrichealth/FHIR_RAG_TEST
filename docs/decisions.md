@@ -283,3 +283,17 @@ Two blocking findings were raised by the reviewer before sign-off:
 ---
 
 ## (Future entries append below this line)
+
+## 2026-04-21 — CHUNK_OVERLAP_TOKENS = 50 (extends C2)
+
+**Decision:** `CHUNK_OVERLAP_TOKENS` is set to 50 tokens — 10% of the 500-token chunk size (`CHUNK_TOKENS = 500`, decision C2, 2026-04-19). This value is the single source of truth in `eval/config.py` line 33 and is used by all three retrieval systems (A, B, C).
+
+**Alternatives considered:**
+
+- **No overlap (0 tokens).** Hard chunk boundaries can split a sentence mid-way, causing the retrieval system to return a chunk that lacks the introductory context needed to interpret a date or dose value. Rejected because the temporal-grounding questions (next_dose, coverage_window, missed_dose families) are particularly sensitive to context loss at boundaries.
+- **25% overlap (125 tokens).** Would preserve more cross-boundary context but materially inflates the index: 200 narratives at ≤ ~2,000 tokens each with 500-token chunks already yields ~1,600 chunks; a 25% overlap would grow that by roughly 33%, slowing embedding and retrieval with no demonstrated benefit at our corpus scale. Rejected as disproportionate for a narrative corpus this small.
+- **Dynamic overlap by content type** (e.g. larger overlap for date-dense sections, smaller for introductory paragraphs). Rejected because it requires a content classifier, adds implementation complexity, and produces a non-reproducible chunking boundary set that complicates the sensitivity sweep planned in the appendix (C2 row: chunk ∈ {300, 500, 800}).
+
+**Rationale:** 10% overlap is a conservative, widely-used default in RAG literature (e.g. LangChain and LlamaIndex defaults for small-to-medium corpora) that preserves context across chunk boundaries without materially bloating the index. The narrative corpus is small — 200 narratives, at most ~2,000 tokens each — so the storage and embedding cost of a 50-token overlap is negligible. The sensitivity sweep in the appendix (C2) varies `CHUNK_TOKENS` across {300, 500, 800} but holds `CHUNK_OVERLAP_TOKENS` fixed at 50 (10%) for each setting, keeping one degree of freedom constant. Changing this value would require rebuilding the ChromaDB index and re-running the full evaluation, which cannot be done within the W3 timeline without triggering a decision-log entry and a results-freeze extension.
+
+**Supersedes:** Nothing. This entry extends C2 (2026-04-19) by logging the overlap sub-parameter that was left implicit in that entry. C2 remains active and is not overridden.
