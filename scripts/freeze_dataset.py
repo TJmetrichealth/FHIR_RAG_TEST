@@ -29,6 +29,7 @@ DEFAULT_TARGETS = [
     "narratives/llm_narratives",
     "narratives/templated_narratives",
     "narratives/fidelity_reports",
+    "narratives/fidelity_reports_templated",
     "questions/questions.jsonl",
 ]
 
@@ -58,11 +59,25 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Override targets (repeat flag for multiple; defaults to DEFAULT_TARGETS).",
     )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        default=False,
+        help=(
+            "Treat a missing target path as a hard error (non-zero exit). "
+            "Default: emit a warning to stderr and continue."
+        ),
+    )
     args = parser.parse_args(argv)
 
     targets = [Path(t) for t in (args.target or DEFAULT_TARGETS)]
+    missing_targets: list[Path] = []
     manifest: list[dict[str, object]] = []
     for t in targets:
+        if not t.exists():
+            print(f"[warn] target does not exist: {t}", file=sys.stderr)
+            missing_targets.append(t)
+            continue
         for f in _iter_files(t):
             try:
                 h = _sha256_file(f)
@@ -72,6 +87,11 @@ def main(argv: list[str] | None = None) -> int:
             manifest.append(
                 {"path": str(f), "sha256": h, "bytes": f.stat().st_size}
             )
+
+    if missing_targets and args.strict:
+        paths = ", ".join(str(p) for p in missing_targets)
+        print(f"[error] --strict: {len(missing_targets)} required target(s) missing: {paths}", file=sys.stderr)
+        return 1
 
     manifest.sort(key=lambda r: r["path"])
     roll = hashlib.sha256()
@@ -88,7 +108,7 @@ def main(argv: list[str] | None = None) -> int:
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(out, indent=2, sort_keys=True))
-    print(f"freeze: {len(manifest)} files → overall_sha256={overall[:16]}… wrote {args.output}")
+    print(f"freeze: {len(manifest)} files -> overall_sha256={overall[:16]}... wrote {args.output}")
     return 0
 
 

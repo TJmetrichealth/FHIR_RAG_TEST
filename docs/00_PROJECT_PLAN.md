@@ -5,7 +5,7 @@
 **Author:** Tirthesh Jani
 **Type:** Empirical preprint (arXiv) **and** Phase 0 foundation study for the metricHEALTH FHIR R4B + ML Adherence research proposal
 **Duration:** 5 weeks core + 4 weeks external buffer
-**Status:** Planning — v3 dual-purpose pivot approved; see `07_DECISIONS_v2_FREE_STACK.md` (v3 addendum)
+**Status:** W1 COMPLETE (reviewer PASS 2026-04-21; `week1-complete` tag applied) — W2 OPEN as of 2026-04-21. See `07_DECISIONS_v2_FREE_STACK.md` (v3 addendum) for stack decisions.
 
 ---
 
@@ -138,32 +138,43 @@ This arm adds roughly 3–5 days of work (see §5), can be dropped first if the 
 ## 5. Work Breakdown Structure
 
 ### Week 1 — Dataset construction + validator hookup
+**Status: COMPLETE — reviewer PASS 2026-04-21; `week1-complete` tag applied; `dataset-freeze-v1` intact**
+
 **Deliverables:**
-- `data/synthea_base/` — 200 synthetic patients (raw Synthea output)
-- `overlay/specialty_regimen_generator.py` — the ~200-line overlay assigning one of 3 tiers per patient
-- `data/fhir_bundles/` — 200 enhanced FHIR bundles (one per patient)
-- `mh_integration/r4b_validator.py` — shared validator module imported from the metricHEALTH Phase 1 codebase (or a standalone copy if the mH repo isn't accessible yet; reconvergence is planned)
-- `reports/conformance_rates.md` — per-tier R4B conformance statistics on the 200 bundles
-- `narratives/llm_narratives/` — LLM-generated narratives per bundle
-- `narratives/templated_narratives/` — deterministic-template narratives (ablation)
-- `questions/questions.jsonl` — ~120 questions across the 5 PSP-grounded adherence families with ground-truth functions + provenance pointers
-- `reports/fidelity_audit.md` — per-narrative fidelity report
+- `data/synthea_base/` — 200 synthetic patients (raw Synthea output) **[DONE]**
+- `overlay/specialty_regimen_generator.py` — the ~200-line overlay assigning one of 3 tiers per patient **[DONE]**
+- `data/fhir_bundles/` — 200 enhanced FHIR bundles (one per patient) **[DONE — frozen at tag `dataset-freeze-v1`]**
+- `mh_integration/r4b_validator.py` — shared validator module imported from the metricHEALTH Phase 1 codebase (or a standalone copy if the mH repo isn't accessible yet; reconvergence is planned) **[DONE]**
+- `reports/conformance_rates.md` — per-tier R4B conformance statistics on the 200 bundles **[DONE — reviewer signed off 2026-04-21]**
+- `narratives/llm_narratives/` — LLM-generated narratives per bundle **[DONE — 200 narratives, pinned prompt hash `518bc71d87b7`]**
+- `narratives/templated_narratives/` — deterministic-template narratives (ablation) **[DONE — 200 narratives, frozen]**
+- `questions/questions.jsonl` — 14,600 rows across the 5 PSP-grounded adherence families with ground-truth functions + provenance pointers **[DONE — 14,600 rows; SHA-256 ffffc82a3a9c76637ec8ce68e6bd812505617d46197ab9c24d98c321a08163f0; reviewer signed off 2026-04-21]**
+- `reports/fidelity_audit.md` — per-narrative fidelity report **[DONE — see `narratives/fidelity_reports/`]**
 
 **Key tasks:**
-- T1.1 Set up Synthea, generate 200 patients (1 day)
-- T1.2 Build specialty-regimen overlay with 3 tiers (1.5 days)
-- T1.3 Wire in the mH R4B validator; validate all 200 bundles; report conformance (0.5 day) — *new for v3*
-- T1.4 Narrative generation prompt + iteration (1 day)
-- T1.5 Fidelity audit script + iteration loop (1 day) — *gate: ≥90% fidelity before proceeding*
-- T1.6 Templated-narrative generator (0.5 day) — *kill-switch if week 1 slips; defer to week 3 buffer*
-- T1.7 Question bank generator (PSP adherence families) with programmatic ground truth; adherence metric functions (PDC, MPR, persistence) are reusable modules (1 day)
-- T1.8 Dataset freeze + cryptographic hash + immutability commit
+- T1.1 Set up Synthea, generate 200 patients (1 day) **[DONE]**
+- T1.2 Build specialty-regimen overlay with 3 tiers (1.5 days) **[DONE]**
+- T1.3 Wire in the mH R4B validator; validate all 200 bundles; report conformance (0.5 day) — *new for v3* **[DONE]**
+- T1.4 Narrative generation prompt + iteration (1 day) **[DONE — 1 iteration required; see decisions.md 2026-04-21]**
+- T1.5 Fidelity audit script + iteration loop (1 day) — *gate: ≥90% fidelity before proceeding* **[DONE — O1 PASSED at 100.0% weighted recall for both generators (2,403 checks each, 0 misses); audited 2026-04-21]**
+- T1.6 Templated-narrative generator (0.5 day) — *kill-switch if week 1 slips; defer to week 3 buffer* **[DONE]**
+- T1.7 Question bank generator (PSP adherence families) with programmatic ground truth; adherence metric functions (PDC, MPR, persistence) are reusable modules (1 day) **[DONE — 14,600 rows generated and committed; reviewer signed off 2026-04-21]**
+- T1.8 Dataset freeze + cryptographic hash + immutability commit **[DONE — `dataset-freeze-v1` tag to be applied by user; see decisions.md]**
 
 **Gate (end of week 1):** Dataset is frozen. No more edits to bundles, narratives, or questions after this point — modifications invalidate all downstream results.
+
+**Gate verdict (O1): PASS — 100.0% weighted entity recall for both LLM-narrative and templated-narrative generators. All 8 entity classes at 100%. Fidelity audit completed 2026-04-21. Reviewer independent audit signed off 2026-04-21: PASS.**
+
+**W1 retrospective — residual minor findings carried into W2 (non-blocking):**
+1. Question schema field names are `question` and `type` (not `question_text` / `question_type`). Evaluator harness in W2 must align to the actual schema before the full evaluation run.
+2. `make reproduce` depends on `eval/cache/` presence for byte-reproducible narrative output. Must be documented explicitly in the paper's reproducibility section (§9).
+3. Decisions log contains an apparent date-ordering anomaly (2026-04-27 work entries appear before the 2026-04-21 gate-closure entry). This results from append-only discipline across multi-agent sessions; acknowledged in the corrective decisions.md entry dated 2026-04-21.
 
 ---
 
 ### Week 2 — Retrieval systems (highest-risk week)
+**Status: OPEN as of 2026-04-21**
+
 **Deliverables:**
 - `systems/narrative_rag.py` — System A
 - `systems/structured_rag_naive.py` — System B
