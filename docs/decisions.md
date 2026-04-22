@@ -297,3 +297,42 @@ Two blocking findings were raised by the reviewer before sign-off:
 **Rationale:** 10% overlap is a conservative, widely-used default in RAG literature (e.g. LangChain and LlamaIndex defaults for small-to-medium corpora) that preserves context across chunk boundaries without materially bloating the index. The narrative corpus is small — 200 narratives, at most ~2,000 tokens each — so the storage and embedding cost of a 50-token overlap is negligible. The sensitivity sweep in the appendix (C2) varies `CHUNK_TOKENS` across {300, 500, 800} but holds `CHUNK_OVERLAP_TOKENS` fixed at 50 (10%) for each setting, keeping one degree of freedom constant. Changing this value would require rebuilding the ChromaDB index and re-running the full evaluation, which cannot be done within the W3 timeline without triggering a decision-log entry and a results-freeze extension.
 
 **Supersedes:** Nothing. This entry extends C2 (2026-04-19) by logging the overlap sub-parameter that was left implicit in that entry. C2 remains active and is not overridden.
+
+## 2026-04-21 — W2 question-bank patch: MPR window fix + drop trivial cross-resource templates
+
+**Decision:** Mid-W2, a reviewer subagent re-audit surfaced two correctness issues in the frozen `questions/questions.jsonl`. Both are ground-truth bugs in `questions/ground_truth/`, not data-layer bugs, so the FHIR bundles and narratives remain untouched (`dataset-freeze-v1` is intact). The question bank was regenerated in place from the same seed (`20260427`) and the frozen manifest `data/freeze.json` was rewritten.
+
+**Change 1 — MPR window.** `_mpr_template` in `questions/ground_truth/regimen_compliance.py` computed the numerator from *all* cumulative doses up to `ref` (`window_doses = [d for d in admin_dates if d <= ref]`) while dividing by 90 days. The question text and provenance string both explicitly specify the trailing 90-day window. Fixed to `window_doses = [d for d in doses(c) if ref - timedelta(days=90) <= d <= ref]`, matching the PDC template directly above it. The 200 `rc.mpr_90d.primary` rows (137 non-N/A) are now correct; values range 0.0–1.2444 (values > 1.0 reflect legitimate overlapping-refill semantics of MPR).
+
+**Change 2 — Drop trivial cross-resource templates.** Four templates resolved to `"yes"` for every valid patient because the overlay generator sets `medication_ref`, `request_ref`, and the CarePlan.activity list unconditionally. Empirical confirmation against the pre-fix `questions.jsonl` showed zero `"no"` answers across 800 rows:
+
+- `cr.careplan_covers_all`: 200/200 = yes
+- `cr.medreq_linked.primary`: 200/200 = yes
+- `cr.medreq_linked.adjunct`: 74 yes, 126 N/A, 0 no
+- `cr.medreq_linked.rescue`: 74 yes, 126 N/A, 0 no
+
+These templates cannot discriminate between retrieval systems: a system answering "yes" to every cross-resource question scores perfectly without reasoning about cross-resource links. All four templates removed from `questions/ground_truth/cross_resource.py`. The remaining cross-resource templates (`cr.has.*`, `cr.schedule_kind.*`, `cr.tier_label`, `cr.tier_number`) retain discriminative power because they return component-specific or tier-specific values that vary across patients.
+
+**Alternatives considered:**
+
+- Keep the trivial templates and document as known limitations in the paper. Rejected because they would inflate cross-resource per-type accuracy without testing the claimed capability, and a reviewer would flag this at submission.
+- Rewrite the four templates to probe a genuinely-variable property (e.g. whether a `MedicationAdministration.request.reference` string points at a resource actually present in the bundle). Rejected for W2 scope — that would require a FHIR-bundle-level check that belongs in a separate "reference integrity" audit, not in the per-patient ground-truth pipeline. Deferred as a W3+ follow-up; not on the critical path.
+- Leave MPR as-is and adjust the question wording to match the code ("cumulative MPR from regimen start"). Rejected because MPR is a standard clinical metric defined over a fixed trailing window, and reviewers will expect the standard definition.
+
+**Impact on artefacts:**
+
+- `questions/questions.jsonl`: 14,600 → 13,800 rows (200 patients × 69 templates, was 73). Per-type counts: temporal_lookup 3200, temporal_comparison 2400, regimen_compliance 4200, regimen_aggregation 2400, cross_resource 1600.
+- SHA-256 of `questions/questions.jsonl`: `ffffc82a3a9c76637ec8ce68e6bd812505617d46197ab9c24d98c321a08163f0` → `2216f58e3b53f8380f4b7a167b0750ce0172cbd0645bed94be369e230d9e8c4d`.
+- `data/freeze.json` `overall_sha256`: `0fb54a35ca5dcb2a02856b094cd77a84e864c0b1aca58a8bdedea6c9f3261f82` → `4d0da93e19c3071414ef5e1045d338104f9628842abe34f548aa050e9d0aa736`. File count unchanged at 1203.
+- FHIR bundles, LLM narratives, templated narratives, and fidelity reports: **unchanged**. `dataset-freeze-v1` git tag remains authoritative for those artefacts.
+- No retrieval results yet exist; no downstream re-run is required.
+
+**Also fixed in this patch (non-ground-truth):**
+
+- `Makefile`: `smoke` target now writes to `data/fhir_bundles_smoke/`, `narratives/templated_narratives_smoke/`, and `questions/questions_smoke.jsonl` instead of overwriting the frozen artefacts. A prior invocation of `make smoke` would silently mutate `dataset-freeze-v1`.
+- `Makefile`: `reproduce` target now prints a warning and pauses 5 seconds if `eval/cache/` is empty or missing, so a clean-checkout reproducer does not burn Groq rate-limit budget unintentionally.
+
+**Rationale:** Both ground-truth bugs would have produced misleading W3 results — Major 1 by penalising systems that correctly extract the trailing-90-day window, Major 2 by inflating cross-resource accuracy for all three systems uniformly. Fixing both mid-W2, before any retrieval results are scored, is cheaper than correcting them after a results freeze. The original `dataset-freeze-v1` tag remains authoritative for the FHIR-bundle layer; a new question-bank hash captures the corrected ground truth without requiring a full re-freeze.
+
+**Supersedes:** Amends (does not override) the 2026-04-21 "Question-bank construction" entry. The original entry's SHA-256 is superseded by the value recorded here; the design decisions (70/20/10 tier split, 2 paraphrases per question, N/A sentinel, etc.) remain in force.
+

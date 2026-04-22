@@ -147,8 +147,8 @@ def _mpr_template() -> QuestionTemplate:
         interval = c.get("interval_days")
         if not interval:
             return NA
-        admin_dates = doses(c)
-        window_doses = [d for d in admin_dates if d <= ref]
+        w_start = ref - timedelta(days=90)
+        window_doses = [d for d in doses(c) if w_start <= d <= ref]
         return round(compute_mpr(window_doses, interval, 90), 4)
 
     return QuestionTemplate(

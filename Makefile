@@ -48,7 +48,7 @@ fidelity:
 	  --output narratives/fidelity_reports
 	$(PY) -m narratives.fidelity_aggregate \
 	  --reports narratives/fidelity_reports \
-	  --output reports/fidelity_audit.md
+	  --output reports/fidelity_audit_llm.md
 
 fidelity-templated:
 	$(PY) -m narratives.fidelity_audit \
@@ -75,23 +75,36 @@ freeze:
 
 dataset: synthea overlay narratives fidelity fidelity-templated templated questions freeze
 
+SMOKE_DIR := data/fhir_bundles_smoke
+SMOKE_NARR_DIR := narratives/templated_narratives_smoke
+SMOKE_Q := questions/questions_smoke.jsonl
+
 smoke:
+	@echo ">>> smoke writes to $(SMOKE_DIR) / $(SMOKE_NARR_DIR) / $(SMOKE_Q) — frozen data/fhir_bundles is NOT touched"
 	$(PY) -m overlay.specialty_regimen_generator \
 	  --input data/synthea_base/fhir \
-	  --output data/fhir_bundles \
+	  --output $(SMOKE_DIR) \
 	  --seed $(SEED) --sample $(SAMPLE) \
 	  --reference-today 2026-04-27
 	$(PY) -m narratives.gen_templated_narrative \
-	  --bundles data/fhir_bundles \
-	  --output narratives/templated_narratives \
+	  --bundles $(SMOKE_DIR) \
+	  --output $(SMOKE_NARR_DIR) \
 	  --sample $(SAMPLE)
 	$(PY) -m questions.gen_question_bank \
-	  --bundles data/fhir_bundles \
-	  --output questions/questions.jsonl \
+	  --bundles $(SMOKE_DIR) \
+	  --output $(SMOKE_Q) \
 	  --seed $(SEED) --sample $(SAMPLE)
 
 clean:
 	rm -rf .pytest_cache .ruff_cache .mypy_cache __pycache__ build dist *.egg-info
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +
 
-reproduce: dataset
+reproduce:
+	@if [ ! -d eval/cache ] || [ -z "$$(ls -A eval/cache 2>/dev/null)" ]; then \
+	  echo ">>> WARNING: eval/cache/ is empty or missing."; \
+	  echo ">>> 'make reproduce' will issue live Groq API calls and burn rate-limit budget."; \
+	  echo ">>> Byte-reproducible rebuild requires the cached narrative responses."; \
+	  echo ">>> Press Ctrl-C within 5 seconds to abort."; \
+	  sleep 5; \
+	fi
+	$(MAKE) dataset
