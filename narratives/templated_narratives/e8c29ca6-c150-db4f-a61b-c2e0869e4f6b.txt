@@ -1,0 +1,7 @@
+This patient is enrolled in a Biologic injectable every 4 weeks, daily oral adjunct, and PRN rescue inhaler for breakthrough symptoms. The specialty regimen is classified as tier 3 (T3-multidrug) and spans from 2025-08-25 to 2026-08-25, a total observation window of 365 days.
+
+Component 1 of 3: The biologic injectable, every 4 weeks is given on a fixed schedule of every 28 days (every 4 weeks, q4w). A total of 14 administrations are on record for this component. The first administration was on 2025-08-25 and the most recent was on 2026-08-24. The first three recorded dates are 2025-08-25, 2025-09-22, 2025-10-20; the last three are 2026-06-29, 2026-07-27, 2026-08-24; a mid-window administration occurred on 2026-03-09.
+
+Component 2 of 3: The daily oral adjunct is given on a fixed schedule of every 1 day (daily). A total of 366 administrations are on record for this component. The first administration was on 2025-08-25 and the most recent was on 2026-08-25. The first three recorded dates are 2025-08-25, 2025-08-26, 2025-08-27; the last three are 2026-08-23, 2026-08-24, 2026-08-25; a mid-window administration occurred on 2026-02-24.
+
+Component 3 of 3: The PRN rescue inhaler for breakthrough symptoms is administered as needed (PRN) for breakthrough symptoms. No administrations have been recorded for this component within the observation window.

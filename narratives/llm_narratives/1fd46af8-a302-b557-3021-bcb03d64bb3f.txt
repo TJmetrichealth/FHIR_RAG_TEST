@@ -1,0 +1,11 @@
+The patient is on a T2-cyclic-oral regimen, which is described as cyclic oral therapy, 4 weeks on, 2 weeks off. This regimen consists of one medication component, referred to as the primary component, which is a cyclic oral specialty therapy. The primary component has a cyclic schedule, with 4 weeks on and 2 weeks off, and its administration dates are as follows: the first three administration dates were 2025-10-06, 2025-10-07, and 2025-10-08.
+
+The regimen started on 2025-10-06 and is projected to end on 2026-10-06, spanning a total of 365 days. For the primary component, the last three administration dates were 2026-10-02, 2026-10-03, and 2026-10-04, with a total of 252 administrations recorded. Since there are more than six administrations, a mid-administration date is also noted, which is 2026-04-06.
+
+The primary component does not have a PRN indication, meaning it is not administered as needed for any specific condition. The cyclic nature of this component is characterized by its on and off weeks, with 4 weeks of administration followed by 2 weeks off. This pattern is consistent throughout the regimen period.
+
+The regimen's overall structure and the primary component's administration schedule provide a comprehensive outline of the patient's treatment plan. The start and end dates of the regimen, combined with the administration dates of the primary component, offer a clear picture of the treatment timeline. 
+
+The total count of 252 administrations for the primary component, along with the specific administration dates, demonstrates the extensive nature of this regimen. The absence of a PRN indication for the primary component suggests that its administration is strictly according to the cyclic schedule, without any adjustments based on the patient's needs. 
+
+The mid-administration date of 2026-04-06 serves as a reference point, indicating that the regimen was ongoing at that time, with the patient receiving the primary component as scheduled. This information, combined with the first and last administration dates, provides a detailed view of the patient's treatment regimen.

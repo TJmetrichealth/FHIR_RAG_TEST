@@ -1,0 +1,9 @@
+The patient is on a Tier 2 regimen, described as Cyclic oral therapy, 4 weeks on / 2 weeks off. This regimen consists of one medication component, referred to as the primary component, which is a cyclic oral specialty therapy, with 4 weeks on and 2 weeks off. The primary component is administered orally, with a cyclic schedule.
+
+The regimen started on 2026-01-30 and is projected to end on 2027-01-30, spanning a total of 365 days. The primary component has a total of 252 administrations recorded throughout the regimen period. The first three administration dates for the primary component were 2026-01-30, 2026-01-31, and 2026-02-01. The last three administration dates were 2027-01-26, 2027-01-27, and 2027-01-28.
+
+Since the primary component has more than seven administrations, a representative mid-regimen administration date is 2026-07-31. This date falls within the middle third of the administration timeline, providing a glimpse into the ongoing regimen. The cyclic nature of the primary component, with its 4 weeks on and 2 weeks off schedule, is designed to provide a consistent and controlled therapeutic approach.
+
+The primary component does not have a PRN indication, meaning it is not administered as needed for a specific condition. Instead, it follows a predetermined cyclic schedule. Throughout the regimen period, the patient has received the primary component at regular intervals, with no recorded PRN administrations, as this component is not designated for as-needed use.
+
+Overall, the patient's Tier 2 regimen, with its cyclic oral specialty therapy, has been administered according to the predetermined schedule, with a total of 252 recorded administrations from 2026-01-30 to 2027-01-30. The regimen's cyclic nature and oral administration route are key components of the patient's therapeutic plan.

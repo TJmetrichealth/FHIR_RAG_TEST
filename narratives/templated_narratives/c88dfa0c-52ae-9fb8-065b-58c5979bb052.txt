@@ -1,0 +1,3 @@
+This patient is enrolled in a Single long-acting subcutaneous injectable, administered every 8 weeks. The specialty regimen is classified as tier 1 (T1-long-acting-injectable) and spans from 2030-03-31 to 2031-03-31, a total observation window of 365 days.
+
+The long-acting subcutaneous injectable biologic is given on a fixed schedule of every 56 days (every 8 weeks, q8w). A total of 7 administrations are on record for this component. The first administration was on 2030-03-31 and the most recent was on 2031-03-02. The first three recorded dates are 2030-03-31, 2030-05-26, 2030-07-21; the last three are 2030-11-10, 2031-01-05, 2031-03-02; a mid-window administration occurred on 2030-09-15.

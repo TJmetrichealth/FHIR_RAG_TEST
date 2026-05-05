@@ -1,0 +1,9 @@
+The patient is on a T2-cyclic-oral regimen, which is described as cyclic oral therapy, 4 weeks on / 2 weeks off. This specialty-regimen tier is designed to provide a specific pattern of treatment. The regimen consists of one medication component, which is cyclic oral specialty therapy, administered in a cyclic schedule with 4 weeks on and 2 weeks off.
+
+The component has a cyclic schedule, with no fixed interval in days, but rather a cycle of 4 weeks on followed by 2 weeks off. The regimen started on 2025-04-28 and is projected to end on 2026-04-28, with a total horizon of 365 days.
+
+The cyclic oral specialty therapy component has been administered on several dates, including the first three administrations on 2025-04-28, 2025-04-29, and 2025-04-30. The last three administrations were on 2026-04-24, 2026-04-25, and 2026-04-26. In total, there have been 252 administrations of this component. Since there have been more than six administrations, a representative mid-regimen administration date is 2025-10-27.
+
+The cyclic oral specialty therapy is not administered on a PRN basis, so there is no indication for as-needed administration. The regimen's cyclic nature is designed to provide a consistent pattern of treatment over time. 
+
+The patient's regimen is designed to provide a consistent and structured approach to treatment, with the cyclic oral specialty therapy playing a key role in this plan.

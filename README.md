@@ -30,7 +30,7 @@ python -m narratives.fidelity_audit \
     --narratives narratives/llm_narratives \
     --output narratives/fidelity_reports
 python -m narratives.fidelity_aggregate \
-    --reports narratives/fidelity_reports --output reports/fidelity_audit.md
+    --reports narratives/fidelity_reports --output reports/fidelity_audit_llm.md
 
 # 6. Question bank
 python -m questions.gen_question_bank \

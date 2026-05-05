@@ -29,8 +29,15 @@ of 3–6 short paragraphs. The narrative must:
    cyclic, or PRN), including the exact interval in days where applicable.
 3. Give the regimen start date and the end of the projected horizon.
 4. Mention each dose administration date in ISO format (YYYY-MM-DD), grouped
-   by component. If there are many events, include the first three, the last
-   three, and the total count.
+   by component. For each component include the first three administration dates,
+   the last three administration dates, the total count, and — if the component
+   has seven or more administrations — at least one date from the middle of the
+   regimen window (i.e., from the middle third of the administration timeline,
+   between the earliest and latest recorded dates). The field "mid_administration"
+   in the JSON supplies a representative mid-window date; use it verbatim when
+   present. For components with fewer than seven administrations the first-three
+   and last-three already cover the full timeline, so no additional mid-window
+   date is required.
 5. If any component is PRN, state the indication ("as needed for ...") and
    whether any PRN administrations were recorded.
 

@@ -1,0 +1,1209 @@
+{
+  "generator": "gen_templated_narrative.py",
+  "template_version": "v2",
+  "render_fn_sha256_prefix": "1f07e11e1c12abe7",
+  "generated_at_utc": "2026-04-21T15:17:03.304453+00:00",
+  "n_patients": 200,
+  "patients": [
+    {
+      "patient_id": "014abeea-627d-f33c-834c-e2a6605046ee",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "014abeea-627d-f33c-834c-e2a6605046ee.txt"
+    },
+    {
+      "patient_id": "02dc5960-eec7-7c95-977a-fbfef0c7318a",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "02dc5960-eec7-7c95-977a-fbfef0c7318a.txt"
+    },
+    {
+      "patient_id": "03a54374-164b-4769-e60f-da6c62772663",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "03a54374-164b-4769-e60f-da6c62772663.txt"
+    },
+    {
+      "patient_id": "05ab7b8b-6463-79a7-b060-2dfcc8ed4f51",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "05ab7b8b-6463-79a7-b060-2dfcc8ed4f51.txt"
+    },
+    {
+      "patient_id": "076af3f3-4441-9c72-e459-b9c59305846c",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "076af3f3-4441-9c72-e459-b9c59305846c.txt"
+    },
+    {
+      "patient_id": "082fded1-1ba0-9bf2-6dee-a033676dd040",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "082fded1-1ba0-9bf2-6dee-a033676dd040.txt"
+    },
+    {
+      "patient_id": "086c349f-0899-9a6c-984d-63268dfd200b",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "086c349f-0899-9a6c-984d-63268dfd200b.txt"
+    },
+    {
+      "patient_id": "09869e74-030e-5a53-b592-bbee5458ab64",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "09869e74-030e-5a53-b592-bbee5458ab64.txt"
+    },
+    {
+      "patient_id": "0b2a436c-3571-c712-e925-75e895a5b489",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "0b2a436c-3571-c712-e925-75e895a5b489.txt"
+    },
+    {
+      "patient_id": "0b2e2350-4d13-3a5e-901d-f59e68f47b3c",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "0b2e2350-4d13-3a5e-901d-f59e68f47b3c.txt"
+    },
+    {
+      "patient_id": "0bca16b4-9ed5-4de9-e8e8-17896997a516",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "0bca16b4-9ed5-4de9-e8e8-17896997a516.txt"
+    },
+    {
+      "patient_id": "0d6de1b9-9963-4de2-2cb1-2532c0a1fe93",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "0d6de1b9-9963-4de2-2cb1-2532c0a1fe93.txt"
+    },
+    {
+      "patient_id": "0f606ea4-a06e-c512-0e74-05ed468e694e",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "0f606ea4-a06e-c512-0e74-05ed468e694e.txt"
+    },
+    {
+      "patient_id": "1065e960-a876-8eb3-7339-9871601e98f2",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "1065e960-a876-8eb3-7339-9871601e98f2.txt"
+    },
+    {
+      "patient_id": "11bb6429-6070-b6cc-a471-7db6233ad634",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "11bb6429-6070-b6cc-a471-7db6233ad634.txt"
+    },
+    {
+      "patient_id": "11d8ed77-0d25-2dad-2278-60b465ea5002",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "11d8ed77-0d25-2dad-2278-60b465ea5002.txt"
+    },
+    {
+      "patient_id": "1207468c-6794-3740-1396-40dfd631f137",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "1207468c-6794-3740-1396-40dfd631f137.txt"
+    },
+    {
+      "patient_id": "124bbfbf-e39e-6eb2-d9a2-023dd0f26616",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "124bbfbf-e39e-6eb2-d9a2-023dd0f26616.txt"
+    },
+    {
+      "patient_id": "1377db4c-57bc-4d82-e298-8f72ed518442",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "1377db4c-57bc-4d82-e298-8f72ed518442.txt"
+    },
+    {
+      "patient_id": "13c55beb-adc1-f445-da82-fb990464f294",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "13c55beb-adc1-f445-da82-fb990464f294.txt"
+    },
+    {
+      "patient_id": "14d7be16-6969-8e6e-d439-eb25ae0a702f",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "14d7be16-6969-8e6e-d439-eb25ae0a702f.txt"
+    },
+    {
+      "patient_id": "14ffdfca-8905-1a8c-85d7-e35335f53157",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "14ffdfca-8905-1a8c-85d7-e35335f53157.txt"
+    },
+    {
+      "patient_id": "150bda8a-5ff3-fb82-62f1-2196171c83ab",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "150bda8a-5ff3-fb82-62f1-2196171c83ab.txt"
+    },
+    {
+      "patient_id": "16089ff4-0d9c-63fb-86db-afc5431b8ca4",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "16089ff4-0d9c-63fb-86db-afc5431b8ca4.txt"
+    },
+    {
+      "patient_id": "1663995c-a354-3072-34af-d9d092cdfc72",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "1663995c-a354-3072-34af-d9d092cdfc72.txt"
+    },
+    {
+      "patient_id": "17413165-921d-2a2f-9893-bf848b4bd387",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "17413165-921d-2a2f-9893-bf848b4bd387.txt"
+    },
+    {
+      "patient_id": "17e66875-659a-6b88-06d9-305731ed0110",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "17e66875-659a-6b88-06d9-305731ed0110.txt"
+    },
+    {
+      "patient_id": "189fd0aa-3bff-cf53-3d4f-7934b38102d1",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "189fd0aa-3bff-cf53-3d4f-7934b38102d1.txt"
+    },
+    {
+      "patient_id": "191c6e04-46de-e953-c07e-19837973313a",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "191c6e04-46de-e953-c07e-19837973313a.txt"
+    },
+    {
+      "patient_id": "192af705-05ae-2441-79cc-67ddce5f95d9",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "192af705-05ae-2441-79cc-67ddce5f95d9.txt"
+    },
+    {
+      "patient_id": "19b4da30-4074-2e54-eae7-61b6dd2bb43d",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "19b4da30-4074-2e54-eae7-61b6dd2bb43d.txt"
+    },
+    {
+      "patient_id": "1cab7cf6-ef26-737b-020e-99693672478a",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "1cab7cf6-ef26-737b-020e-99693672478a.txt"
+    },
+    {
+      "patient_id": "1e52f480-d236-1b23-ac0c-0dd45141be8a",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "1e52f480-d236-1b23-ac0c-0dd45141be8a.txt"
+    },
+    {
+      "patient_id": "1f27a824-bc34-bd07-cee0-18328a0ec0a1",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "1f27a824-bc34-bd07-cee0-18328a0ec0a1.txt"
+    },
+    {
+      "patient_id": "1f91357c-bdc2-4fe9-b149-60b390a76af4",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "1f91357c-bdc2-4fe9-b149-60b390a76af4.txt"
+    },
+    {
+      "patient_id": "1fd46af8-a302-b557-3021-bcb03d64bb3f",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "1fd46af8-a302-b557-3021-bcb03d64bb3f.txt"
+    },
+    {
+      "patient_id": "2217cd21-d111-68a2-69df-75991313b2ae",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "2217cd21-d111-68a2-69df-75991313b2ae.txt"
+    },
+    {
+      "patient_id": "24643175-1aa4-0124-f860-7b69999709b3",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "24643175-1aa4-0124-f860-7b69999709b3.txt"
+    },
+    {
+      "patient_id": "24fefb6a-8eec-4c3e-ede2-70837d6d3a25",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "24fefb6a-8eec-4c3e-ede2-70837d6d3a25.txt"
+    },
+    {
+      "patient_id": "274257bb-c8ce-cc5a-0a89-25965d381851",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "274257bb-c8ce-cc5a-0a89-25965d381851.txt"
+    },
+    {
+      "patient_id": "28a00458-d65c-b643-bdc9-b4e4e1cf1cff",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "28a00458-d65c-b643-bdc9-b4e4e1cf1cff.txt"
+    },
+    {
+      "patient_id": "2bad364e-b6b1-b7ca-3787-be96d41be4a1",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "2bad364e-b6b1-b7ca-3787-be96d41be4a1.txt"
+    },
+    {
+      "patient_id": "3099416b-bdec-69b5-2b2e-8eb0a5d43d41",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "3099416b-bdec-69b5-2b2e-8eb0a5d43d41.txt"
+    },
+    {
+      "patient_id": "30e401b1-0c6a-a41f-d7d8-2c61817be944",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "30e401b1-0c6a-a41f-d7d8-2c61817be944.txt"
+    },
+    {
+      "patient_id": "3237a113-d358-2106-3f7e-929c6f193fa7",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "3237a113-d358-2106-3f7e-929c6f193fa7.txt"
+    },
+    {
+      "patient_id": "35a0c880-7016-2f0a-8abc-f52e6ab9d621",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "35a0c880-7016-2f0a-8abc-f52e6ab9d621.txt"
+    },
+    {
+      "patient_id": "3a6ef1cb-a3d7-9087-30de-567a5d745337",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "3a6ef1cb-a3d7-9087-30de-567a5d745337.txt"
+    },
+    {
+      "patient_id": "3bbc8a28-071f-6eec-a597-11e6197618f7",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "3bbc8a28-071f-6eec-a597-11e6197618f7.txt"
+    },
+    {
+      "patient_id": "416a8432-c2eb-07a3-f6f4-6d8362e0aa65",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "416a8432-c2eb-07a3-f6f4-6d8362e0aa65.txt"
+    },
+    {
+      "patient_id": "41b64cb8-1c48-9a50-b84e-e6c58fe359ae",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "41b64cb8-1c48-9a50-b84e-e6c58fe359ae.txt"
+    },
+    {
+      "patient_id": "4410bf3c-b62f-818f-450a-cefc0f040bd8",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "4410bf3c-b62f-818f-450a-cefc0f040bd8.txt"
+    },
+    {
+      "patient_id": "46b38803-8720-e9e0-bbf5-4b4b1dc9e553",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "46b38803-8720-e9e0-bbf5-4b4b1dc9e553.txt"
+    },
+    {
+      "patient_id": "475201cf-1e3f-3389-7d5e-e878633cce6e",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "475201cf-1e3f-3389-7d5e-e878633cce6e.txt"
+    },
+    {
+      "patient_id": "47990cb9-7fc9-2067-227a-f458ec8b15a7",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "47990cb9-7fc9-2067-227a-f458ec8b15a7.txt"
+    },
+    {
+      "patient_id": "48ca2916-732f-4e2a-6298-990c73e8f0b1",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "48ca2916-732f-4e2a-6298-990c73e8f0b1.txt"
+    },
+    {
+      "patient_id": "49765a80-0d3e-41c7-00e8-47ea50c75ab7",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "49765a80-0d3e-41c7-00e8-47ea50c75ab7.txt"
+    },
+    {
+      "patient_id": "4a22f595-e1b8-eaf7-d53e-fc53d01684c6",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "4a22f595-e1b8-eaf7-d53e-fc53d01684c6.txt"
+    },
+    {
+      "patient_id": "4a3facfa-dce2-f056-9362-4c0f14d379c7",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "4a3facfa-dce2-f056-9362-4c0f14d379c7.txt"
+    },
+    {
+      "patient_id": "4a8d6550-049d-fcd3-cdb0-1b3183f6ae51",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "4a8d6550-049d-fcd3-cdb0-1b3183f6ae51.txt"
+    },
+    {
+      "patient_id": "4a950106-9a73-a7fb-e87c-7c4672da2c5d",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "4a950106-9a73-a7fb-e87c-7c4672da2c5d.txt"
+    },
+    {
+      "patient_id": "4b2a6ed2-0560-0e53-95d4-cf6748829d82",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "4b2a6ed2-0560-0e53-95d4-cf6748829d82.txt"
+    },
+    {
+      "patient_id": "4cdb3fa5-7a49-cc64-31da-288096b611a7",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "4cdb3fa5-7a49-cc64-31da-288096b611a7.txt"
+    },
+    {
+      "patient_id": "4cf0e1c7-3302-7088-7662-df918cc44242",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "4cf0e1c7-3302-7088-7662-df918cc44242.txt"
+    },
+    {
+      "patient_id": "4d23bc0f-9215-4141-581e-5f93f3af621d",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "4d23bc0f-9215-4141-581e-5f93f3af621d.txt"
+    },
+    {
+      "patient_id": "4ed78fb7-f712-b867-35c9-1508c20faf92",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "4ed78fb7-f712-b867-35c9-1508c20faf92.txt"
+    },
+    {
+      "patient_id": "4f090b02-a7a8-c7f4-69d2-bc2c8a8b3f85",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "4f090b02-a7a8-c7f4-69d2-bc2c8a8b3f85.txt"
+    },
+    {
+      "patient_id": "5042ecc3-9b7d-935e-9489-1c3750c172b5",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "5042ecc3-9b7d-935e-9489-1c3750c172b5.txt"
+    },
+    {
+      "patient_id": "51bb5198-b50f-ea56-4f54-9656997a41c7",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "51bb5198-b50f-ea56-4f54-9656997a41c7.txt"
+    },
+    {
+      "patient_id": "533715cb-9659-ee3d-2fd4-0dd29123aef1",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "533715cb-9659-ee3d-2fd4-0dd29123aef1.txt"
+    },
+    {
+      "patient_id": "537c0a26-9f16-03fb-82c4-74cc457edfb3",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "537c0a26-9f16-03fb-82c4-74cc457edfb3.txt"
+    },
+    {
+      "patient_id": "5420d430-2483-eabf-f753-a84810e6c837",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "5420d430-2483-eabf-f753-a84810e6c837.txt"
+    },
+    {
+      "patient_id": "54c93d29-38c8-9428-7cfa-f88b6c7d7e82",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "54c93d29-38c8-9428-7cfa-f88b6c7d7e82.txt"
+    },
+    {
+      "patient_id": "5525d3f9-df52-e1a1-75bf-c0e182945500",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "5525d3f9-df52-e1a1-75bf-c0e182945500.txt"
+    },
+    {
+      "patient_id": "5638ffc3-ca76-9e51-d315-a95e1c9952a4",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "5638ffc3-ca76-9e51-d315-a95e1c9952a4.txt"
+    },
+    {
+      "patient_id": "563ac66d-dce6-6eb1-c7da-80963186396f",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "563ac66d-dce6-6eb1-c7da-80963186396f.txt"
+    },
+    {
+      "patient_id": "57f466ea-90e3-4004-c8c4-53b2c0dfdf39",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "57f466ea-90e3-4004-c8c4-53b2c0dfdf39.txt"
+    },
+    {
+      "patient_id": "59d88e77-d58e-ea7e-e1b7-3f54e71d08b5",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "59d88e77-d58e-ea7e-e1b7-3f54e71d08b5.txt"
+    },
+    {
+      "patient_id": "5a553ec2-2f55-3f51-904f-1ad9ea0dccb1",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "5a553ec2-2f55-3f51-904f-1ad9ea0dccb1.txt"
+    },
+    {
+      "patient_id": "5a7cc00f-0b78-8f25-a830-a65e9067fff3",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "5a7cc00f-0b78-8f25-a830-a65e9067fff3.txt"
+    },
+    {
+      "patient_id": "5df14cae-8fbd-ec98-2f81-c7ab2ea41898",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "5df14cae-8fbd-ec98-2f81-c7ab2ea41898.txt"
+    },
+    {
+      "patient_id": "5e87b4be-ce32-c34c-5036-8613da0047e7",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "5e87b4be-ce32-c34c-5036-8613da0047e7.txt"
+    },
+    {
+      "patient_id": "5edebfee-1413-fda8-4fa2-dc0c4099e4c4",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "5edebfee-1413-fda8-4fa2-dc0c4099e4c4.txt"
+    },
+    {
+      "patient_id": "613a83af-6c66-1ea3-dc37-da03293d378d",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "613a83af-6c66-1ea3-dc37-da03293d378d.txt"
+    },
+    {
+      "patient_id": "63ea27aa-f827-22fb-f9c9-33daeb64d1ed",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "63ea27aa-f827-22fb-f9c9-33daeb64d1ed.txt"
+    },
+    {
+      "patient_id": "6d35b2a2-2bf7-8425-7685-6d43f75c8c30",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "6d35b2a2-2bf7-8425-7685-6d43f75c8c30.txt"
+    },
+    {
+      "patient_id": "7025919d-4a91-b2b4-f816-74c919eb9542",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "7025919d-4a91-b2b4-f816-74c919eb9542.txt"
+    },
+    {
+      "patient_id": "715925cf-1f5c-e455-cc4d-32d87cc760d3",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "715925cf-1f5c-e455-cc4d-32d87cc760d3.txt"
+    },
+    {
+      "patient_id": "728b355f-94d5-a04d-d8e8-245ad03b4466",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "728b355f-94d5-a04d-d8e8-245ad03b4466.txt"
+    },
+    {
+      "patient_id": "72d3105f-378d-3d1f-4525-9fdc5b33c571",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "72d3105f-378d-3d1f-4525-9fdc5b33c571.txt"
+    },
+    {
+      "patient_id": "73851953-00fd-8705-7ce5-99fce4e09fdb",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "73851953-00fd-8705-7ce5-99fce4e09fdb.txt"
+    },
+    {
+      "patient_id": "740e6b56-f9fb-a93a-0591-5706f8168f87",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "740e6b56-f9fb-a93a-0591-5706f8168f87.txt"
+    },
+    {
+      "patient_id": "74abbead-07b1-61bb-b3b1-620b31ff48d8",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "74abbead-07b1-61bb-b3b1-620b31ff48d8.txt"
+    },
+    {
+      "patient_id": "758ebbe5-c669-4851-a73e-f486783821bf",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "758ebbe5-c669-4851-a73e-f486783821bf.txt"
+    },
+    {
+      "patient_id": "76897192-781f-2560-f150-d74529a449f1",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "76897192-781f-2560-f150-d74529a449f1.txt"
+    },
+    {
+      "patient_id": "77b667ce-0208-5943-6da5-82118f97d631",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "77b667ce-0208-5943-6da5-82118f97d631.txt"
+    },
+    {
+      "patient_id": "795e0041-b983-3c96-5915-44b529710d66",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "795e0041-b983-3c96-5915-44b529710d66.txt"
+    },
+    {
+      "patient_id": "79fd12ab-ba03-2123-ee35-0f4c7b028c97",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "79fd12ab-ba03-2123-ee35-0f4c7b028c97.txt"
+    },
+    {
+      "patient_id": "7aec994f-b7dd-8a59-979b-08e97aa3e5b2",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "7aec994f-b7dd-8a59-979b-08e97aa3e5b2.txt"
+    },
+    {
+      "patient_id": "7b46a3f6-9fd8-6f9b-c2fd-5f9ebf7bba95",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "7b46a3f6-9fd8-6f9b-c2fd-5f9ebf7bba95.txt"
+    },
+    {
+      "patient_id": "7e60cbf1-ae18-1135-e752-7e5ee53d3f18",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "7e60cbf1-ae18-1135-e752-7e5ee53d3f18.txt"
+    },
+    {
+      "patient_id": "7e9c8b9a-63a6-bce3-47a1-461c3583df84",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "7e9c8b9a-63a6-bce3-47a1-461c3583df84.txt"
+    },
+    {
+      "patient_id": "81aad57e-4b7e-2185-c550-fd6f21d11a5a",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "81aad57e-4b7e-2185-c550-fd6f21d11a5a.txt"
+    },
+    {
+      "patient_id": "81eb4e5d-1982-5097-727a-b5ceb16e9ed6",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "81eb4e5d-1982-5097-727a-b5ceb16e9ed6.txt"
+    },
+    {
+      "patient_id": "822ba772-b6b6-92fa-61dc-507edd3dc2af",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "822ba772-b6b6-92fa-61dc-507edd3dc2af.txt"
+    },
+    {
+      "patient_id": "82bb4599-02b7-9f5c-5581-97e1fcedb972",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "82bb4599-02b7-9f5c-5581-97e1fcedb972.txt"
+    },
+    {
+      "patient_id": "835d703e-8605-357d-960b-81dbf5bf8370",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "835d703e-8605-357d-960b-81dbf5bf8370.txt"
+    },
+    {
+      "patient_id": "847dd1b1-b6d7-cbcb-562a-987366ea38f8",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "847dd1b1-b6d7-cbcb-562a-987366ea38f8.txt"
+    },
+    {
+      "patient_id": "84f9a34e-666b-bf19-d095-cb6fd8b1c588",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "84f9a34e-666b-bf19-d095-cb6fd8b1c588.txt"
+    },
+    {
+      "patient_id": "85a939e6-8734-220c-8725-6967e87a75c7",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "85a939e6-8734-220c-8725-6967e87a75c7.txt"
+    },
+    {
+      "patient_id": "871067b4-f86d-209a-2901-ac7209ff5f65",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "871067b4-f86d-209a-2901-ac7209ff5f65.txt"
+    },
+    {
+      "patient_id": "88241b16-058a-943e-b582-9d0745510a85",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "88241b16-058a-943e-b582-9d0745510a85.txt"
+    },
+    {
+      "patient_id": "88ecb39e-0852-53e7-0f6f-c2eeaa2d29dd",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "88ecb39e-0852-53e7-0f6f-c2eeaa2d29dd.txt"
+    },
+    {
+      "patient_id": "8c91be5b-756b-7375-093a-710baba5a6e3",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "8c91be5b-756b-7375-093a-710baba5a6e3.txt"
+    },
+    {
+      "patient_id": "8d76bdb6-eee5-b1d7-2823-2091f4889b7d",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "8d76bdb6-eee5-b1d7-2823-2091f4889b7d.txt"
+    },
+    {
+      "patient_id": "8f941356-4a6a-0734-c39d-07a4b49e1134",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "8f941356-4a6a-0734-c39d-07a4b49e1134.txt"
+    },
+    {
+      "patient_id": "95571854-6cb7-64d3-8d0e-bccec89072b3",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "95571854-6cb7-64d3-8d0e-bccec89072b3.txt"
+    },
+    {
+      "patient_id": "959685c4-fe27-bff4-5196-3c181c293477",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "959685c4-fe27-bff4-5196-3c181c293477.txt"
+    },
+    {
+      "patient_id": "95d0d03d-e8e9-e92e-f7cf-20ce6ee0f164",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "95d0d03d-e8e9-e92e-f7cf-20ce6ee0f164.txt"
+    },
+    {
+      "patient_id": "96376733-cea5-8ec2-a6f6-7fc4650b1ae3",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "96376733-cea5-8ec2-a6f6-7fc4650b1ae3.txt"
+    },
+    {
+      "patient_id": "9704a8c8-ed61-56cb-8c2d-01043ff39a3b",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "9704a8c8-ed61-56cb-8c2d-01043ff39a3b.txt"
+    },
+    {
+      "patient_id": "99e3e8db-7a80-1d6b-05af-e23d14f81e59",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "99e3e8db-7a80-1d6b-05af-e23d14f81e59.txt"
+    },
+    {
+      "patient_id": "9c36ad85-8614-f99f-1c50-3bcdc2537cf3",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "9c36ad85-8614-f99f-1c50-3bcdc2537cf3.txt"
+    },
+    {
+      "patient_id": "9c500d31-c393-b3cc-4630-b42873f90123",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "9c500d31-c393-b3cc-4630-b42873f90123.txt"
+    },
+    {
+      "patient_id": "9c6434b1-7cf9-1a61-26a1-790b14e2fb2c",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "9c6434b1-7cf9-1a61-26a1-790b14e2fb2c.txt"
+    },
+    {
+      "patient_id": "9cdcc32a-647d-de39-21b1-f7e21a08eaec",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "9cdcc32a-647d-de39-21b1-f7e21a08eaec.txt"
+    },
+    {
+      "patient_id": "9d1c1bee-4897-ed97-f590-963c043c09a9",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "9d1c1bee-4897-ed97-f590-963c043c09a9.txt"
+    },
+    {
+      "patient_id": "a02a648d-19a2-89bf-8f29-fddb01907ac1",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "a02a648d-19a2-89bf-8f29-fddb01907ac1.txt"
+    },
+    {
+      "patient_id": "a04e64c8-cc23-611d-0b23-ad40182b2d6c",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "a04e64c8-cc23-611d-0b23-ad40182b2d6c.txt"
+    },
+    {
+      "patient_id": "a3a7206f-833f-210d-f031-a4a31f201d0f",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "a3a7206f-833f-210d-f031-a4a31f201d0f.txt"
+    },
+    {
+      "patient_id": "a535260f-5c6f-6c3c-690f-369c7c1cfa4e",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "a535260f-5c6f-6c3c-690f-369c7c1cfa4e.txt"
+    },
+    {
+      "patient_id": "a76b8c02-6849-a69a-8bb9-ea6cd72909a6",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "a76b8c02-6849-a69a-8bb9-ea6cd72909a6.txt"
+    },
+    {
+      "patient_id": "a9b38770-7810-eadf-3b71-e24660af1225",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "a9b38770-7810-eadf-3b71-e24660af1225.txt"
+    },
+    {
+      "patient_id": "ab2d3f34-ca6c-9a84-5589-055b88c99549",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "ab2d3f34-ca6c-9a84-5589-055b88c99549.txt"
+    },
+    {
+      "patient_id": "abfe8084-1704-a3d6-4ca3-c2474b63bf9e",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "abfe8084-1704-a3d6-4ca3-c2474b63bf9e.txt"
+    },
+    {
+      "patient_id": "ad4af3ca-d75b-5a86-812f-e22287bb1aff",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "ad4af3ca-d75b-5a86-812f-e22287bb1aff.txt"
+    },
+    {
+      "patient_id": "ae652243-891f-b26d-1d85-169dd84ffe8e",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "ae652243-891f-b26d-1d85-169dd84ffe8e.txt"
+    },
+    {
+      "patient_id": "af6c358a-b266-218b-d3f4-2ae92db1f6a9",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "af6c358a-b266-218b-d3f4-2ae92db1f6a9.txt"
+    },
+    {
+      "patient_id": "b0a68ce2-978d-b3d4-2af9-e0d89d665d0e",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "b0a68ce2-978d-b3d4-2af9-e0d89d665d0e.txt"
+    },
+    {
+      "patient_id": "b29f7226-2767-73e3-a966-45481a42151c",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "b29f7226-2767-73e3-a966-45481a42151c.txt"
+    },
+    {
+      "patient_id": "b3f6eb97-d71e-9304-ee07-e6cdf92e9061",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "b3f6eb97-d71e-9304-ee07-e6cdf92e9061.txt"
+    },
+    {
+      "patient_id": "b441e570-5791-f62c-84f2-7dc9a6d11125",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "b441e570-5791-f62c-84f2-7dc9a6d11125.txt"
+    },
+    {
+      "patient_id": "b54facdc-a3cc-f8f2-5479-640c2654515e",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "b54facdc-a3cc-f8f2-5479-640c2654515e.txt"
+    },
+    {
+      "patient_id": "b7413bdb-7cee-d0e8-dc3c-586acbe9e192",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "b7413bdb-7cee-d0e8-dc3c-586acbe9e192.txt"
+    },
+    {
+      "patient_id": "b7d5cb73-83b4-a130-8958-ca8b42100675",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "b7d5cb73-83b4-a130-8958-ca8b42100675.txt"
+    },
+    {
+      "patient_id": "b91514a3-8831-bcf6-1232-3084ed014c16",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "b91514a3-8831-bcf6-1232-3084ed014c16.txt"
+    },
+    {
+      "patient_id": "bd090eb1-991f-56b7-43ed-4cb28801b7d8",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "bd090eb1-991f-56b7-43ed-4cb28801b7d8.txt"
+    },
+    {
+      "patient_id": "bda7987a-b425-b5af-3570-1c82afcfb6e0",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "bda7987a-b425-b5af-3570-1c82afcfb6e0.txt"
+    },
+    {
+      "patient_id": "bdc0ab18-09e0-b237-96a2-b483eaed5cb4",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "bdc0ab18-09e0-b237-96a2-b483eaed5cb4.txt"
+    },
+    {
+      "patient_id": "bdedc784-5ed1-477a-dfab-b7295c3c2bbd",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "bdedc784-5ed1-477a-dfab-b7295c3c2bbd.txt"
+    },
+    {
+      "patient_id": "be258ddf-2954-74a2-2c09-61da3754bcf1",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "be258ddf-2954-74a2-2c09-61da3754bcf1.txt"
+    },
+    {
+      "patient_id": "be3d512b-f030-1b35-c605-63c5ad22c896",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "be3d512b-f030-1b35-c605-63c5ad22c896.txt"
+    },
+    {
+      "patient_id": "bfa57390-8f91-6ef7-ca3c-4181c8943ec3",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "bfa57390-8f91-6ef7-ca3c-4181c8943ec3.txt"
+    },
+    {
+      "patient_id": "c00f31ec-b47a-9527-fb9c-0dc4cd6a1984",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "c00f31ec-b47a-9527-fb9c-0dc4cd6a1984.txt"
+    },
+    {
+      "patient_id": "c05812a4-6c60-0df5-fa38-efacf3517120",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "c05812a4-6c60-0df5-fa38-efacf3517120.txt"
+    },
+    {
+      "patient_id": "c06d185e-d667-37a1-c327-f862fa494cd1",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "c06d185e-d667-37a1-c327-f862fa494cd1.txt"
+    },
+    {
+      "patient_id": "c0fc10af-9fa1-d6ad-d151-873265687380",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "c0fc10af-9fa1-d6ad-d151-873265687380.txt"
+    },
+    {
+      "patient_id": "c16238bc-4a87-7899-2cd4-fe52827b0d41",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "c16238bc-4a87-7899-2cd4-fe52827b0d41.txt"
+    },
+    {
+      "patient_id": "c612420b-7acb-dfcb-2807-a672fde32958",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "c612420b-7acb-dfcb-2807-a672fde32958.txt"
+    },
+    {
+      "patient_id": "c6500940-46e4-b85a-a44c-667458510350",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "c6500940-46e4-b85a-a44c-667458510350.txt"
+    },
+    {
+      "patient_id": "c88dfa0c-52ae-9fb8-065b-58c5979bb052",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "c88dfa0c-52ae-9fb8-065b-58c5979bb052.txt"
+    },
+    {
+      "patient_id": "cc46d2c5-60fc-db49-4715-b8d8b9d8207a",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "cc46d2c5-60fc-db49-4715-b8d8b9d8207a.txt"
+    },
+    {
+      "patient_id": "d0ac10ec-c31b-58e1-b7db-0fc08899ff6d",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "d0ac10ec-c31b-58e1-b7db-0fc08899ff6d.txt"
+    },
+    {
+      "patient_id": "d15b3e53-674b-b89b-e348-7b747f1ff3d1",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "d15b3e53-674b-b89b-e348-7b747f1ff3d1.txt"
+    },
+    {
+      "patient_id": "d25f1e09-601e-9d2d-1aa3-5f3f11f888f6",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "d25f1e09-601e-9d2d-1aa3-5f3f11f888f6.txt"
+    },
+    {
+      "patient_id": "d2d369a2-f8a0-7252-391d-f54f9b072539",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "d2d369a2-f8a0-7252-391d-f54f9b072539.txt"
+    },
+    {
+      "patient_id": "d2ff3caa-0c90-9902-22e3-beed486c89a4",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "d2ff3caa-0c90-9902-22e3-beed486c89a4.txt"
+    },
+    {
+      "patient_id": "d61c0283-f10f-a644-f1e8-af0e762ec88f",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "d61c0283-f10f-a644-f1e8-af0e762ec88f.txt"
+    },
+    {
+      "patient_id": "da92ee17-b707-c228-5c6a-1de574b7835f",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "da92ee17-b707-c228-5c6a-1de574b7835f.txt"
+    },
+    {
+      "patient_id": "de51ab1e-3220-2a33-50c4-e3562b73ae18",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "de51ab1e-3220-2a33-50c4-e3562b73ae18.txt"
+    },
+    {
+      "patient_id": "de740e6d-709f-c6ad-3eda-4ed8c09a0c55",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "de740e6d-709f-c6ad-3eda-4ed8c09a0c55.txt"
+    },
+    {
+      "patient_id": "de8eedf8-2828-8b76-3055-965955f8d231",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "de8eedf8-2828-8b76-3055-965955f8d231.txt"
+    },
+    {
+      "patient_id": "deb5c090-1713-bdb5-58f2-36e0a443c746",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "deb5c090-1713-bdb5-58f2-36e0a443c746.txt"
+    },
+    {
+      "patient_id": "e039be69-8e9d-b21b-7e8c-be0006fa4795",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "e039be69-8e9d-b21b-7e8c-be0006fa4795.txt"
+    },
+    {
+      "patient_id": "e0474161-368d-c98a-44e2-a02255e41289",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "e0474161-368d-c98a-44e2-a02255e41289.txt"
+    },
+    {
+      "patient_id": "e08b42c2-a627-faaa-6a43-83873d03bf9e",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "e08b42c2-a627-faaa-6a43-83873d03bf9e.txt"
+    },
+    {
+      "patient_id": "e099045c-470c-2c3e-e759-ba505af7bcb8",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "e099045c-470c-2c3e-e759-ba505af7bcb8.txt"
+    },
+    {
+      "patient_id": "e24e6344-ee4b-55d8-24ac-ec5c455951be",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "e24e6344-ee4b-55d8-24ac-ec5c455951be.txt"
+    },
+    {
+      "patient_id": "e3b0772c-a6a2-2f29-3d33-977667165fa8",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "e3b0772c-a6a2-2f29-3d33-977667165fa8.txt"
+    },
+    {
+      "patient_id": "e3b5dcc6-b460-7bfa-b4d3-f972fb6f43ff",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "e3b5dcc6-b460-7bfa-b4d3-f972fb6f43ff.txt"
+    },
+    {
+      "patient_id": "e41291ee-bf1a-e451-8420-dc100d050191",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "e41291ee-bf1a-e451-8420-dc100d050191.txt"
+    },
+    {
+      "patient_id": "e5450aac-30e4-eae8-c887-747d8b3a6277",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "e5450aac-30e4-eae8-c887-747d8b3a6277.txt"
+    },
+    {
+      "patient_id": "e6936d24-f2a5-fcce-ef82-9a37f030624d",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "e6936d24-f2a5-fcce-ef82-9a37f030624d.txt"
+    },
+    {
+      "patient_id": "e6ecdcd0-708c-4ace-c278-a4acbbb81235",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "e6ecdcd0-708c-4ace-c278-a4acbbb81235.txt"
+    },
+    {
+      "patient_id": "e8c29ca6-c150-db4f-a61b-c2e0869e4f6b",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "e8c29ca6-c150-db4f-a61b-c2e0869e4f6b.txt"
+    },
+    {
+      "patient_id": "e94d196f-e37d-5d25-db61-f924cbce9b13",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "e94d196f-e37d-5d25-db61-f924cbce9b13.txt"
+    },
+    {
+      "patient_id": "eaaddca5-7238-b993-a8a0-e729c4987dcb",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "eaaddca5-7238-b993-a8a0-e729c4987dcb.txt"
+    },
+    {
+      "patient_id": "eabfff4d-478d-713f-12b5-682be701a904",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "eabfff4d-478d-713f-12b5-682be701a904.txt"
+    },
+    {
+      "patient_id": "eb45a396-93b2-bf66-eb15-c08149fa9658",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "eb45a396-93b2-bf66-eb15-c08149fa9658.txt"
+    },
+    {
+      "patient_id": "ec08b575-2774-a1fd-698d-6cca87158135",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "ec08b575-2774-a1fd-698d-6cca87158135.txt"
+    },
+    {
+      "patient_id": "ecd4dd7a-87f1-7b97-ffa1-1fff3bdc9193",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "ecd4dd7a-87f1-7b97-ffa1-1fff3bdc9193.txt"
+    },
+    {
+      "patient_id": "ed34d469-2ca6-57ab-444e-e2e30424146c",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "ed34d469-2ca6-57ab-444e-e2e30424146c.txt"
+    },
+    {
+      "patient_id": "ef3f2e44-7851-633c-e656-c0d55d908e66",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "ef3f2e44-7851-633c-e656-c0d55d908e66.txt"
+    },
+    {
+      "patient_id": "eff5bd2d-4756-fecc-6e61-b50a102d0c44",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "eff5bd2d-4756-fecc-6e61-b50a102d0c44.txt"
+    },
+    {
+      "patient_id": "f078d1e6-4cb7-a6d5-4c9d-6f6ee580e595",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "f078d1e6-4cb7-a6d5-4c9d-6f6ee580e595.txt"
+    },
+    {
+      "patient_id": "f1264dac-322c-aa62-ccb8-37bbd22a99d7",
+      "tier": 2,
+      "tier_label": "T2-cyclic-oral",
+      "output_file": "f1264dac-322c-aa62-ccb8-37bbd22a99d7.txt"
+    },
+    {
+      "patient_id": "f62b2565-7be1-8712-a45a-170d68042a12",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "f62b2565-7be1-8712-a45a-170d68042a12.txt"
+    },
+    {
+      "patient_id": "f67d07f1-3aad-3e44-2687-0c4bf9fd89a7",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "f67d07f1-3aad-3e44-2687-0c4bf9fd89a7.txt"
+    },
+    {
+      "patient_id": "f6b2770a-598d-5401-27e2-48f1b9962f86",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "f6b2770a-598d-5401-27e2-48f1b9962f86.txt"
+    },
+    {
+      "patient_id": "fefb85ec-ae0f-bbe6-6533-8c8c5a51836d",
+      "tier": 1,
+      "tier_label": "T1-long-acting-injectable",
+      "output_file": "fefb85ec-ae0f-bbe6-6533-8c8c5a51836d.txt"
+    },
+    {
+      "patient_id": "ff7955e7-5985-2d16-a400-3a08be9a0789",
+      "tier": 3,
+      "tier_label": "T3-multidrug",
+      "output_file": "ff7955e7-5985-2d16-a400-3a08be9a0789.txt"
+    }
+  ]
+}

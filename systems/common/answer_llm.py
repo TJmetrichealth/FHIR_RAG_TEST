@@ -51,20 +51,25 @@ class AnswerResult:
     prompt_sha256: str
 
 
-# Module-level singleton (one client per process, shared across all questions)
-_client: GroqClient | None = None
+# Module-level client pool keyed by resolved cache_dir. One client per distinct
+# cache_dir per process; repeated calls with the same dir reuse the client so
+# rate-limit and token budgets are shared, while tests passing a tmp cache_dir
+# get their own isolated client instead of silently inheriting the first one.
+_clients: dict[Path, GroqClient] = {}
 
 
 def _get_client(cache_dir: Path | None = None) -> GroqClient:
-    global _client
-    if _client is None:
-        _client = GroqClient(
+    key = Path(cache_dir or ANSWER_CACHE_DIR).resolve()
+    client = _clients.get(key)
+    if client is None:
+        client = GroqClient(
             model=ANSWER_LLM_MODEL,
             rpm=GROQ_RPM,
             tpm=GROQ_TPM,
-            cache=ResponseCache(cache_dir or ANSWER_CACHE_DIR),
+            cache=ResponseCache(key),
         )
-    return _client
+        _clients[key] = client
+    return client
 
 
 def ask(

@@ -1,0 +1,9 @@
+The patient is on a T2-cyclic-oral regimen, which is described as cyclic oral therapy, 4 weeks on, 2 weeks off. This specialty-regimen tier is designed to provide a specific treatment approach tailored to the patient's needs.
+
+The regimen consists of one medication component, referred to as the primary component, which is administered orally on a cyclic schedule. The cycle consists of 4 weeks of therapy followed by 2 weeks off, with no fixed interval in days. 
+
+The regimen started on 2033-10-13 and is projected to end on 2034-10-13, spanning a total of 365 days. The primary component has been administered on several dates, including the first three administrations on 2033-10-13, 2033-10-14, and 2033-10-15. The last three administrations were on 2034-10-09, 2034-10-10, and 2034-10-11. In total, there were 252 administrations of this component. A representative mid-regimen administration date is 2034-04-13.
+
+Since the primary component has more than seven administrations, it is worth noting that the mid-regimen date provides insight into the ongoing treatment. The cyclic nature of the regimen allows for regular therapy sessions interspersed with periods of rest. 
+
+The primary component is not administered on a PRN basis, so there is no indication for as-needed administration, and no PRN administrations were recorded. Overall, the patient's regimen is designed to provide consistent and periodic treatment, with the cyclic oral specialty therapy aiming to achieve the desired therapeutic outcomes.

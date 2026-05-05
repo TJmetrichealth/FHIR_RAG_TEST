@@ -23,6 +23,9 @@ dependencies = [
   "jinja2>=3.1",
   "numpy>=1.26,<3.0",
   "pandas>=2.2",
+  "python-dotenv>=1.0",
+  "fastapi>=0.111.0,<1.0",
+  "uvicorn[standard]>=0.29.0,<1.0",
 ]
 
 [project.optional-dependencies]
@@ -34,7 +37,29 @@ dev = [
 ]
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = [
+  "overlay*",
+  "systems*",
+  "narratives*",
+  "questions*",
+  "eval*",
+  "features*",
+  "mh_integration*",
+]
+exclude = [
+  "data*",
+  "docs*",
+  "results*",
+  "reports*",
+  "figures*",
+  "paper*",
+  "analysis*",
+  "scripts*",
+  "tools*",
+  "reproducibility*",
+  "src*",
+]
 
 [tool.ruff]
 line-length = 100
@@ -45,5 +70,8 @@ select = ["E", "F", "W", "I", "UP", "B", "C4"]
 ignore = ["E501"]
 
 [tool.pytest.ini_options]
-testpaths = ["overlay/tests", "systems/tests", "questions", "narratives", "features/tests"]
+testpaths = ["overlay/tests", "systems/tests", "questions", "narratives", "features/tests", "tests"]
 python_files = ["test_*.py"]
+markers = [
+    "smoke: end-to-end smoke tests for the three RAG systems (T2.6)",
+]

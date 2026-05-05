@@ -1,0 +1,9 @@
+The patient is on a T1-long-acting-injectable regimen, which is described as a single long-acting subcutaneous injectable, administered every 8 weeks. This regimen consists of one medication component, a long-acting subcutaneous injectable biologic, administered subcutaneously every 56 days.
+
+The regimen started on 2028-01-24 and is projected to end on 2029-01-23, spanning a total of 365 days. The long-acting subcutaneous injectable biologic component has been administered on several dates, including the first three administrations on 2028-01-24, 2028-03-20, and 2028-05-15.
+
+The last three administration dates for this component were 2028-09-04, 2028-10-30, and 2028-12-25, with a total of 7 administrations recorded. Since there are more than 6 administrations, a mid-regimen administration date is also noted, which occurred on 2028-07-10. 
+
+This component is administered on a fixed interval schedule, with no PRN indication, meaning it is given at regular, predetermined times, rather than as needed. 
+
+The patient's regimen is straightforward, with one medication given at set intervals, and no adjustments for PRN use are applicable in this case.

@@ -149,7 +149,7 @@ This arm adds roughly 3–5 days of work (see §5), can be dropped first if the 
 - `narratives/llm_narratives/` — LLM-generated narratives per bundle **[DONE — 200 narratives, pinned prompt hash `518bc71d87b7`]**
 - `narratives/templated_narratives/` — deterministic-template narratives (ablation) **[DONE — 200 narratives, frozen]**
 - `questions/questions.jsonl` — 14,600 rows across the 5 PSP-grounded adherence families with ground-truth functions + provenance pointers **[DONE — 14,600 rows; SHA-256 ffffc82a3a9c76637ec8ce68e6bd812505617d46197ab9c24d98c321a08163f0; reviewer signed off 2026-04-21]**
-- `reports/fidelity_audit.md` — per-narrative fidelity report **[DONE — see `narratives/fidelity_reports/`]**
+- `reports/fidelity_audit_llm.md` + `reports/fidelity_audit_templated.md` — per-track fidelity aggregates **[DONE — LLM track 100% O1 PASS (prompt hash `518bc71d87b7`); templated track 100% O1 PASS]**
 
 **Key tasks:**
 - T1.1 Set up Synthea, generate 200 patients (1 day) **[DONE]**

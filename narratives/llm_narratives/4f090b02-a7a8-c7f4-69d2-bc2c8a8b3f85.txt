@@ -1,0 +1,9 @@
+The patient is on a T2-cyclic-oral regimen, which is described as cyclic oral therapy, 4 weeks on / 2 weeks off. This regimen consists of one medication component, referred to as the primary component, which is a cyclic oral specialty therapy, with 4 weeks on and 2 weeks off. The primary component is administered orally, with a cyclic schedule.
+
+The regimen started on 2038-06-05 and is projected to end on 2039-06-05, with a total horizon of 365 days. The primary component has a total of 252 administrations recorded. The first three administration dates for the primary component were 2038-06-05, 2038-06-06, and 2038-06-07. The last three administration dates were 2039-06-01, 2039-06-02, and 2039-06-03. Since there are more than six administrations, a mid-administration date is also noted, which is 2038-12-04.
+
+The primary component does not have a PRN indication, meaning it is not administered as needed for a specific condition. The cyclic schedule of the primary component is characterized by 4 weeks of administration followed by 2 weeks off, with no fixed interval in days. 
+
+The regimen's cyclic nature is reflected in the administration dates, with the primary component being administered consistently over the course of the regimen. The total count of administrations and the specific administration dates provide a clear picture of the patient's treatment schedule. 
+
+Overall, the patient's regimen is well-defined, with a clear schedule and administration protocol. The cyclic oral specialty therapy is a key component of the patient's treatment plan, and the recorded administration dates provide valuable insight into the patient's adherence to the regimen.

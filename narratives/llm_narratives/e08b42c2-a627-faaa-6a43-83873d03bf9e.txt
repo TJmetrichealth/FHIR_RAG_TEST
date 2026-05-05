@@ -1,0 +1,7 @@
+The patient is on a Tier 3 regimen, described as a biologic injectable every 4 weeks, daily oral adjunct, and PRN rescue inhaler for breakthrough symptoms. This regimen consists of three components: a biologic injectable administered every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler. The biologic injectable is given via injection, every 28 days, while the daily oral adjunct is taken orally, once a day. The PRN rescue inhaler is used as needed for breakthrough symptoms, via inhalation.
+
+The regimen started on 2025-08-15 and is projected to end on 2026-08-15. For the biologic injectable component, the first three administration dates were 2025-08-15, 2025-09-12, and 2025-10-10. The last three administration dates were 2026-06-19, 2026-07-17, and 2026-08-14. There were a total of 14 administrations, with a mid-administration date of 2026-02-27.
+
+The daily oral adjunct had first administration dates of 2025-08-15, 2025-08-16, and 2025-08-17. The last three administration dates were 2026-08-13, 2026-08-14, and 2026-08-15. With a total of 366 administrations, a representative mid-administration date was 2026-02-14.
+
+The PRN rescue inhaler was indicated for use as needed for breakthrough symptoms. However, there were no recorded administrations of this component throughout the regimen period.

@@ -336,3 +336,31 @@ These templates cannot discriminate between retrieval systems: a system answerin
 
 **Supersedes:** Amends (does not override) the 2026-04-21 "Question-bank construction" entry. The original entry's SHA-256 is superseded by the value recorded here; the design decisions (70/20/10 tier split, 2 paraphrases per question, N/A sentinel, etc.) remain in force.
 
+---
+
+### 2026-04-23 — Known issue (W2): structured systems slow on specific patient/question combos
+
+**Update 2026-04-23 (later same day):** All 34 smoke tests eventually passed in a single xdist run (`pytest -n auto`); total wall-clock 2290.87s (38m 10s). The three slow tests below completed at the 94%, 97%, and 100% marks — they are slow, not hung. The follow-up below still applies for W3 capacity planning, but the W2 gate criterion is fully met.
+
+**Observation:** During T2.6 smoke runs, three of 34 tests reproducibly stall near completion (~91%) for several minutes while the rest finish in seconds:
+
+- `test_structured_rag_naive.py::test_one_question_per_patient[5]` (patient `082fded1...`)
+- `test_structured_rag_naive.py::test_one_question_per_patient[7]` (patient `09869e74...`)
+- `test_structured_rag_aware.py::test_one_question_per_patient[7]` (patient `09869e74...`)
+
+The narrative-RAG counterparts of the same patient × question combos pass quickly, so this is not a Groq throughput issue (confirmed: persists on the upgraded paid tier with $20 ceiling). The bottleneck is in the structured pipelines themselves — most likely bundle-size × resource-traversal cost in System C, and full-resource embed/serialize cost in System B for these two patients' larger bundles.
+
+**Decision:** Accept for W2 — smoke tests still pass end-to-end and the W2 gate criterion (each system answers a sample question) is met. Do **not** patch hyperparameters or retrieval logic mid-W2; that would invalidate downstream eval comparability.
+
+**Why:** Smoke is smoke. The cost surfaces during full-eval (W3 T3.1, ~3 systems × 200 patients × 13,800 questions) and is a real risk for that run. Catching it now is the signal we needed; fixing it belongs in a focused W3-pre task.
+
+**Follow-up (W3 pre-flight):**
+
+1. Profile `StructuredRAGNaive.answer()` and `StructuredRAGAware.answer()` on patients `082fded1...` and `09869e74...` — identify whether the cost is in embedding, Chroma query, reference traversal, or LLM-prompt assembly.
+2. Decide one of: (a) accept and budget for it in the full-eval timeline, (b) add a per-call timeout + record as failure rather than hang, (c) optimise the hot path (likely batched embedding or pruned traversal).
+3. Document outcome in a new decisions.md entry before W3 T3.1 kicks off.
+
+**Owner:** retrieval-engineer (profiling), then statistician/evaluator review of timeout-vs-optimise tradeoff.
+
+**Does NOT block:** W2 gate, System A full-eval kickoff, reviewer pass.
+

@@ -1,0 +1,7 @@
+The patient is on a T3-multidrug regimen, which is described as a biologic injectable every 4 weeks, daily oral adjunct, and PRN rescue inhaler for breakthrough symptoms. This regimen consists of three components: a biologic injectable, every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler for breakthrough symptoms. The biologic injectable is administered via injection every 28 days, the daily oral adjunct is taken orally every day, and the PRN rescue inhaler is used as needed for breakthrough symptoms.
+
+The regimen started on 2025-12-14 and is projected to end on 2026-12-14. The biologic injectable component has been administered on 2025-12-14, 2026-01-11, and 2026-02-08, with the last three administrations occurring on 2026-10-18, 2026-11-15, and 2026-12-13. There have been a total of 14 administrations of this component, with a mid-administration date of 2026-06-28.
+
+The daily oral adjunct component has been administered on 2025-12-14, 2025-12-15, and 2025-12-16, with the last three administrations occurring on 2026-12-12, 2026-12-13, and 2026-12-14. There have been a total of 366 administrations of this component, with a mid-administration date of 2026-06-15.
+
+The PRN rescue inhaler component is used as needed for breakthrough symptoms, but there have been no recorded administrations of this component. Despite being available for use as needed, no PRN administrations of the rescue inhaler were recorded during the regimen period.

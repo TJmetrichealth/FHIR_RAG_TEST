@@ -1,0 +1,3 @@
+This patient is enrolled in a Cyclic oral therapy, 4 weeks on / 2 weeks off. The specialty regimen is classified as tier 2 (T2-cyclic-oral) and spans from 2032-12-09 to 2033-12-09, a total observation window of 365 days.
+
+The cyclic oral specialty therapy (4 weeks on, 2 weeks off) follows a cyclic schedule of 4 weeks on and 2 weeks off (cyclic). A total of 252 administrations are on record for this component. The first administration was on 2032-12-09 and the most recent was on 2033-12-07. The first three recorded dates are 2032-12-09, 2032-12-10, 2032-12-11; the last three are 2033-12-05, 2033-12-06, 2033-12-07; a mid-window administration occurred on 2033-06-09.

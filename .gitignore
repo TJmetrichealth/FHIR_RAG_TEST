@@ -14,6 +14,7 @@ dist/
 eval/cache/
 *.chroma/
 .chromadb/
+systems/*/chroma/
 
 # Synthea JAR + intermediate
 tools/synthea-with-dependencies.jar
@@ -22,10 +23,15 @@ data/synthea_base/*.json.gz
 data/synthea_base/**/*.json
 !data/synthea_base/.gitkeep
 
-# Generated large artefacts (data/ itself is versioned up to freeze)
-narratives/llm_narratives/*.txt
-narratives/llm_narratives/*.meta.json
+# Generated large artefacts (data/ itself is versioned up to freeze).
+# LLM-generated narratives (*.txt, *.meta.json) are tracked because Groq
+# regeneration is rate-limited and not byte-reproducible. The intermediate
+# prompt cache is not.
 narratives/llm_narratives/_cache/
+
+# Claude Code harness-local files
+.claude/scheduled_tasks.lock
+.claude/settings.local.json
 
 # IDE
 .idea/

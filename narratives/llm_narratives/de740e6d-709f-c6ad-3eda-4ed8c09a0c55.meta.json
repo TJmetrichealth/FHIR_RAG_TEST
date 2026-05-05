@@ -1,0 +1,12 @@
+{
+  "cache_hit": false,
+  "latency_ms": 1637.19,
+  "max_tokens": 1200,
+  "model": "llama-3.3-70b-versatile",
+  "patient_id": "de740e6d-709f-c6ad-3eda-4ed8c09a0c55",
+  "prompt_sha256": "c1755d253228fb7448a86ac3eafc321b09dbba8c0159c3ab9036c2c322afab4b",
+  "prompt_version": "518bc71d87b7",
+  "temperature": 0.0,
+  "tokens_in": 707,
+  "tokens_out": 288
+}
