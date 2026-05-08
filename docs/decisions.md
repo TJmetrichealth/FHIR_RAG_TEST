@@ -635,3 +635,23 @@ exhausted before answer completion, (3) wrong component-presence judgement, (4) 
 categorical assertion. The "Other" residual is 4-8%, well under the 20% cap.
 
 **Supersedes:** Nothing. New entry for Phase 7.
+
+---
+
+## 2026-05-08 — ANSWER_MAX_TOKENS=512 documented post-hoc
+
+**Decision:** The answer-LLM was run with `max_tokens=512` (Groq API parameter); this was the operational default at W2 system implementation and was not separately logged at the time. The reviewer's Phase 9 audit identified this as a governance gap.
+
+**Alternatives considered:** Increase to 1024 or 2048 to mitigate the reasoning-truncation artefact. Rejected for results-freeze-v1; flagged as a sensitivity sweep for future work.
+
+**Rationale:** Documenting now preserves the audit trail; not changing the value because results-freeze-v1 is locked.
+
+**Supersedes:** Nothing. Post-hoc documentation of operational parameter.
+
+---
+
+## 2026-05-08 — Note: prior duplicate "Feature-arm O6 implementation choices" entry
+
+**Decision:** An identical "Feature-arm O6 implementation choices" entry was appended twice on the same day during Phase 6 work (visible at lines 530 and 566 of docs/decisions.md). Both copies are retained per append-only discipline; the second copy is non-substantive and should be ignored. This note corrects the historical record without violating the append-only governance rule.
+
+**Supersedes:** Nothing. Administrative note only.

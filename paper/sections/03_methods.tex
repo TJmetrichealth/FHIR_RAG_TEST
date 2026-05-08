@@ -1,0 +1,166 @@
+%% 03_methods.tex
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Dataset}
+\label{sec:methods:dataset}
+
+\paragraph{Base population.}
+We generate 200 synthetic patients using Synthea~\citep{walonoski2018synthea}
+with a fixed random seed, then apply a custom specialty-regimen overlay that assigns each
+patient to one of three complexity tiers:
+\begin{itemize}
+  \item Tier 1 (Low): single long-acting injectable on a fixed recurring interval
+    (e.g.\ every 8 weeks, modelling LAIs such as paliperidone palmitate~\citep{correll2024pp6m}).
+  \item Tier 2 (Medium): cyclic regimen (on-for-$N$-weeks / off-for-$M$-weeks)
+    requiring cycle-position reasoning.
+  \item Tier 3 (High): multi-drug regimen (biologic primary + oral adjunct + PRN
+    rescue) with staggered or interdependent schedules, motivating cross-resource reasoning.
+\end{itemize}
+The final distribution is 63 Tier-1, 63 Tier-2, and 74 Tier-3 patients.  All 200 FHIR bundles
+are validated against a reference R4B pre-write conformance validator
+(\texttt{mh\_integration/r4b\_validator.py}) using \texttt{fhir.resources} $\geq$8.0; all
+200 bundles pass with no mandatory element failures.
+
+\paragraph{Paired representations.}
+Each patient is represented in two parallel forms derived from the same FHIR bundle:
+\begin{enumerate}
+  \item FHIR bundle (structured): Synthea base plus the specialty overlay
+    (MedicationRequest, MedicationAdministration, Medication, CarePlan, Encounter, Patient,
+    Practitioner), frozen at git tag \texttt{dataset-freeze-v1} (commit \texttt{98959f8};
+    manifest SHA-256 \texttt{4d0da93e\ldots}).
+  \item LLM narrative: generated from the bundle by Llama~3.3-70B via Groq with
+    a fixed system prompt (hash \texttt{518bc71d87b7}), fixed temperature (0.0), and a
+    mid-window administration date instruction to surface temporal entities.  A deterministic
+    templated-narrative ablation (no LLM) serves as an information-ceiling baseline.
+\end{enumerate}
+
+\paragraph{Fidelity audit.}
+Narrative quality is verified by an independent programmatic audit that recovers eight entity
+classes (medication name, regimen start/end, tier integer, tier description, administration
+dates, administration count, dosage schedule) directly from FHIR resources (not from the
+generation prompt, fixing the circular-audit problem).  After one prompt-iteration step to
+add mid-window administration dates, both generators reached 100\% weighted entity
+recall across all 200 patients and all 2,403 checks (O1 gate: PASS).  The same audit
+was replicated on the templated-narrative ablation with the same result.
+
+\paragraph{Question bank.}
+We generate 13,800 questions (200 patients $\times$ 69 templates, 2 paraphrases per logical
+question) across five PSP adherence-indicator families:
+\begin{enumerate}
+  \item Next-dose lookup (\texttt{temporal\_lookup}, $n=3{,}200$): ``What is the
+    next scheduled administration on reference date $d$?''
+  \item Dose-history aggregation (\texttt{regimen\_aggregation}, $n=2{,}400$): ``How many
+    doses have been administered in the past 90 days?'' (MPR numerator)
+  \item Coverage-window reasoning (\texttt{regimen\_compliance}, $n=4{,}200$): ``What
+    proportion of the past 90 days was the patient covered?'' (PDC)
+  \item Missed-dose detection (\texttt{temporal\_comparison}, $n=2{,}400$): ``Is there
+    evidence of a missed or delayed dose?''
+  \item Persistence (\texttt{cross\_resource}, $n=1{,}600$): ``Is the patient still on
+    therapy?'' (cross-resource component questions)
+\end{enumerate}
+All ground-truth values are computed programmatically from FHIR bundles using pure-Python
+adherence metric functions (MPR, PDC, is\_persistent, consecutive\_missed\_doses); no manual
+annotation and no LLM-as-judge is used anywhere in evaluation.  The question bank SHA-256
+is \texttt{2216f58e\ldots} (post-W2 MPR-window and trivial-template corrections;
+see the Reproducibility section).
+
+\subsection{Retrieval Systems}
+\label{sec:methods:systems}
+
+All three systems share controlled variables (Table~\ref{tab:controlled}):
+embedding model \texttt{BAAI/bge-large-en-v1.5} (local via sentence-transformers),
+answer LLM \texttt{qwen/qwen3-32b} via Groq (temperature 0.0, single run per question),
+ChromaDB local vector store, $k=5$ retrieved chunks, chunk size 500 tokens, overlap 50 tokens.
+
+\begin{table}[h]
+\centering
+\caption{Controlled variables held constant across Systems A, B, C.}
+\label{tab:controlled}
+\begin{tabular}{ll}
+\toprule
+Parameter & Value \\
+\midrule
+Embedding model & \texttt{BAAI/bge-large-en-v1.5} (local) \\
+Answer LLM & \texttt{qwen/qwen3-32b} via Groq Developer plan \\
+Temperature & 0.0 \\
+Runs per question & 1 \\
+Top-$k$ & 5 \\
+Chunk tokens & 500 \\
+Chunk overlap & 50 tokens \\
+Vector store & ChromaDB (local) \\
+Answer max tokens & 512 tokens \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{System A (Narrative RAG).}
+LLM narratives are split into 500-token chunks with 50-token overlap, embedded, and indexed.
+At query time the top-5 chunks are retrieved by cosine similarity and concatenated into the
+answer prompt.
+
+\paragraph{System B (Structured RAG, Naive).}
+Each FHIR resource in the bundle is serialised to a flat text representation, chunked,
+embedded, and indexed.  Retrieval is identical to System~A.  Mean tokens-in per call: 4,463
+vs.\ System~A's 490, a 9$\times$ context expansion from serialising full FHIR JSON.
+
+\paragraph{System C (Structured RAG, Resource-Aware).}
+Three retrieval primitives are applied before dense search:
+(1) \emph{typed resource filter}: the question family is mapped to a resource-type allowlist
+(e.g.\ MedicationAdministration + CarePlan for dose-history questions);
+(2) \emph{reference-chain traversal}: MedicationRequest references are expanded to
+Medication, Practitioner, and Patient resources;
+(3) \emph{temporal pre-filter}: only resources with dates intersecting a window around
+the question's reference date are retained.  Dense search then selects top-5 from the
+filtered subset.  Mean tokens-in: 2,175 (51\% less than System~B).
+
+\subsection{Evaluation}
+\label{sec:methods:eval}
+
+\paragraph{Accuracy.}
+The scorer (\texttt{eval/score.py}) applies deterministic type-detection rules to classify
+each ground truth as date, numeric, boolean/categorical, list, or free-text, then applies
+type-specific scoring (exact-match binary; 2\% relative tolerance for floats; Jaccard
+coefficient for lists).  The primary metric is exact-match rate.  Partial credit is reported as a secondary metric.
+
+\paragraph{Retrieval recall@k.}
+For Systems~B and~C only (System~A's narrative chunks carry no FHIR resource IDs), recall@$k$
+is computed by checking whether the top-$k$ retrieved chunk IDs include the patient's primary
+MedicationRequest or specialty CarePlan (a conservative v1 heuristic; see Limitations).
+
+\paragraph{Statistical tests.}
+Paired bootstrap (10,000 resamples, paired by question\_id, seed 42) produces 95\%
+confidence intervals for pairwise accuracy differences.  McNemar's test (uncorrected
+$\chi^2$, 1~df) is applied to exact-match for each pair.  Wilson score 95\%~CIs are reported
+for all per-cell proportions.  Three planned comparisons (A vs.\ B, A vs.\ C, B vs.\ C);
+no multiple-comparison correction (pre-specified confirmatory design).
+
+\paragraph{Error taxonomy.}
+For each system, 50 failures are drawn stratified by question family (10 per family, seed 42)
+and classified by deterministic regex rules into five categories (four primary failure modes plus a residual ``Other''):
+(1) temporal-anchor failure,
+(2) reasoning-truncated,
+(3) N/A misuse (phantom value or spurious N/A),
+(4) wrong-entity / enum error,
+(5) other.
+Single-rater (TJ); no LLM-based triangulation was performed --- the taxonomy is fully deterministic and reproducible from the regex rules in \texttt{analysis/run\_error\_taxonomy.py} (decision C3).
+
+\paragraph{Feature-extraction arm (O6).}
+Three patient-level feature sets are constructed.
+FS-Structured consists of 19 FHIR-derived numeric features: MPR-90d/180d/full, PDC-90d/full,
+gap statistics, event counts, days-since-last-dose, tier one-hot, resource-type counts, and age.
+FS-Narrative consists of 6 heuristic regex features on LLM narratives: date-mention count,
+miss-word count, dose-count mentions, tier-label mentions, narrative length, and negation-near-dose
+count (no LLM scoring).
+FS-Aware consists of 8 per-patient aggregates from System~C retrieval traces.
+Two classifiers (LightGBM with $n\_\text{estimators}=200$, $\text{learning\_rate}=0.05$;
+logistic regression with $C=1.0$, class\_weight=balanced) are evaluated via stratified 5-fold
+cross-validation.  Paired bootstrap AUC CIs are computed at the patient level from
+out-of-fold predictions.
+
+\paragraph{API and cost disclosure.}
+Narrative generation (200 calls) used the Groq free tier.  The full evaluation matrix
+($\approx$41,400 calls) used the Groq Developer paid plan (authorised 2026-05-05;
+hard ceiling \$20~USD).  Observed total API cost: System~A \$4.74, System~B \$21.07,
+System~C \$6.88 (total \$32.68), modestly exceeding the \$20 ceiling for System~B alone
+(no scope fallback required; accepted per decision log 2026-05-06).
