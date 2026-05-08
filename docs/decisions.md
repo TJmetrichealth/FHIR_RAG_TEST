@@ -364,3 +364,274 @@ The narrative-RAG counterparts of the same patient × question combos pass quick
 
 **Does NOT block:** W2 gate, System A full-eval kickoff, reviewer pass.
 
+---
+
+## 2026-05-05 — Paid Groq tier ($20 ceiling) authorised for W3 evaluation runs
+
+**Decision:** The full evaluation matrix (3 systems × 200 patients × 13,800 questions ≈ 41,400 question-answer pairs per system, ~124,200 Groq calls total) will be run against **paid Groq tier** with a hard ceiling of **$20 USD** for the entire eval phase. Free-tier rate limits (30 req/min, 6,000 tokens/min, 14,400 req/day) would extend wall-time to ~5–6 days continuous and risk weekend throttling. Paid tier removes that bottleneck.
+
+**Scope of paid-tier authorisation (narrow):** Paid tier is used **only** for the answer-LLM (`qwen-3-32b`) calls during the eval harness in W3. The narrative-generation step is already complete and frozen (pinned prompt hash `518bc71d87b7`, 200 narratives committed); narratives are not re-run. The fidelity audit, conformance audit, and all dataset generation remain free-tier / local.
+
+**Budget governance:**
+- Hard ceiling: $20 USD across the entire eval phase.
+- If the first full-system run (System A) consumes >$8, fall back to the documented 100-patient subset for the remaining two systems and re-frame the paper around 100 patients with full statistical disclosure.
+- Spend is checked at the end of each system's run (Groq dashboard).
+
+**Alternatives considered:**
+- **Stay on free tier.** Rejected — wall-time of 5–6 days continuous adds material schedule risk to the W5 arXiv target and provides no scientific benefit; the eval is otherwise identical.
+- **Stratified 100-patient pilot first, then scale.** Rejected after user confirmation — paid tier removes the rate-limit reason for staging, and a 200-patient run gives stronger paired-data power for McNemar / paired bootstrap.
+
+**Rationale:** CLAUDE.md hard rule requires explicit user approval and a decision-log entry for any paid-API use. User explicitly approved on 2026-05-05; this entry records the approval, the ceiling, the narrow scope (eval only, narratives stay frozen), and the fallback plan. Reproducibility of the eval is preserved because Groq calls are deterministic with `temperature=0` (decision C1) and the harness writes every input/output pair to `results/raw/{system}.jsonl` for later replay without further API calls.
+
+**Supersedes:** Refines A4 (v2 budget ceiling = $0). A4 remains active for everything except the narrowly-scoped W3 eval; paid-tier use is one-time, capped, and confined to the answer-LLM.
+
+---
+
+## 2026-05-05 — `dataset-freeze-v1` git tag created at commit 98959f8
+
+**Decision:** The `dataset-freeze-v1` git tag is created at commit **`98959f8`** ("W2 mid-week patch: fix MPR window, drop trivial cross-resource templates"). Earlier decision-log entries (the 2026-04-21 W1 closure entries and the W2-patch entry) reference the tag as if it already existed; in fact it had not been pushed to the tree. This entry records the tag creation and resolves the ambiguity.
+
+**Why commit 98959f8 and not the W1-close commit:**
+- Bundles, narratives, and fidelity reports are byte-identical at the W1-close commit and at 98959f8 (the W2 patch only edited `questions/ground_truth/` and regenerated `questions/questions.jsonl` + `data/freeze.json`).
+- The current `data/freeze.json` `overall_sha256 = 4d0da93e19c3071414ef5e1045d338104f9628842abe34f548aa050e9d0aa736` (1,203 files) corresponds to the post-patch state. Tagging at `98959f8` makes the tag, the freeze manifest, and the on-disk dataset all point to the same canonical state that the W3 eval will run against.
+- Verified 2026-05-05: fresh re-computation of the manifest (`python scripts/freeze_dataset.py --strict`) reproduces the recorded `overall_sha256` exactly.
+
+**Alternatives considered:**
+- Tag at the W1-close commit `59bd1c4` to honour the literal "FHIR-bundle layer" framing in the W2-patch entry. Rejected because that would point the tag at a freeze.json with a different `overall_sha256` (the pre-patch value), splitting the canonical dataset state across two artefacts and confusing reproducers.
+- Skip the tag entirely. Rejected — the project plan and decisions log both reference `dataset-freeze-v1` as a reproducibility anchor, and `git describe` from any future eval-results commit needs to land on a defined tag.
+
+**Rationale:** A reproducer who clones the repo, checks out `dataset-freeze-v1`, and runs the eval should arrive at the same dataset bytes the paper's results were computed against. Tagging at 98959f8 satisfies that property without any ambiguity. The original W1 quality gate (O1 100% fidelity, R4B conformance) was passed at the bundle/narrative layer, which is unchanged; the W2 patch is a question-bank correction that strengthens (not weakens) the freeze.
+
+**Supersedes:** Resolves the ambiguity in the 2026-04-21 W1 closure entry (which announced a tag plan but referred to `week1-complete` rather than `dataset-freeze-v1`) and the 2026-04-21 W2 patch entry (which referred to `dataset-freeze-v1` as if it were already authoritative). Neither prior entry is edited; this entry settles the question.
+
+---
+
+## 2026-05-06 — Eval-harness concurrency (K=4) + rate-limit bump to Developer plan
+
+**Decision:** Two coupled changes to make the W3 eval matrix complete in ~5 hours instead of ~3.5 days, with no change to scientific behaviour.
+
+1. **Rate-limit constants** in `eval/config.py` are bumped from free-tier values to Developer-plan values with safety margin:
+   - `GROQ_RPM`: 30 → **800** (80% of Developer-plan ceiling 1000 RPM)
+   - `GROQ_TPM`: 6,000 → **250,000** (83% of Developer-plan ceiling 300K TPM)
+
+2. **Eval harness** (`eval/harness.py`) gains a `--concurrency K` flag implemented via `concurrent.futures.ThreadPoolExecutor`. Default `K=1` (preserves prior synchronous behaviour). W3 production runs use **K=4**, which saturates the 250K TPM ceiling at the observed average ~2K tokens/call (≈150 RPM steady state).
+
+   Thread-safety guards added alongside:
+   - `eval/harness.py`: `threading.Lock()` around the JSONL append+flush.
+   - `systems/common/groq_client.py`: `threading.Lock()` inside `_TokenBucket` guarding both deques.
+   - `systems/common/embedder.py`: module-level `_ENCODE_LOCK` serialising `SentenceTransformer.encode()` (per-call cost is ~10ms; lock contention is dominated by the ~1.5s Groq call that follows).
+   - No changes to `systems/{narrative_rag,structured_rag_naive,structured_rag_aware}.py` — concurrency is invisible at the `BaseSystem.answer()` interface.
+
+**Why this is safe scientifically:** Temperature is still 0; same model (`qwen/qwen3-32b`); same prompt template; same retrieval; same answer cache (per-prompt SHA-256). Concurrent execution only changes wall-clock ordering, which is recoverable because (a) results are sorted by `question_id` at scoring time and (b) resume/dedup is keyed on `question_id`. Determinism check: re-running the harness against an existing JSONL hits 100% answer-cache and finishes in seconds.
+
+**Why this is safe operationally:** The 80% / 83% safety margin against Groq's actual ceiling means the local bucket throttles BEFORE Groq returns a 429. The retry-with-jitter path (already present in `groq_client.py`) handles any rare server-side 429.
+
+**Why K=4 specifically:**
+- Single-stream wall-clock latency averaged 6.5 RPM under the old config (TPM-bound at 6K) and would rise to ~37 RPM under the new config (HTTP-latency-bound).
+- TPM ceiling at ~2K tok/call is ~150 RPM, which requires 150 / 37 ≈ 4 in-flight calls.
+- K=8 was considered but rejected initially: above K=4 we expect TPM-bound queueing with no wall-clock benefit. May revisit if `retry-after` header indicates headroom.
+
+**Alternatives considered:**
+- **Run 3 systems in parallel as separate processes (K=1 each).** Tested empirically on 2026-05-06: total throughput collapsed to ~3 RPM combined, because Groq's TPM is per-API-key (not per-process) — paid Groq paid-tier had been throttling at the free-tier values still set in our local config. Rejected.
+- **Switch model to `llama-3.3-70b-versatile` at the same TPM ceiling.** Would break decision A2 (controlled answer-LLM variable across A/B/C) and require regenerating the ~3.4K rows already in `results/raw/a.jsonl`. Rejected.
+- **Run a local Qwen on the 4080 (replace Groq entirely).** Would invalidate the paid-Groq decision-log entry above, double the decision history, and not finish faster than K=4 over Groq. Rejected. CUDA is not the bottleneck; per-call wall-clock is 95%+ Groq HTTP.
+- **Pre-batch via a Groq Batch API.** Groq does not expose a batch endpoint at the consumer pricing tier, and per-question prompts depend on per-question retrieval, so offline batching is not viable. Rejected.
+
+**Impact / verification:**
+- Smoke at `--limit 30 --concurrency 4 --no-resume`: should complete in ~12 sec (vs. ~10 min under old config).
+- Production runs: A (10,401 rows remaining) → B (13,798) → C (13,790) sequentially, each ~1.5 h, total ~5 h.
+- Final gate: each `results/raw/{a,b,c}.jsonl` has exactly 13,800 records, 0 with `extras.error` set.
+
+**Supersedes:** Refines the 2026-05-05 paid-Groq entry above by recording the actual rate-limit values used during the eval. Does not change the $20 budget ceiling — observed eval spend is ~$2-5 per system at Groq's qwen-3-32b pricing × 13,800 calls × ~2K tokens.
+
+---
+
+## 2026-05-05 — Scoring rules for eval/score.py
+
+**Decision:** The Phase 4 scoring module (`eval/score.py`) implements the following deterministic, programmatic scoring rules. No LLM is used at any point.
+
+**Ground-truth type detection** is performed by inspecting the `ground_truth` field value:
+1. A string matching `^\d{4}-\d{2}-\d{2}$` → **date**
+2. Python `int` or `float` (excluding `bool`) → **numeric**
+3. Python `bool`, or a string whose `.strip().lower()` is in `{"yes","no","n/a","na","none","null","not applicable","true","false","1","0"}` → **bool**
+4. Python `list`/`tuple`/`set`, or a string starting with `[` that JSON-parses to a list, or a string containing `,` or `;` that splits into >1 non-empty tokens → **list**
+5. Everything else → **free_text**
+
+**Scoring rules per type:**
+
+- **date**: Normalise both ground truth and model answer to `YYYY-MM-DD` via `datetime.fromisoformat`. Scan the model answer for any `\d{4}-\d{2}-\d{2}` substring if the full answer does not parse directly. `exact_match` = string equality of normalised dates. `partial_credit` = 1.0 if exact, 0.0 otherwise (no partial credit for near-miss dates; tolerance on dates was rejected — see Alternatives below).
+
+- **numeric**: Extract the first numeric token from the model answer via regex `(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)`. For integer ground truth (Python `int` without a decimal point in the answer): exact integer equality. For float ground truth: match if `abs(answer − gt) ≤ max(0.01, 0.02 × |gt|)` — i.e. 2% relative tolerance with an absolute floor of 0.01. `partial_credit` = 1.0 if exact, 0.0 otherwise.
+
+- **bool / yes-no / N/A**: Canonicalise both sides to `"yes"` / `"no"` / `"n/a"`. Accept `"true"`/`"false"` as synonyms for `"yes"`/`"no"`. If the model answer does not map directly, scan it for any canonical token (longest match first). `exact_match` = canonical equality. `partial_credit` = 1.0 if exact, 0.0 otherwise.
+
+- **list / set**: Parse both ground truth and model answer into sets of lower-cased strings (split by `,` or `;`, or JSON-decode). `exact_match` = set equality. `partial_credit` = Jaccard coefficient `|intersection| / |union|` (∈ [0, 1]).
+
+- **free_text**: Entity match against the patient's FHIR bundle using the logic already implemented in `narratives/fidelity_audit._extract_ground_truth()`. Expected entities: medication names (`Medication.code.text`), first and last administration dates per component. `exact_match` = all expected entities present in the model answer (case-insensitive substring). `partial_credit` = fraction of expected entities found. **Fallback** when no bundle is available: check whether `str(ground_truth)` appears as a substring in the answer; flag the row as `near_miss_flag=True`.
+
+**Recall@k:**
+
+- **System A** (narrative RAG): Recall@k is defined as `None` (N/A) for all k. System A indexes narrative text chunks that have no resource-level IDs; resource-level retrieval recall cannot be computed. This is documented as a known limitation — it means the A-vs-B and A-vs-C recall comparisons are qualitative only.
+
+- **Systems B and C** (structured RAG): Chunk IDs have the form `{ResourceType}_{resource_id}::chunk_{i}` (System B convention per `systems/structured_rag_naive.py` docstring, mirrored by System C). For each question, the "relevant" resource set is defined heuristically as the patient's primary `MedicationRequest` (resource id ending in `-primary`) and specialty `CarePlan` (resource id starting with `spec-cp-`), extracted by parsing the FHIR bundle. `recall_at_k` = True if any of the top-k retrieved chunk IDs contains a resource id that exactly matches or prefix-matches any relevant resource id. A prefix match is included because the heuristic resource-id set uses the 8-character patient UUID prefix when the full bundle is unavailable.
+
+- **V1 heuristic limitation**: This is a conservative v1 recall definition. A full per-question source-resource mapping (which specific `MedicationAdministration` records each ground-truth answer was derived from) would require re-running the ground-truth function in "explain" mode. That mapping is deferred to a follow-up; the paper discloses this limitation in the evaluation section.
+
+**Outputs:**
+- `results/scored.csv`: one row per (system, question_id) with all score fields.
+- `results/recall_at_k.csv`: aggregated recall@k per (system, family, type, tier, k) with 95% Wilson score CI.
+- `results/latency_tokens.csv`: per-system mean/p50/p95/p99 latency, token counts, error rate, exact_match_rate.
+
+**Alternatives considered and rejected:**
+
+- **Partial credit for near-miss dates (within ±1 day)**: Rejected. The question bank's date ground truths are exact FHIR `effectiveDateTime` values; a "near-miss" date reflects a retrieval or reasoning error, not measurement uncertainty. Awarding partial credit for off-by-one dates would mask the distinction between "retrieved the correct administration record" and "hallucinated a plausible date." Binary scoring is the right measure here.
+
+- **Fuzzy string match (Levenshtein / token-overlap) for free-text**: Rejected. Fuzzy string matching is a form of soft judgement that can inflate scores for answers that mention superficially similar (but factually incorrect) terms. The entity-presence check is harder to game and directly measures the clinically relevant property: "did the system retrieve and surface the correct FHIR entities?"
+
+- **LLM-as-judge for free-text correctness**: Explicitly prohibited by CLAUDE.md hard rules. Not considered.
+
+- **Per-question source-resource mapping for recall@k (full implementation)**: Deferred to follow-up. Would require re-running each ground-truth function in an "explain" mode that records which FHIR resources were accessed. The v1 heuristic (primary MedicationRequest + CarePlan) covers the most commonly queried resources and is sufficient for the paper's retrieval-recall headline numbers, with the limitation disclosed.
+
+- **Symmetric set difference as list partial credit** (i.e. penalise extra items in the answer set): Rejected in favour of Jaccard. Jaccard is the standard metric for set-overlap in IR evaluation and is directly interpretable as "what fraction of the relevant items are shared." Symmetric difference would penalise verbose answers that include the correct items alongside extras; that is undesirable for clinical QA where a system that returns all correct items plus some extras should not be penalised as heavily as a system that returns none.
+
+**Rationale:** All rules are deterministic, reproducible from first principles, and require no additional human annotation or LLM calls. The type-detection logic covers every ground-truth shape present in `questions/questions.jsonl` (verified by inspection of all five ground-truth modules). The fallback chain (flag on uncertainty rather than silently skip) ensures every row is accounted for in the output, consistent with the CLAUDE.md hard rule "log failure reason — do not skip silently."
+
+**Supersedes:** Nothing. New entry.
+
+---
+
+## 2026-05-08 — Statistical methods for W3 results
+
+**Decision:** The following statistical methods are used for the paired-data analysis in `analysis/run_stats.py` and the corresponding write-ups under `analysis/`.
+
+- **Paired bootstrap (10,000 resamples, paired by question_id):** Used to produce 95% confidence intervals for the difference in means of `exact_match` (binary, cast to 0/1) and `partial_credit` between each system pair (A vs B, A vs C, B vs C). Pairs are formed by `question_id`; every question was answered by all three systems, so the design is fully paired. Bootstrap uses percentile CI (2.5th / 97.5th quantiles of the resampled difference distribution). Seed: 42 for reproducibility.
+
+- **McNemar's test for paired binary outcomes:** Applied to `exact_match` for each system pair. The uncorrected chi-square statistic `(b-c)^2 / (b+c)` is used (1 df). Effect size is reported as phi = sqrt(chi2 / N). This is the appropriate test for paired categorical outcomes on the same questions.
+
+- **Wilson score 95% CI for proportions:** Used for all per-cell accuracy estimates (overall, per-family, per-tier). Wilson CI is preferred over normal-approximation (Wald) CI for proportions near 0 or 1 and small N.
+
+- **No multiple-comparisons correction:** Three planned pairwise comparisons (A vs B, A vs C, B vs C) arise from the pre-specified experimental design. The analysis is descriptive and confirmatory, not exploratory. Holm-Bonferroni was considered and rejected on the grounds that three correlated tests on the same dataset with a clear ordering hypothesis (A > B > C a priori) do not require family-wise error rate control.
+
+**Alternatives considered:**
+
+- **Percentile bootstrap (unpaired):** Rejected. With N=13,800 fully paired questions, ignoring the pairing wastes statistical efficiency and inflates variance estimates. Paired bootstrap (resample row indices jointly) correctly conditions on the question.
+
+- **Holm-Bonferroni correction:** Rejected. The number of planned comparisons is small (3) and the paper's claim is directional and pre-specified (not a data-dredging exercise). Applying FWER correction would introduce a conservative bias inconsistent with the confirmatory framing.
+
+- **Wilcoxon signed-rank test (non-parametric paired test for partial_credit):** Considered for the partial_credit comparison where the distribution is non-normal (many 0s and 1s). Rejected in favour of paired bootstrap because bootstrap directly estimates the quantity of interest (difference of means) with appropriate uncertainty, without making distributional assumptions. The bootstrap CI is equivalent in power for N=13,800.
+
+**Rationale:** Paired tests are required because all three systems answer the same 13,800 questions; treating outcomes as independent would inflate degrees of freedom. The bootstrap CI (not point estimates alone) is required by the CLAUDE.md hard rules. Effect sizes (phi for McNemar, percentage-point differences for bootstrap) are reported alongside every p-value.
+
+**Supersedes:** Nothing. New entry covering Phase 5 statistical analysis.
+
+
+---
+
+## 2026-05-08 — Feature-arm O6 implementation choices
+
+**Decision:** K=5 stratified folds; LightGBM hyperparams `n_estimators=200,
+learning_rate=0.05, num_leaves=31, random_state=42`; logistic regression with
+`C=1.0, max_iter=1000, class_weight='balanced'`, preprocessed with StandardScaler;
+paired bootstrap (10,000 resamples) for AUC differences between feature sets matched
+at the patient level across OOF predictions; AUC-ROC reported as primary metric,
+AUPRC as secondary; class imbalance kept as-is (14.5% positive / 85.5% negative);
+label threshold: ≥2 consecutive missed doses in final 60d OR median gap in final 90d
+> 1.5× prescribed interval.
+
+**Three feature sets constructed:**
+- FS-Structured: FHIR-derived numerics (MPR 90/180d/full, PDC 90d/full, gap
+  mean/std/max over 90d, event count in 60d, days-since-last-dose, tier one-hot,
+  resource-type counts, patient age).
+- FS-Narrative: heuristic regex features on LLM-generated narratives (date mention
+  count, miss/gap/skip word count, dose-count mentions, tier-label mentions, narrative
+  length, negation-near-dose count). No LLM scoring.
+- FS-Aware: per-patient aggregates from System C retrieval traces (mean expansion
+  chunks, mean distinct resource types retrieved, mean top-5 similarity score,
+  fraction of questions with non-empty type filter, per-type retrieval counts).
+
+**Alternatives considered and rejected:**
+
+- K=10 folds: rejected — with only 200 patients each test fold would contain ~20
+  patients, too few to compute stable per-tier AUC breakdowns.
+- Calibration plots: deferred — not required for the preprint's primary O6 objective.
+- SHAP / feature importance: deferred to follow-up; out of scope for this phase.
+- Oversampling (SMOTE, class_weight): rejected for LightGBM (tree models handle
+  imbalance via leaf weights); for logistic regression class_weight='balanced' is
+  used instead of SMOTE to avoid data leakage across folds.
+
+**Supersedes:** Nothing. New entry covering Phase 6 / Objective O6 feature arm.
+
+---
+
+## 2026-05-08 — Feature-arm O6 implementation choices
+
+**Decision:** K=5 stratified folds; LightGBM hyperparams `n_estimators=200,
+learning_rate=0.05, num_leaves=31, random_state=42`; logistic regression with
+`C=1.0, max_iter=1000, class_weight='balanced'`, preprocessed with StandardScaler;
+paired bootstrap (10,000 resamples) for AUC differences between feature sets matched
+at the patient level across OOF predictions; AUC-ROC reported as primary metric,
+AUPRC as secondary; class imbalance kept as-is (14.5% positive / 85.5% negative);
+label threshold: ≥2 consecutive missed doses in final 60d OR median gap in final 90d
+> 1.5× prescribed interval.
+
+**Three feature sets constructed:**
+- FS-Structured: FHIR-derived numerics (MPR 90/180d/full, PDC 90d/full, gap
+  mean/std/max over 90d, event count in 60d, days-since-last-dose, tier one-hot,
+  resource-type counts, patient age).
+- FS-Narrative: heuristic regex features on LLM-generated narratives (date mention
+  count, miss/gap/skip word count, dose-count mentions, tier-label mentions, narrative
+  length, negation-near-dose count). No LLM scoring.
+- FS-Aware: per-patient aggregates from System C retrieval traces (mean expansion
+  chunks, mean distinct resource types retrieved, mean top-5 similarity score,
+  fraction of questions with non-empty type filter, per-type retrieval counts).
+
+**Alternatives considered and rejected:**
+
+- K=10 folds: rejected — with only 200 patients each test fold would contain ~20
+  patients, too few to compute stable per-tier AUC breakdowns.
+- Calibration plots: deferred — not required for the preprint's primary O6 objective.
+- SHAP / feature importance: deferred to follow-up; out of scope for this phase.
+- Oversampling (SMOTE, class_weight): rejected for LightGBM (tree models handle
+  imbalance via leaf weights); for logistic regression class_weight='balanced' is
+  used instead of SMOTE to avoid data leakage across folds.
+
+**Supersedes:** Nothing. New entry covering Phase 6 / Objective O6 feature arm.
+
+---
+
+## 2026-05-08 -- Error taxonomy categories and rules (Phase 7)
+
+**Decision:** Four-category deterministic taxonomy for failure analysis of the 50-row
+stratified samples (per system, per 5 PSP families, seed=42):
+
+| # | Category | One-line rule |
+|---|----------|---------------|
+| 1 | Temporal-anchor failure | `answer` text matches regex patterns indicating the model cannot locate the reference date (e.g. "reference date not specified", "context doesn't mention a specific reference date"). |
+| 2 | Reasoning-truncated | The 500-char output limit cuts the answer mid-chain. Sub-case A: correct value is present in answer but an earlier context value was extracted by the scorer (first-match heuristic). Sub-case B: computation was genuinely incomplete before truncation. |
+| 3 | N/A misuse | Sub-case A (phantom value): GT is null but model iterates over records / computes a value for an absent component. Sub-case B (spurious N/A): GT is concrete but model asserts "cannot determine" or "N/A". |
+| 4 | Wrong-entity / enum error | GT is a well-defined categorical value and the correct token is completely absent from the answer text. |
+| 5 | Other / unclassified | Residual; achieved 4-8% across systems (target: <20%). |
+
+**Sampling:** n=50 per system, stratified 10 per PSP family, random seed=42.
+**Rater:** TJ via statistician agent (deterministic rules; no LLM-as-judge per CLAUDE.md).
+**Output files:** `analysis/error_samples.csv`, `analysis/error_taxonomy.csv`,
+`analysis/error_taxonomy_summary.csv`, `analysis/error_taxonomy.md`,
+`figures/error_taxonomy_distribution.png`.
+**Script:** `analysis/run_error_taxonomy.py`.
+
+**Alternatives considered:**
+- Open coding: rejected -- single-rater discipline requires deterministic rules to be
+  reproducible; open coding requires at least two independent raters for reliability.
+- LLM-judge categorisation: rejected -- violates CLAUDE.md hard rule
+  ("No LLM-as-judge anywhere in evaluation").
+- 3-category taxonomy (no N/A misuse): rejected -- N/A misuse is a distinct mechanism
+  (wrong presence/absence judgement) that deserves explicit tracking given its
+  cross-system variability.
+
+**Rationale:** Deterministic regex rules guarantee full reproducibility at re-run
+time. The four categories map onto the four observable failure mechanisms in the
+500-char truncated think-block answers: (1) missing temporal anchor, (2) token budget
+exhausted before answer completion, (3) wrong component-presence judgement, (4) wrong
+categorical assertion. The "Other" residual is 4-8%, well under the 20% cap.
+
+**Supersedes:** Nothing. New entry for Phase 7.

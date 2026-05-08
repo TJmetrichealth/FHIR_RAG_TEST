@@ -32,6 +32,7 @@ CHUNK_OVERLAP_TOKENS, EMBEDDING_MODEL, ANSWER_*) come from eval.config.
 """
 from __future__ import annotations
 
+import threading
 import time
 from pathlib import Path
 from typing import Any
@@ -79,11 +80,21 @@ def _chroma_dir(patient_id: str) -> Path:
     return _CHROMA_BASE / patient_id
 
 
+# Lock around chromadb.PersistentClient instantiation. Concurrent first-time
+# creation on the same path races on chroma's internal Rust-binding init
+# (observed errors: "Could not connect to tenant default_tenant",
+# "'RustBindingsAPI' object has no attribute 'bindings'"). Once the client
+# exists, queries are thread-safe; this lock only serialises the open call,
+# which is fast (~5ms) and dominated by the Groq call that follows.
+_CHROMA_OPEN_LOCK = threading.Lock()
+
+
 def _open_client(patient_id: str) -> chromadb.PersistentClient:
     """Open (or create) the PersistentClient for *patient_id*."""
     chroma_path = _chroma_dir(patient_id)
     chroma_path.mkdir(parents=True, exist_ok=True)
-    return chromadb.PersistentClient(path=str(chroma_path))
+    with _CHROMA_OPEN_LOCK:
+        return chromadb.PersistentClient(path=str(chroma_path))
 
 
 class NarrativeRAG:

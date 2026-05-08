@@ -84,6 +84,7 @@ from __future__ import annotations
 
 import json
 import re
+import threading
 import time
 from pathlib import Path
 from typing import Any
@@ -336,11 +337,16 @@ def _chroma_dir(patient_id: str) -> Path:
     return _CHROMA_BASE / patient_id
 
 
+# See narrative_rag._CHROMA_OPEN_LOCK for rationale.
+_CHROMA_OPEN_LOCK = threading.Lock()
+
+
 def _open_client(patient_id: str) -> chromadb.PersistentClient:
     """Open (or create) the PersistentClient for *patient_id*."""
     chroma_path = _chroma_dir(patient_id)
     chroma_path.mkdir(parents=True, exist_ok=True)
-    return chromadb.PersistentClient(path=str(chroma_path))
+    with _CHROMA_OPEN_LOCK:
+        return chromadb.PersistentClient(path=str(chroma_path))
 
 
 def _resource_text(resource: dict[str, Any]) -> str:
@@ -526,12 +532,17 @@ class StructuredRAGAware:
         embeddings: list[np.ndarray] = self._embedder.embed_batch(all_texts)
         embedding_lists: list[list[float]] = [e.tolist() for e in embeddings]
 
-        collection.add(
-            ids=all_ids,
-            embeddings=embedding_lists,
-            documents=all_texts,
-            metadatas=all_metas,
-        )
+        # Chroma's PersistentClient enforces a per-call max batch size
+        # (~5461 on default SQLite builds). Add in slices to support large bundles.
+        _ADD_BATCH = 4000
+        for s in range(0, len(all_ids), _ADD_BATCH):
+            e = s + _ADD_BATCH
+            collection.add(
+                ids=all_ids[s:e],
+                embeddings=embedding_lists[s:e],
+                documents=all_texts[s:e],
+                metadatas=all_metas[s:e],
+            )
 
     def answer(self, question: str, patient_id: str) -> SystemResponse:
         """Answer *question* for *patient_id* using resource-aware RAG.

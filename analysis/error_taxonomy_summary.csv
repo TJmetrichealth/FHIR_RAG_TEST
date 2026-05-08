@@ -1,0 +1,16 @@
+system,category,count,pct
+A,Temporal-anchor failure,15,30.0
+A,Reasoning-truncated,22,44.0
+A,N/A misuse,4,8.0
+A,Wrong-entity / enum error,5,10.0
+A,Other / unclassified,4,8.0
+B,Temporal-anchor failure,9,18.0
+B,Reasoning-truncated,29,58.0
+B,N/A misuse,7,14.0
+B,Wrong-entity / enum error,3,6.0
+B,Other / unclassified,2,4.0
+C,Temporal-anchor failure,5,10.0
+C,Reasoning-truncated,26,52.0
+C,N/A misuse,11,22.0
+C,Wrong-entity / enum error,6,12.0
+C,Other / unclassified,2,4.0

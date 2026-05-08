@@ -62,13 +62,16 @@ ANSWER_USER_PROMPT_TEMPLATE: str = (
 )
 
 # ---------------------------------------------------------------------------
-# Groq rate-limit parameters (free tier — documented in groq_client.py)
+# Groq rate-limit parameters
+# Developer-plan ceilings for qwen/qwen3-32b: 1000 RPM, 300K TPM.
+# Local bucket is set 15-20% below the ceiling so server-side 429 is rare.
+# Decisions log: 2026-05-06 entry on Developer-plan rate-limit bump.
 # ---------------------------------------------------------------------------
-GROQ_RPM: int = 30           # requests per minute
-GROQ_TPM: int = 6_000        # tokens per minute (real bottleneck)
-GROQ_MAX_RETRIES: int = 6    # retry attempts on 429
-GROQ_BACKOFF_BASE: float = 2.0   # seconds — decision in CLAUDE.md hard rules
-GROQ_BACKOFF_MAX: float = 60.0   # seconds — decision in CLAUDE.md hard rules
+GROQ_RPM: int = 800              # 80% of Developer-plan 1000 RPM
+GROQ_TPM: int = 250_000          # 83% of Developer-plan 300K TPM
+GROQ_MAX_RETRIES: int = 6        # retry attempts on 429
+GROQ_BACKOFF_BASE: float = 2.0   # seconds — CLAUDE.md hard rules
+GROQ_BACKOFF_MAX: float = 60.0   # seconds — CLAUDE.md hard rules
 
 # ---------------------------------------------------------------------------
 # Cache directories (gitignored per .gitignore; must be preserved locally)

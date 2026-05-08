@@ -25,7 +25,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
@@ -136,6 +138,47 @@ def load_questions(
 # Core runner
 # ---------------------------------------------------------------------------
 
+def _answer_one(
+    system: BaseSystem,
+    system_name: str,
+    q: dict[str, Any],
+) -> dict[str, Any]:
+    """Run a single system.answer() call and build the result record.
+
+    Pure function — safe to call from worker threads. Errors are captured
+    into the record (never propagate) so a single bad question does not
+    abort the run.
+    """
+    t0 = time.perf_counter()
+    try:
+        resp: SystemResponse = system.answer(q["question"], q["patient_id"])
+    except Exception as exc:  # noqa: BLE001
+        resp = SystemResponse(
+            answer="ERROR",
+            retrieved=[],
+            tokens_in=0,
+            tokens_out=0,
+            latency_ms=(time.perf_counter() - t0) * 1000.0,
+            extras={"error": str(exc)},
+        )
+    return {
+        "question_id": q["id"],
+        "patient_id": q["patient_id"],
+        "question": q["question"],
+        "question_type": q["type"],
+        "tier": q.get("tier"),
+        "reference_date": q.get("reference_date"),
+        "ground_truth": q.get("ground_truth"),
+        "system": system_name,
+        "answer": resp.answer,
+        "retrieved": resp.retrieved,
+        "tokens_in": resp.tokens_in,
+        "tokens_out": resp.tokens_out,
+        "latency_ms": resp.latency_ms,
+        "extras": resp.extras,
+    }
+
+
 def run_harness(
     system: BaseSystem,
     system_name: str,
@@ -145,6 +188,7 @@ def run_harness(
     limit: int | None = None,
     *,
     resume: bool = True,
+    concurrency: int = 1,
 ) -> list[dict[str, Any]]:
     """Run *system* over *questions_path* and write results to *output_path*.
 
@@ -167,24 +211,33 @@ def run_harness(
     resume:
         If True and *output_path* already exists, skip question IDs that
         are already present in the file.
+    concurrency:
+        Number of in-flight ``system.answer`` calls. ``1`` (default) keeps
+        the original synchronous behaviour. ``>=2`` uses a ThreadPoolExecutor
+        so multiple Groq calls overlap. Output ordering is no longer
+        deterministic, but the question_id-keyed dedup on resume makes order
+        irrelevant.
 
     Returns
     -------
     list[dict]
-        All result records (including previously cached ones if resume=True).
+        All result records produced by THIS invocation (does not include
+        previously-cached records loaded from disk).
     """
     if not isinstance(system, BaseSystem):
         raise TypeError(
             f"{system!r} does not satisfy the BaseSystem protocol. "
             "Make sure it implements answer(question: str, patient_id: str) -> SystemResponse."
         )
+    if concurrency < 1:
+        raise ValueError(f"concurrency must be >= 1, got {concurrency}")
 
     output_path = output_path or (RESULTS_RAW_DIR / f"{system_name}.jsonl")
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     questions = load_questions(questions_path, patient_ids=patient_ids, limit=limit)
 
-    # Load already-completed IDs for resume support
+    # Load already-completed IDs for resume support (single-threaded; safe)
     done_ids: set[str] = set()
     if resume and output_path.exists():
         with open(output_path, encoding="utf-8") as fh:
@@ -202,45 +255,36 @@ def run_harness(
         print(f"[harness] Resuming: skipping {skipped} already-done questions.")
 
     results: list[dict[str, Any]] = []
+    write_lock = threading.Lock()
+    completed_counter = {"n": 0}
 
-    with open(output_path, "a", encoding="utf-8") as out_fh:
-        for i, q in enumerate(remaining):
-            t0 = time.perf_counter()
-            try:
-                resp: SystemResponse = system.answer(q["question"], q["patient_id"])
-            except Exception as exc:  # noqa: BLE001
-                # Capture errors without crashing the whole run
-                resp = SystemResponse(
-                    answer="ERROR",
-                    retrieved=[],
-                    tokens_in=0,
-                    tokens_out=0,
-                    latency_ms=(time.perf_counter() - t0) * 1000.0,
-                    extras={"error": str(exc)},
-                )
-
-            record: dict[str, Any] = {
-                "question_id": q["id"],
-                "patient_id": q["patient_id"],
-                "question": q["question"],
-                "question_type": q["type"],
-                "tier": q.get("tier"),
-                "reference_date": q.get("reference_date"),
-                "ground_truth": q.get("ground_truth"),
-                "system": system_name,
-                "answer": resp.answer,
-                "retrieved": resp.retrieved,
-                "tokens_in": resp.tokens_in,
-                "tokens_out": resp.tokens_out,
-                "latency_ms": resp.latency_ms,
-                "extras": resp.extras,
-            }
+    def _write_record(record: dict[str, Any], out_fh: Any) -> None:
+        with write_lock:
             out_fh.write(json.dumps(record, ensure_ascii=False) + "\n")
             out_fh.flush()
             results.append(record)
+            completed_counter["n"] += 1
+            n = completed_counter["n"]
+            if n == 1 or n % 10 == 0 or n == len(remaining):
+                print(f"[harness] {n}/{len(remaining)} questions answered.", flush=True)
 
-            if (i + 1) % 10 == 0 or i == 0:
-                print(f"[harness] {i + 1}/{len(remaining)} questions answered.")
+    with open(output_path, "a", encoding="utf-8") as out_fh:
+        if concurrency == 1:
+            # Synchronous path — preserves original behaviour bit-for-bit.
+            for q in remaining:
+                record = _answer_one(system, system_name, q)
+                _write_record(record, out_fh)
+        else:
+            # Concurrent path — many in-flight Groq calls.
+            with ThreadPoolExecutor(
+                max_workers=concurrency, thread_name_prefix="harness"
+            ) as ex:
+                futures = [
+                    ex.submit(_answer_one, system, system_name, q) for q in remaining
+                ]
+                for fut in as_completed(futures):
+                    record = fut.result()  # _answer_one never raises
+                    _write_record(record, out_fh)
 
     print(f"[harness] Done. {len(results)} new records written to {output_path}.")
     return results
@@ -290,6 +334,15 @@ def _parse_args() -> argparse.Namespace:
         action="store_true",
         help="Do not skip already-completed question IDs.",
     )
+    p.add_argument(
+        "--concurrency",
+        type=int,
+        default=1,
+        help=(
+            "Number of in-flight system.answer calls. "
+            "1 = synchronous (default); 4-8 saturates Developer-plan TPM."
+        ),
+    )
     return p.parse_args()
 
 
@@ -304,4 +357,5 @@ if __name__ == "__main__":
         output_path=args.output,
         limit=args.limit,
         resume=not args.no_resume,
+        concurrency=args.concurrency,
     )

@@ -1,0 +1,659 @@
+question_id,system,patient_id,family,type,tier,reference_date,ground_truth,answer,exact_match,partial_credit,latency_ms,category
+0b2e2350-4d13-3a5e-901d-f59e68f47b3c::rc.doses_next_30d.rescue,a,0b2e2350-4d13-3a5e-901d-f59e68f47b3c,regimen_compliance,regimen_compliance,3,2025-11-28,0,"<think>
+Okay, let's see. The user is asking about the number of PRN rescue administrations scheduled in the 30 days starting from the reference date. Wait, but the context doesn't mention a specific reference date. The regimen started on 2025-10-27 and ended on 2026-10-27. The PRN rescue inhaler was used as needed, but there were no recorded administrations during the entire regimen period. The question mentions a ""reference date,"" but it's not provided here. Without knowing the exact start date",False,0.0,871.76,Temporal-anchor failure
+4a22f595-e1b8-eaf7-d53e-fc53d01684c6::rc.pdc_90d.primary,a,4a22f595-e1b8-eaf7-d53e-fc53d01684c6,regimen_compliance,regimen_compliance,3,2025-08-21,0.0,"<think>
+Okay, let's tackle this question step by step. The user is asking for the Proportion of Days Covered (PDC) for the primary regimen component over the 90 days ending on the reference date. First, I need to figure out which component is considered the primary one. The context mentions a T3-multidrug regimen with three components: a biologic injectable, a daily oral adjunct, and a PRN rescue inhaler. The primary component is likely the one that's most critical or the mainstay of the treatme",False,0.0,1277.62,Reasoning-truncated
+1e52f480-d236-1b23-ac0c-0dd45141be8a::rc.doses_next_30d.rescue,a,1e52f480-d236-1b23-ac0c-0dd45141be8a,regimen_compliance,regimen_compliance,2,2042-12-17,,"<think>
+Okay, let's see. The user is asking about the number of PRN rescue administrations scheduled in the 30 days starting from the reference date. First, I need to check the context provided.
+
+Looking at the context, it says that the regimen is cyclic oral therapy with a 4 weeks on, 2 weeks off cycle. The component is not administered on a PRN basis, and there's no indication for as-needed administration. The entire schedule is dictated by the cyclic nature, so any administration outside the ",False,0.0,41698.06,N/A misuse
+96376733-cea5-8ec2-a6f6-7fc4650b1ae3::rc.doses_last_30d.adjunct,a,96376733-cea5-8ec2-a6f6-7fc4650b1ae3,regimen_compliance,regimen_compliance,3,2026-04-04,31,"<think>
+Okay, let's see. The user is asking about the number of oral adjunct administrations in the 30 days up to and including the reference date. Wait, but the context doesn't mention a specific reference date. Hmm. The patient's regimen started on 2026-01-24 and is projected to end on 2027-01-24. The daily oral adjunct was administered starting on 2026-01-24, with the last three administrations on 2027-01-22, 2027-01-23, and 2027-01-24. There were a total of 366 administrations, which makes s",False,0.0,856.84,Temporal-anchor failure
+63ea27aa-f827-22fb-f9c9-33daeb64d1ed::rc.doses_last_30d.primary,a,63ea27aa-f827-22fb-f9c9-33daeb64d1ed,regimen_compliance,regimen_compliance,2,2029-10-08,15,"<think>
+Okay, let's see. The user is asking how many primary regimen administrations were recorded in the 30 days up to and including the reference date. Wait, but the context doesn't mention a specific reference date. The only dates provided are the start date (2029-09-24), end date (2030-09-24), first three administrations, last three, and a mid-regimen date of 2030-03-25.
+
+Hmm, maybe the reference date is the mid-regimen date mentioned, 2030-03-25? The question doesn't specify, though. Withou",False,0.0,779.93,Temporal-anchor failure
+e3b0772c-a6a2-2f29-3d33-977667165fa8::rc.doses_last_90d.primary,a,e3b0772c-a6a2-2f29-3d33-977667165fa8,regimen_compliance,regimen_compliance,3,2026-04-27,4,"<think>
+Okay, let's tackle this question. The user is asking about the number of primary regimen administrations recorded in the 90 days up to and including the reference date. Wait, but the context doesn't mention a specific reference date. Hmm, maybe the reference date is implied by the end date of the regimen? The regimen started on 2026-01-27 and ended on 2027-01-27. The question is about the 90 days up to the reference date. Since the reference date isn't specified, perhaps they mean the en",False,0.0,1076.61,Temporal-anchor failure
+5a7cc00f-0b78-8f25-a830-a65e9067fff3::rc.doses_last_30d.rescue,a,5a7cc00f-0b78-8f25-a830-a65e9067fff3,regimen_compliance,regimen_compliance,3,2025-08-02,0,"<think>
+Okay, let's see. The user is asking about the number of PRN rescue administrations recorded in the 30 days up to and including the reference date. First, I need to check the context provided.
+
+Looking at the context, the PRN rescue inhaler is mentioned as being used as needed for breakthrough symptoms, but there were no recorded administrations. The answer should be based solely on the information given here. The question specifies a 30-day period up to the reference date, but since the ",False,0.0,642.36,Reasoning-truncated
+f1264dac-322c-aa62-ccb8-37bbd22a99d7::rc.doses_last_90d.primary,a,f1264dac-322c-aa62-ccb8-37bbd22a99d7,regimen_compliance,regimen_compliance,2,2033-01-17,28,"<think>
+Okay, let's see. The user is asking how many primary regimen administrations were recorded in the 90 days up to and including the reference date. Wait, but the context doesn't mention a specific reference date. Hmm. Let me check again.
+
+Looking back at the context provided, the patient's regimen started on 2032-12-09 and is projected to end on 2033-12-09. The last three administrations were on 2033-12-05, 2033-12-06, and 2033-12-07. The total administrations are 252. But the question men",False,0.0,628.43,Temporal-anchor failure
+9c36ad85-8614-f99f-1c50-3bcdc2537cf3::rc.doses_last_60d.primary,a,9c36ad85-8614-f99f-1c50-3bcdc2537cf3,regimen_compliance,regimen_compliance,1,2026-02-05,1,"<think>
+Okay, let's see. The user is asking how many primary regimen administrations were recorded in the 60 days up to and including the reference date. Wait, but the context doesn't mention a specific reference date. Hmm. The context does list all the administration dates: the first three were on 2026-01-30, 2026-03-27, and 2026-05-22, then the last three were 2026-09-11, 2026-11-06, and 2027-01-01. There's also a mid-regimen date on 2026-07-17. But the problem is, the user didn't provide a re",False,0.0,658.01,Temporal-anchor failure
+3a6ef1cb-a3d7-9087-30de-567a5d745337::rc.mpr_90d.primary,a,3a6ef1cb-a3d7-9087-30de-567a5d745337,regimen_compliance,regimen_compliance,2,2029-02-20,,"<think>
+Okay, let's try to figure out the Medication Possession Ratio (MPR) for this patient's primary regimen component over the 90 days ending on the reference date. First, I need to recall what MPR is. From what I remember, MPR is calculated by dividing the number of days' supply of medication a patient has by the number of days in the period being measured. It's often used to assess adherence, with 100% meaning the patient has all the medication they need for the period.
+
+But wait, the conte",False,0.0,46325.54,Other / unclassified
+c0fc10af-9fa1-d6ad-d151-873265687380::tl.next_scheduled.primary,a,c0fc10af-9fa1-d6ad-d151-873265687380,temporal_lookup,temporal_lookup,3,2025-08-17,2025-09-09,"<think>
+Okay, let's see. The user is asking about the next scheduled primary regimen dose on the reference date. First, I need to figure out what the reference date is. Wait, the context doesn't mention a specific reference date. The question just says ""on the reference date,"" but there's no date provided in the context. Hmm.
+
+Looking back at the context, the regimen started on 2025-08-12 and is projected to end on 2026-08-12. The biologic injectable is given every 28 days. The last administered",False,0.0,648.5,Temporal-anchor failure
+ad4af3ca-d75b-5a86-812f-e22287bb1aff::tl.last_administered.primary,a,ad4af3ca-d75b-5a86-812f-e22287bb1aff,temporal_lookup,temporal_lookup,3,2025-09-09,,"<think>
+Okay, let's see. The user is asking for the most recent primary regimen administration on or before the reference date. First, I need to figure out what the reference date is. The context mentions the regimen started on 2025-10-02 and is projected to end on 2026-10-02. The question doesn't specify a different reference date, so I'll assume the current date is 2026-10-02, the end date.
+
+Now, the primary regimen components are the biologic injectable, daily oral adjunct, and PRN inhaler. T",False,0.0,1142.99,N/A misuse
+09869e74-030e-5a53-b592-bbee5458ab64::tl.regimen_end,a,09869e74-030e-5a53-b592-bbee5458ab64,temporal_lookup,temporal_lookup,1,2029-04-12,2030-01-28,"<think>
+Okay, let's see. The user is asking for the end date of the projected regimen horizon. I need to look through the context provided to find that.
+
+Looking at the context, there's a sentence that says, ""the regimen started on 2029-01-28 and is projected to end on 2030-01-28, spanning a total of 365 days."" So the end date is clearly stated as 2030-01-28. 
+
+I should check if there's any other information that might contradict this or if there's a different date mentioned elsewhere. The last ",False,0.0,1060.55,Reasoning-truncated
+e41291ee-bf1a-e451-8420-dc100d050191::tl.next_scheduled.primary,a,e41291ee-bf1a-e451-8420-dc100d050191,temporal_lookup,temporal_lookup,2,2025-06-08,2025-06-24,"<think>
+Okay, let's try to figure out when the next scheduled primary regimen dose is on the reference date. First, I need to understand the regimen structure. The patient is on a T2-cyclic-oral regimen with a 4 weeks on, 2 weeks off cycle. The regimen started on June 24, 2025, and is projected to end on June 24, 2026. The component is cyclic oral specialty therapy with 252 administrations. The last three administrations were on June 20, 21, and 22, 2026.
+
+Wait, the question is asking about the ",False,0.0,778.5,Reasoning-truncated
+81eb4e5d-1982-5097-727a-b5ceb16e9ed6::tl.days_since_last.primary,a,81eb4e5d-1982-5097-727a-b5ceb16e9ed6,temporal_lookup,temporal_lookup,2,2025-10-27,0,"<think>
+Okay, let's see. The patient is on a cyclic oral therapy with a 4 weeks on, 2 weeks off schedule. The regimen started on 2025-10-21 and ends on 2026-10-21. The last three administration dates were 2026-10-17, 2026-10-18, and 2026-10-19. The question is asking how many days have elapsed since the most recent primary regimen administration.
+
+First, I need to figure out when the last administration date was. The last three dates are given as 2026-10-17, 18, and 19. Since the cycle is 4 week",False,0.0,1165.99,Reasoning-truncated
+41b64cb8-1c48-9a50-b84e-e6c58fe359ae::tl.last_admin_any,a,41b64cb8-1c48-9a50-b84e-e6c58fe359ae,temporal_lookup,temporal_lookup,1,2025-10-21,2026-08-30,"<think>
+Okay, let's see. The user is asking for the latest administration date across all regimen components. The context mentions that the patient is on a T1-long-acting-injectable regimen with a single component, a long-acting subcutaneous injectable biologic. The administration dates provided include the first three on 2025-09-28, 2025-11-23, 2026-01-18, and the last three on 2026-05-10, 2026-07-05, 2026-08-30. There are 7 administrations in total. The latest date listed is 2026-08-30. Since ",False,0.0,684.59,Reasoning-truncated
+96376733-cea5-8ec2-a6f6-7fc4650b1ae3::tl.days_to_next.adjunct,a,96376733-cea5-8ec2-a6f6-7fc4650b1ae3,temporal_lookup,temporal_lookup,3,2026-04-04,0,"<think>
+Okay, let's see. The user is asking how many days from the reference date until the next scheduled oral adjunct dose. First, I need to figure out what the reference date is. The context doesn't explicitly mention a reference date, so maybe it's the current date or the last administration date? Wait, the problem might be using the last administration date of the oral adjunct as the reference. Let me check the context again.
+
+The daily oral adjunct is taken every day. The last three admini",False,0.0,1360.63,Reasoning-truncated
+b3f6eb97-d71e-9304-ee07-e6cdf92e9061::tl.regimen_end,a,b3f6eb97-d71e-9304-ee07-e6cdf92e9061,temporal_lookup,temporal_lookup,3,2026-02-13,2027-02-07,"<think>
+Okay, let's see. The user is asking for the end date of the projected regimen horizon.
+
+Looking at the context provided, the first sentence mentions that the regimen started on 2026-02-07 and is projected to end on 2027-02-07. It also states the total duration is 365 days. Later in the paragraph, there's a mention of the last administration dates for the biologic injectable and the daily oral adjunct, but those are specific to each medication. The key part here is the initial statement a",False,0.0,785.47,Reasoning-truncated
+41b64cb8-1c48-9a50-b84e-e6c58fe359ae::tl.next_scheduled.primary,a,41b64cb8-1c48-9a50-b84e-e6c58fe359ae,temporal_lookup,temporal_lookup,1,2025-10-21,2025-11-23,"<think>
+Okay, let's see. The patient is on a T1-long-acting-injectable regimen, which is a single long-acting subcutaneous injectable given every 8 weeks (56 days). The regimen started on 2025-09-28 and is projected to end on 2026-09-28. The last three administration dates were 2026-05-10, 2026-07-05, and 2026-08-30, with a total of 7 administrations recorded. The question is asking for the next scheduled primary regimen dose on the reference date.
+
+First, I need to figure out what the reference",False,0.0,1249.23,Reasoning-truncated
+3237a113-d358-2106-3f7e-929c6f193fa7::tl.last_admin_any,a,3237a113-d358-2106-3f7e-929c6f193fa7,temporal_lookup,temporal_lookup,2,2026-04-07,2027-01-24,"<think>
+Okay, let's see. The user is asking for the latest administration date across all regimen components. The context provided mentions that the primary component, which is the only component in this regimen, has been administered on several dates. The last three administrations were on 2027-01-22, 2027-01-23, and 2027-01-24. Since there's only one component, the latest date would be the most recent of those three. That would be 2027-01-24. I need to check if there's any other component ment",False,0.0,2726.64,Reasoning-truncated
+5edebfee-1413-fda8-4fa2-dc0c4099e4c4::ra.total_last_60d.all,a,5edebfee-1413-fda8-4fa2-dc0c4099e4c4,regimen_aggregation,regimen_aggregation,2,2025-05-22,25,"<think>
+Okay, let's see. The user is asking about the number of administrations recorded in the 60 days up to the reference date. First, I need to figure out what the reference date is. The context mentions the regimen started on 2025-04-28 and is projected to end on 2026-04-28. The last three administrations were on 2026-04-24, 2026-04-25, and 2026-04-26. The question is about the 60 days up to the reference date, but the reference date isn't explicitly stated here. Wait, maybe the reference da",False,0.0,2060.56,Temporal-anchor failure
+f1264dac-322c-aa62-ccb8-37bbd22a99d7::ra.avg_gap.adjunct,a,f1264dac-322c-aa62-ccb8-37bbd22a99d7,regimen_aggregation,regimen_aggregation,2,2033-01-17,,"<think>
+Okay, let's see. The user is asking for the average number of days between consecutive oral adjunct administrations. Wait, but in the context provided, the regimen is called T2-cyclic-oral with a primary component. The question mentions ""adjunct"" administrations, but the context only talks about the primary component. Maybe that's a typo or confusion in terminology? The context doesn't mention any adjunct medications, only the primary component. So maybe the user meant the primary compon",False,0.0,1355.04,Other / unclassified
+9704a8c8-ed61-56cb-8c2d-01043ff39a3b::ra.avg_gap.adjunct,a,9704a8c8-ed61-56cb-8c2d-01043ff39a3b,regimen_aggregation,regimen_aggregation,2,2026-02-08,,"<think>
+Okay, let's see. The user is asking for the average number of days between consecutive oral adjunct administrations, rounded to the nearest integer. First, I need to check if the context provides any information about an oral adjunct. The context mentions a T2-cyclic-oral regimen with one primary component. The primary component is administered cyclically with 4 weeks on and 2 weeks off. The component is given on specific dates, like the first three administrations on 2026-01-26, 2026-01",False,0.0,2259.78,N/A misuse
+5638ffc3-ca76-9e51-d315-a95e1c9952a4::ra.avg_gap.primary,a,5638ffc3-ca76-9e51-d315-a95e1c9952a4,regimen_aggregation,regimen_aggregation,2,2026-02-06,1,"<think>
+Okay, let's see. The patient is on a cyclic oral therapy with a 4 weeks on and 2 weeks off schedule. The primary component is administered during the 4 weeks on period. The question is asking for the average number of days between consecutive administrations.
+
+First, I need to figure out how often the medication is taken. Since it's a cyclic regimen, the administration days are during the 4 weeks on, then 2 weeks off. But the exact frequency within the 4 weeks isn't specified. However, t",False,0.0,2599.11,Reasoning-truncated
+de740e6d-709f-c6ad-3eda-4ed8c09a0c55::ra.total_last_60d.all,a,de740e6d-709f-c6ad-3eda-4ed8c09a0c55,regimen_aggregation,regimen_aggregation,2,2025-07-21,28,"<think>
+Okay, let's see. The user is asking about the number of administrations recorded in the 60 days up to the reference date. But wait, the context doesn't mention a specific reference date. Hmm. The regimen started on 2025-06-16 and ended on 2026-06-16. The total administrations are 252. The question mentions ""the reference date,"" but looking back at the context provided, there's no reference date specified. The user might have intended to include a reference date but forgot, or maybe it's ",False,0.0,1799.49,Temporal-anchor failure
+9d1c1bee-4897-ed97-f590-963c043c09a9::ra.total.rescue,a,9d1c1bee-4897-ed97-f590-963c043c09a9,regimen_aggregation,regimen_aggregation,1,2039-08-10,,"<think>
+Okay, let's see. The user is asking about the total number of PRN rescue administrations in the patient's regimen.
+
+First, I need to recall what PRN means. PRN stands for ""pro re nata,"" which translates to ""as needed."" So, these are medications taken on an as-needed basis, not on a fixed schedule.
+
+Looking at the context provided, the patient is on a T1-long-acting-injectable regimen. The description mentions that the regimen consists of a single long-acting subcutaneous injectable biolo",False,0.0,859.97,Other / unclassified
+f078d1e6-4cb7-a6d5-4c9d-6f6ee580e595::ra.horizon_days,a,f078d1e6-4cb7-a6d5-4c9d-6f6ee580e595,regimen_aggregation,regimen_aggregation,1,2025-09-16,365,"<think>
+Okay, let's see. The user is asking about the projected regimen horizon span in days.
+
+Looking at the context, the regimen started on 2025-08-10 and is projected to end on 2026-08-10. The total span is mentioned as 365 days. But wait, I should verify that. Let me calculate the days between those two dates to be sure.
+
+From August 10, 2025, to August 10, 2026, is exactly one year. Since 2026 is not a leap year (leap years are divisible by 4, but 2026 isn't), that's 365 days. The context a",False,0.0,826.94,Reasoning-truncated
+c88dfa0c-52ae-9fb8-065b-58c5979bb052::ra.avg_gap.primary,a,c88dfa0c-52ae-9fb8-065b-58c5979bb052,regimen_aggregation,regimen_aggregation,1,2030-04-14,56,"<think>
+Okay, let's see. The patient is on a T1-long-acting-injectable regimen. The context says it's administered every 8 weeks. Wait, 8 weeks is 56 days, right? Because 7 days a week times 8 is 56. The question is asking for the average number of days between consecutive administrations.
+
+Looking at the context, it mentions the regimen is a single long-acting subcutaneous injectable given every 56 days. Also, the first three administration dates are 2030-03-31, 2030-05-26, and 2030-07-21. Let ",False,0.0,1118.07,Reasoning-truncated
+fefb85ec-ae0f-bbe6-6533-8c8c5a51836d::ra.total_last_90d.all,a,fefb85ec-ae0f-bbe6-6533-8c8c5a51836d,regimen_aggregation,regimen_aggregation,1,2025-09-07,2,"<think>
+Okay, let's see. The user is asking about the number of administrations recorded in the 90 days up to the reference date. But wait, the context doesn't mention a specific reference date. Hmm. The patient's regimen started on 2025-06-30 and ended on 2026-06-30. The administrations are every 56 days. The first three were on 2025-06-30, 2025-08-25, and 2025-10-20. The last three were on 2026-02-09, 2026-04-06, and 2026-06-01. Total of 7 administrations.
+
+Wait, the question mentions ""the 90 ",False,0.0,992.51,Temporal-anchor failure
+1f27a824-bc34-bd07-cee0-18328a0ec0a1::ra.avg_gap.adjunct,a,1f27a824-bc34-bd07-cee0-18328a0ec0a1,regimen_aggregation,regimen_aggregation,3,2026-01-01,1,"<think>
+Okay, let's see. The user is asking for the average number of days between consecutive oral adjunct administrations, rounded to the nearest integer.
+
+First, I need to look at the information provided about the daily oral adjunct. The context says the regimen started on 2025-10-08 and is projected to end on 2026-10-08, which is 365 days. The daily oral adjunct was first administered on 2025-10-08, 2025-10-09, and 2025-10-10. The last three administrations were on 2026-10-06, 2026-10-07, a",False,0.0,2877.86,Reasoning-truncated
+0b2a436c-3571-c712-e925-75e895a5b489::tc.next_first.adjunct_vs_rescue,a,0b2a436c-3571-c712-e925-75e895a5b489,temporal_comparison,temporal_comparison,3,2036-07-30,oral adjunct,"<think>
+Okay, let's see. The user is asking which component is next due first on or after the reference date between the oral adjunct and the PRN rescue. The reference date isn't specified, but since the regimen started on 2036-06-02 and is projected to end on 2037-06-02, maybe the reference date is the end date? Or perhaps it's the current date? Wait, the context mentions the last administrations. Let me check the details.
+
+The biologic injectable was last administered on 2037-06-01. It's given",False,0.4286,2481.59,Temporal-anchor failure
+7b46a3f6-9fd8-6f9b-c2fd-5f9ebf7bba95::tc.earlier_start.primary_vs_rescue,a,7b46a3f6-9fd8-6f9b-c2fd-5f9ebf7bba95,temporal_comparison,temporal_comparison,3,2025-10-24,,"<think>
+Okay, let's see. The question is asking which component started first between the primary regimen and the PRN rescue. 
+
+First, I need to understand what the primary regimen consists of. From the context, the T3-multidrug regimen has three parts: a biologic injectable every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler. The primary regimen started on 2025-09-08. The biologic injectable was first administered on the same date, 2025-09-08. The daily oral adjunct also started on 20",False,0.0,1205.66,Other / unclassified
+bfa57390-8f91-6ef7-ca3c-4181c8943ec3::tc.ref_vs_last.primary,a,bfa57390-8f91-6ef7-ca3c-4181c8943ec3,temporal_comparison,temporal_comparison,2,2026-04-09,same-day,"<think>
+Okay, let's see. The user is asking whether the most recent primary regimen administration was before, on, or after the reference date. But wait, the context doesn't mention a specific reference date. The question is a bit confusing because without a reference date, how can I determine the answer?
+
+Looking back at the context provided, the regimen started on 2026-03-14 and ended on 2027-03-14. The last three administration dates were 2027-03-10, 2027-03-11, and 2027-03-12. The user's que",False,0.5,698.58,Temporal-anchor failure
+8d76bdb6-eee5-b1d7-2823-2091f4889b7d::tc.ref_vs_last.adjunct,a,8d76bdb6-eee5-b1d7-2823-2091f4889b7d,temporal_comparison,temporal_comparison,3,2025-09-20,no-prior-administration,"<think>
+Okay, let's see. The user is asking whether the most recent oral adjunct administration is before, on, or after the reference date. But wait, the reference date isn't specified here. Hmm, maybe the reference date is implied by the context? Let me check the context again.
+
+The context mentions that the regimen started on 2025-10-06 and is projected to end on 2026-10-06. The last three administrations of the daily oral adjunct are listed as 2026-10-04, 2026-10-05, and 2026-10-06. The total",False,0.5714,1067.53,Temporal-anchor failure
+ad4af3ca-d75b-5a86-812f-e22287bb1aff::tc.next_first.primary_vs_adjunct,a,ad4af3ca-d75b-5a86-812f-e22287bb1aff,temporal_comparison,temporal_comparison,3,2025-09-09,same-day,"<think>
+Okay, let's see. The user is asking which component is next due first on or after the reference date between the primary regimen (which I assume is the biologic injectable) and the oral adjunct.
+
+First, I need to check the administration dates for both components. The biologic injectable is given every 28 days. The last administration mentioned is on 2026-10-01. Since the regimen is projected to end on 2026-10-02, the next dose after that would be 2026-10-29 (adding 28 days to 2026-10-01",False,0.4286,1130.16,Wrong-entity / enum error
+f67d07f1-3aad-3e44-2687-0c4bf9fd89a7::tc.earlier_start.primary_vs_adjunct,a,f67d07f1-3aad-3e44-2687-0c4bf9fd89a7,temporal_comparison,temporal_comparison,3,2026-02-19,same-day,"<think>
+Okay, let's see. The user is asking which component started first between the primary regimen and the oral adjunct.
+
+First, I need to clarify what the primary regimen refers to. The context mentions a T3-multidrug regimen with three components: biologic injectable, daily oral adjunct, and PRN rescue inhaler. The primary regimen likely refers to the overall treatment plan, which includes all three components. However, the question is comparing the start of the primary regimen (as a whole)",False,0.2857,1187.36,Wrong-entity / enum error
+ad4af3ca-d75b-5a86-812f-e22287bb1aff::tc.earlier_start.primary_vs_adjunct,a,ad4af3ca-d75b-5a86-812f-e22287bb1aff,temporal_comparison,temporal_comparison,3,2025-09-09,same-day,"<think>
+Okay, let's see. The question is asking which component started first between the primary regimen and the oral adjunct.
+
+First, I need to clarify what the primary regimen refers to. The context mentions a T3-multidrug regimen consisting of three components: biologic injectable, daily oral adjunct, and PRN rescue inhaler. The primary regimen likely refers to the overall treatment plan, which includes all three components. However, the question is comparing the start of the primary regimen",False,0.2857,1216.54,Wrong-entity / enum error
+e41291ee-bf1a-e451-8420-dc100d050191::tc.ref_vs_last.primary,a,e41291ee-bf1a-e451-8420-dc100d050191,temporal_comparison,temporal_comparison,2,2025-06-08,no-prior-administration,"<think>
+Okay, let's see. The user is asking whether the most recent primary regimen administration is before, on, or after the reference date. But wait, the context doesn't mention a specific reference date. The question is a bit confusing because without a reference date, how can I determine the answer? Let me check the context again.
+
+The context says the regimen started on 2025-06-24 and is projected to end on 2026-06-24. The last three administrations were on 2026-06-20, 2026-06-21, and 2026",False,0.5,1552.7,Temporal-anchor failure
+795e0041-b983-3c96-5915-44b529710d66::tc.ref_vs_last.primary,a,795e0041-b983-3c96-5915-44b529710d66,temporal_comparison,temporal_comparison,1,2039-03-18,before,"<think>
+Okay, let's see. The user is asking whether the most recent primary regimen administration is before, on, or after the reference date. But wait, the context provided doesn't mention a specific reference date. The patient's regimen started on 2039-01-10 and ended on 2040-01-10. The last three administration dates are 2039-08-22, 2039-10-17, and 2039-12-12. The total administrations are 7, with the mid-regimen date at 2039-06-27. However, without a reference date given in the question, I c",False,0.5,609.57,Temporal-anchor failure
+9c36ad85-8614-f99f-1c50-3bcdc2537cf3::tc.next_first.primary_vs_rescue,a,9c36ad85-8614-f99f-1c50-3bcdc2537cf3,temporal_comparison,temporal_comparison,1,2026-02-05,,"<think>
+Okay, let's see. The user is asking which component is next due first on or after the reference date between the primary regimen and the PRN rescue. 
+
+First, I need to check the context provided. The patient is on a T1-long-acting-injectable regimen. The context mentions that the regimen consists of a single long-acting subcutaneous injectable biologic administered every 56 days (which is 8 weeks). The administrations started on 2026-01-30 and the last three were on 2026-09-11, 2026-11-0",False,0.0,1093.33,N/A misuse
+eff5bd2d-4756-fecc-6e61-b50a102d0c44::cr.has.adjunct,a,eff5bd2d-4756-fecc-6e61-b50a102d0c44,cross_resource,cross_resource,1,2025-11-16,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes an oral adjunct component. The context provided talks about a T1-long-acting-injectable regimen. It mentions a single long-acting subcutaneous injectable biologic given every 8 weeks. The regimen started on 2025-10-29 and ends on 2026-10-29. The details include administration dates and the total number of administrations, which is 7.
+
+Now, the key here is to check if there's any mention of an oral component. The contex",False,0.0,892.87,Reasoning-truncated
+7b46a3f6-9fd8-6f9b-c2fd-5f9ebf7bba95::cr.tier_number,a,7b46a3f6-9fd8-6f9b-c2fd-5f9ebf7bba95,cross_resource,cross_resource,3,2025-10-24,3,"<think>
+Okay, let's see. The user is asking about the complexity tier of the patient's regimen. The options are 1, 2, or 3. I need to figure out which tier this falls into based on the information provided.
+
+First, I remember that complexity tiers for medication regimens usually consider factors like the number of components, frequency of administration, route of administration, and whether the medications are specialty drugs. 
+
+Looking at the context, the patient is on a T3-multidrug regimen. T",False,0.0,1202.43,Reasoning-truncated
+59d88e77-d58e-ea7e-e1b7-3f54e71d08b5::cr.tier_label,a,59d88e77-d58e-ea7e-e1b7-3f54e71d08b5,cross_resource,cross_resource,3,2025-10-05,T3-multidrug,"<think>
+Okay, let's see. The user is asking about the tier label assigned to the patient's specialty regimen. The context provided describes a T3-multidrug regimen with three components: a biologic injectable every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler. 
+
+First, I need to recall if the term ""tier label"" is mentioned anywhere in the context. The context talks about the regimen's components, administration dates, and duration, but I don't see any mention of a tier label. The term",False,0.1429,666.79,Reasoning-truncated
+d25f1e09-601e-9d2d-1aa3-5f3f11f888f6::cr.has.adjunct,a,d25f1e09-601e-9d2d-1aa3-5f3f11f888f6,cross_resource,cross_resource,1,2027-08-27,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes an oral adjunct component. The context provided describes the regimen as a T1-long-acting-injectable, which is a single long-acting subcutaneous injectable given every 8 weeks. The entire regimen consists of just this one medication component, which is a biologic administered subcutaneously every 56 days. The context mentions that there's only one component with fixed intervals and no PRN (as needed) use. The start and",False,0.0,973.01,Reasoning-truncated
+e0474161-368d-c98a-44e2-a02255e41289::cr.tier_number,a,e0474161-368d-c98a-44e2-a02255e41289,cross_resource,cross_resource,3,2026-04-01,3,"<think>
+Okay, let's see. The user is asking about the complexity tier of the patient's regimen. The options are 1, 2, or 3. I need to figure out which tier this falls into based on the information provided.
+
+First, I remember that complexity tiers for medication regimens usually consider factors like the number of medications, frequency of administration, route of administration, and whether they're PRN (as needed) or scheduled. 
+
+Looking at the context, the patient is on a T3-multidrug regimen.",False,0.0,1030.77,Reasoning-truncated
+e94d196f-e37d-5d25-db61-f924cbce9b13::cr.has.rescue,a,e94d196f-e37d-5d25-db61-f924cbce9b13,cross_resource,cross_resource,2,2026-04-02,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes a PRN rescue component. PRN means ""as needed,"" right? So they want to know if there's a medication in the regimen that's taken only when needed, like for acute symptoms.
+
+Looking at the context provided, the primary component of the regimen is administered on a cyclic schedule: 4 weeks on, 2 weeks off. The context mentions that the primary component does not have a PRN indication. It says, ""The primary component does n",False,0.0,1172.36,Reasoning-truncated
+959685c4-fe27-bff4-5196-3c181c293477::cr.schedule_kind.primary,a,959685c4-fe27-bff4-5196-3c181c293477,cross_resource,cross_resource,3,2026-04-02,fixed_interval,"<think>
+Okay, let's see. The user is asking about the schedule kind for the primary regimen component in the T3-multidrug regimen. The context mentions three components: a biologic injectable every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler.
+
+First, I need to figure out which component is considered the primary one. The question refers to the ""primary regimen component,"" but the context doesn't explicitly label one as primary. However, in such regimens, the biologic injectable is of",False,0.1429,859.63,Wrong-entity / enum error
+4b2a6ed2-0560-0e53-95d4-cf6748829d82::cr.schedule_kind.primary,a,4b2a6ed2-0560-0e53-95d4-cf6748829d82,cross_resource,cross_resource,3,2025-11-16,fixed_interval,"<think>
+Okay, let's see. The user is asking about the schedule kind for the primary regimen component. The context mentions three components: biologic injectable, daily oral adjunct, and PRN rescue inhaler.
+
+First, I need to figure out which one is the primary component. The question says ""primary regimen component,"" but the context doesn't explicitly label one as primary. However, the regimen is called a T3-multidrug regimen with three components. The biologic injectable is given every 4 weeks,",False,0.1429,965.85,Wrong-entity / enum error
+ff7955e7-5985-2d16-a400-3a08be9a0789::cr.schedule_kind.primary,a,ff7955e7-5985-2d16-a400-3a08be9a0789,cross_resource,cross_resource,3,2025-10-02,fixed_interval,"<think>
+Okay, let's see. The user is asking about the schedule kind for the primary regimen component. The options are fixed_interval, cyclic, or prn.
+
+First, I need to figure out which component is considered the primary one. The context mentions a T3-multidrug regimen with three components: a biologic injectable every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler. The primary component is likely the biologic injectable since it's often the mainstay in such regimens, but I should chec",False,0.1429,830.97,Reasoning-truncated
+99e3e8db-7a80-1d6b-05af-e23d14f81e59::cr.has.adjunct,a,99e3e8db-7a80-1d6b-05af-e23d14f81e59,cross_resource,cross_resource,1,2025-11-19,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes an oral adjunct component. The context provided talks about a T1-long-acting-injectable regimen. It mentions a single long-acting subcutaneous injectable biologic given every 8 weeks. The regimen started in December 2025 and is projected to end in December 2026. There are details about administration dates and the total number of doses, but nothing about oral medications. The question is specifically about an oral adju",False,0.0,1189.29,Reasoning-truncated
+475201cf-1e3f-3389-7d5e-e878633cce6e::rc.doses_last_30d.primary,b,475201cf-1e3f-3389-7d5e-e878633cce6e,regimen_compliance,regimen_compliance,2,2026-03-11,17,"<think>
+Okay, let's see. The user is asking how many primary regimen administrations were recorded in the 30 days up to and including the reference date. First, I need to figure out what the reference date is. The context mentions a CarePlan with a period starting on 2025-12-12 and ending on 2026-12-12. But the reference date isn't explicitly stated. Wait, the user might be referring to the current date as of the data provided. However, the latest date mentioned in the data is in the CarePlan's ",False,0.0,1124.57,Temporal-anchor failure
+a76b8c02-6849-a69a-8bb9-ea6cd72909a6::rc.doses_next_90d.primary,b,a76b8c02-6849-a69a-8bb9-ea6cd72909a6,regimen_compliance,regimen_compliance,2,2033-11-18,57,"<think>
+Okay, let's tackle this question. The user is asking how many primary regimen administrations are scheduled in the 90 days starting from the reference date, which I assume is the start date mentioned in the CarePlan. 
+
+First, I need to look at the CarePlan details. The CarePlan has a period starting on 2033-10-13 and ending on 2034-10-13. The description mentions a cyclic oral therapy with a 4 weeks on, 2 weeks off schedule. The MedicationRequest also specifies the dosage instruction wit",False,0.0,1412.99,Reasoning-truncated
+14ffdfca-8905-1a8c-85d7-e35335f53157::rc.doses_last_90d.rescue,b,14ffdfca-8905-1a8c-85d7-e35335f53157,regimen_compliance,regimen_compliance,3,2025-07-19,0,"<think>
+Okay, let's tackle this question. The user is asking about the number of PRN rescue administrations recorded in the 90 days up to and including the reference date. First, I need to figure out what the reference date is. However, the user hasn't provided a specific reference date here. Wait, looking back at the context provided, there are multiple ExplanationOfBenefit resources with different dates.
+
+The most recent ExplanationOfBenefit has a created date of 1990-12-08T01:48:54-05:00. But",False,0.0,2063.11,Reasoning-truncated
+8c91be5b-756b-7375-093a-710baba5a6e3::rc.doses_last_60d.primary,b,8c91be5b-756b-7375-093a-710baba5a6e3,regimen_compliance,regimen_compliance,3,2026-02-08,0,"<think>
+Okay, let's tackle this question. The user is asking how many primary regimen administrations were recorded in the 60 days up to and including the reference date. The reference date isn't explicitly mentioned, but looking at the context, the most recent date I can find is from the CarePlan's period start, which is 2026-03-06. Let me check all the provided data for any dates related to administrations.
+
+First, looking at the MedicationRequest for the adjunct, it's active and was authored ",False,0.0,1521.17,Temporal-anchor failure
+533715cb-9659-ee3d-2fd4-0dd29123aef1::rc.doses_last_90d.primary,b,533715cb-9659-ee3d-2fd4-0dd29123aef1,regimen_compliance,regimen_compliance,3,2042-07-10,2,"<think>
+Okay, let's tackle this question. The user is asking how many primary regimen administrations were recorded in the 90 days up to and including the reference date. First, I need to figure out what the reference date is. The context provided includes several entries. The MedicationRequest has an authoredOn date of 2042-05-27. The CarePlan mentions a period from 2042-05-27 to 2043-05-27. However, the Conditions listed have dates in 2024 and 2025. But since the MedicationRequest's authoredOn",False,0.0,1549.98,Reasoning-truncated
+9c36ad85-8614-f99f-1c50-3bcdc2537cf3::rc.doses_next_30d.primary,b,9c36ad85-8614-f99f-1c50-3bcdc2537cf3,regimen_compliance,regimen_compliance,1,2026-02-05,0,"<think>
+Okay, let's tackle this question. The user is asking how many primary regimen administrations are scheduled in the 30 days starting from the reference date, which I assume is inclusive. First, I need to figure out what the reference date is. However, looking at the provided context, there's no explicit reference date mentioned. The question might be referring to a specific date from the data, but I need to check the context for any dates that could serve as a reference.
+
+Looking through ",False,0.0,1912.03,Temporal-anchor failure
+124bbfbf-e39e-6eb2-d9a2-023dd0f26616::rc.doses_next_90d.rescue,b,124bbfbf-e39e-6eb2-d9a2-023dd0f26616,regimen_compliance,regimen_compliance,3,2026-04-11,0,"<think>
+Okay, let's tackle this question. The user is asking about the number of PRN rescue administrations scheduled in the 90 days starting from the reference date, which is inclusive. First, I need to understand what PRN rescue administrations refer to. PRN typically stands for ""pro re n natum,"" which in medical terms means ""as needed."" Rescue administrations might refer to medications taken as needed for acute symptoms, like rescue inhalers for asthma.
+
+Now, looking at the provided context, ",False,0.0,2805.88,Reasoning-truncated
+46b38803-8720-e9e0-bbf5-4b4b1dc9e553::rc.doses_last_60d.adjunct,b,46b38803-8720-e9e0-bbf5-4b4b1dc9e553,regimen_compliance,regimen_compliance,3,2026-05-20,31,"<think>
+Okay, let's see. The user is asking how many oral adjunct administrations were recorded in the 60 days up to and including the reference date. First, I need to figure out what the reference date is. The context mentions several dates, but looking at the MedicationAdministration records, the latest one is from 2026-10-29. However, the CarePlan period starts on 2026-04-20 and ends on 2027-04-20. The user's question includes ""up to and including the reference date,"" but the reference date i",False,0.0,2906.74,Reasoning-truncated
+eb45a396-93b2-bf66-eb15-c08149fa9658::rc.cycle_position.primary,b,eb45a396-93b2-bf66-eb15-c08149fa9658,regimen_compliance,regimen_compliance,2,2025-12-05,on-week,"<think>
+Okay, let's see. The user is asking whether the primary component of the patient's medication regimen is in an on-week or off-week of its cycle on the reference date. 
+
+First, I need to look at the CarePlan provided. The description says it's a cyclic oral therapy with 4 weeks on and 2 weeks off. The CarePlan's period starts on 2026-01-04 and ends on 2027-01-04. The note mentions the start date is 2026-01-04.
+
+The reference date isn't explicitly given in the question, but since the user ",False,0.25,4467.68,Temporal-anchor failure
+81eb4e5d-1982-5097-727a-b5ceb16e9ed6::rc.doses_next_90d.adjunct,b,81eb4e5d-1982-5097-727a-b5ceb16e9ed6,regimen_compliance,regimen_compliance,2,2025-10-27,,"<think>
+Okay, let's tackle this question. The user is asking how many oral adjunct administrations are scheduled in the 90 days starting from the reference date, which I assume is the date mentioned in the context. Let me look through the provided data to find relevant information.
+
+First, I see there's a MedicationRequest with an id ""spec-req-81eb4e5d-1982-5097-727a-b5ceb16e9ed6-primary"". The dosage instruction mentions a cyclic oral therapy: 4 weeks on, 2 weeks off. The timing has a repeat dur",False,0.0,1295.19,N/A misuse
+5a7cc00f-0b78-8f25-a830-a65e9067fff3::tl.last_admin_any,b,5a7cc00f-0b78-8f25-a830-a65e9067fff3,temporal_lookup,temporal_lookup,3,2025-08-02,2026-06-22,"<think>
+Okay, let's see. The user is asking for the latest administration date across all regimen components. I need to look through the provided context data to find this.
+
+First, looking at the MedicationRequest, the authoredOn date is 2025-06-22. The CarePlan has a period from 2025-06-22 to 2026-06-22. The CarePlan's status is active, so that's the start date of the regimen. 
+
+Now, checking the Conditions related to medication reviews. There are three Conditions with abatement dates in 2021, ",False,0.0,14312.84,Reasoning-truncated
+192af705-05ae-2441-79cc-67ddce5f95d9::tl.last_administered.adjunct,b,192af705-05ae-2441-79cc-67ddce5f95d9,temporal_lookup,temporal_lookup,1,2025-09-11,,"<think>
+Okay, let's tackle this question. The user is asking for the most recent oral adjunct administration on or before the reference date. First, I need to figure out what the reference date is. However, the user hasn't provided a specific reference date in the question. Hmm, maybe the reference date is implied by the data provided? Let me check the context again.
+
+Looking at the provided data, there are multiple claims. The most recent claim in terms of the ""created"" date is the first one wi",False,0.0,1597.43,Other / unclassified
+b91514a3-8831-bcf6-1232-3084ed014c16::tl.days_to_next.adjunct,b,b91514a3-8831-bcf6-1232-3084ed014c16,temporal_lookup,temporal_lookup,2,2026-02-02,,"<think>
+Okay, let's see. The user is asking how many days from the reference date until the next scheduled oral adjunct dose. The reference date isn't specified, but maybe it's the current date or the date when the medication was authorized. Let me check the context provided.
+
+Looking at the MedicationRequest, the authoredOn date is 2025-12-04. The CarePlan starts on the same date, 2025-12-04, and ends on 2026-12-04. The dosage instruction is a cyclic oral therapy with 4 weeks on and 2 weeks off",False,0.0,48267.77,Temporal-anchor failure
+24643175-1aa4-0124-f860-7b69999709b3::tl.days_since_last.adjunct,b,24643175-1aa4-0124-f860-7b69999709b3,temporal_lookup,temporal_lookup,3,2025-11-14,,"<think>
+Okay, let's see. The user is asking how many days have elapsed since the most recent oral adjunct administration.
+
+First, I need to look at the data provided. There are several JSON objects here. The key ones are the MedicationAdministration records for the oral adjunct. 
+
+Looking at the MedicationAdministration entries, there are two entries for the oral adjunct. The most recent one is with effectiveDateTime ""2026-12-06T09:00:00+00:00"". The previous one is from ""2026-09-26T09:00:00+00:0",False,0.0,1266.18,N/A misuse
+3099416b-bdec-69b5-2b2e-8eb0a5d43d41::tl.last_administered.primary,b,3099416b-bdec-69b5-2b2e-8eb0a5d43d41,temporal_lookup,temporal_lookup,1,2026-02-01,,"<think>
+Okay, let's tackle this question. The user is asking for the most recent primary regimen administration on or before the reference date. First, I need to figure out what the reference date is. However, looking at the provided context, there's no explicit reference date mentioned. Hmm, maybe the reference date is implied by some of the dates in the data?
+
+Looking through the data, there are several dates. The CarePlan has a period from 2026-02-04 to 2027-02-04. The MedicationRequest for Y",False,0.0,1497.12,Temporal-anchor failure
+3099416b-bdec-69b5-2b2e-8eb0a5d43d41::tl.last_admin_any,b,3099416b-bdec-69b5-2b2e-8eb0a5d43d41,temporal_lookup,temporal_lookup,1,2026-02-01,2027-01-06,"<think>
+Okay, let's see. The user is asking for the latest administration date across all regimen components. Let me look through the provided data.
+
+First, there's a CarePlan with a period from 2026-02-04 to 2027-02-04. It mentions a single long-acting subcutaneous injectable every 8 weeks. But the status is active, so maybe the next dose is scheduled up to 2027-02-04. However, administration dates would be every 8 weeks starting from 2026-02-04. The last dose before the end date would be 2027-",False,0.0,1171.65,Reasoning-truncated
+e3b5dcc6-b460-7bfa-b4d3-f972fb6f43ff::tl.days_since_last.rescue,b,e3b5dcc6-b460-7bfa-b4d3-f972fb6f43ff,temporal_lookup,temporal_lookup,1,2025-09-09,,"<think>
+Okay, let's try to figure out how many days have elapsed since the most recent PRN rescue administration. First, I need to understand what PRN rescue administration means. PRN stands for ""pro re nata,"" which means ""as needed"" in Latin. So a PRN rescue medication is something a patient takes as needed, usually for acute symptoms.
+
+Looking at the provided data, there are several entries related to medications and services. The user is asking about the most recent PRN rescue administration.",False,0.0,8336.95,Other / unclassified
+be3d512b-f030-1b35-c605-63c5ad22c896::tl.last_administered.adjunct,b,be3d512b-f030-1b35-c605-63c5ad22c896,temporal_lookup,temporal_lookup,3,2025-11-06,,"<think>
+Okay, let's see. The user is asking for the most recent oral adjunct administration on or before the reference date. First, I need to figure out what the reference date is. Looking at the context provided, the MedicationRequest has an authoredOn date of 2025-11-10. That's probably the reference date they're referring to.
+
+Now, I need to check the MedicationAdministration records. There are three entries here. Let me list their effectiveDateTime:
+
+1. spec-adm-0000: 2025-11-10T09:00:00
+2. ",False,0.0,11917.58,N/A misuse
+95d0d03d-e8e9-e92e-f7cf-20ce6ee0f164::tl.days_to_next.primary,b,95d0d03d-e8e9-e92e-f7cf-20ce6ee0f164,temporal_lookup,temporal_lookup,3,2026-01-20,19,"<think>
+Okay, let's see. The user is asking how many days from the reference date until the next scheduled primary regimen dose. The reference date isn't specified, so I might need to assume it's the current date or maybe the start date. But since the context doesn't mention a specific reference date, maybe I should use the start date of the care plan.
+
+Looking at the CarePlan, the period starts on 2025-12-14 and ends on 2026-12-14. The primary medication is a biologic injectable every 4 weeks. ",False,0.0,1248.82,Temporal-anchor failure
+e08b42c2-a627-faaa-6a43-83873d03bf9e::tl.days_since_last.primary,b,e08b42c2-a627-faaa-6a43-83873d03bf9e,temporal_lookup,temporal_lookup,3,2025-10-25,15,"<think>
+Okay, let's see. The user is asking how many days have elapsed since the most recent primary regimen administration. The context provided is a CarePlan with three MedicationRequest activities: primary, adjunct, and rescue.
+
+First, I need to focus on the primary regimen. The CarePlan's description mentions a biologic injectable every 4 weeks. The period for the CarePlan starts on 2025-08-15 and ends on 2026-08-15. However, the question is about the most recent administration date. 
+
+Looki",False,0.0,1123.53,Reasoning-truncated
+88ecb39e-0852-53e7-0f6f-c2eeaa2d29dd::ra.horizon_days,b,88ecb39e-0852-53e7-0f6f-c2eeaa2d29dd,regimen_aggregation,regimen_aggregation,3,2025-06-28,365,"<think>
+Okay, let's see. The user is asking about the projected regimen horizon span in days. I need to look through the provided context data to find the relevant information.
+
+First, I'll check the CarePlan resource because that usually outlines the period for a treatment plan. The CarePlan has a ""period"" field with start and end dates. Looking at the CarePlan entry, the period starts on 2025-07-28 and ends on 2026-07-28. 
+
+To calculate the number of days between these two dates, I can subtrac",False,0.0,936.7,Reasoning-truncated
+de8eedf8-2828-8b76-3055-965955f8d231::ra.total_last_30d.all,b,de8eedf8-2828-8b76-3055-965955f8d231,regimen_aggregation,regimen_aggregation,1,2025-07-13,1,"<think>
+Okay, let's tackle this question. The user is asking about the number of administrations recorded in the 30 days up to the reference date for all regimen components. 
+
+First, I need to figure out what the reference date is. The context provided includes a CarePlan with a period from 2025-05-12 to 2026-05-12. The note mentions the start date as 2025-05-12. However, none of the claims provided have dates in 2025. The latest claim is from 2024-04-18. 
+
+The question mentions ""the reference d",False,0.0,1273.78,Reasoning-truncated
+eff5bd2d-4756-fecc-6e61-b50a102d0c44::ra.total_last_90d.all,b,eff5bd2d-4756-fecc-6e61-b50a102d0c44,regimen_aggregation,regimen_aggregation,1,2025-11-16,1,"<think>
+Okay, let's tackle this question. The user is asking about the number of administrations recorded in the 90 days up to the reference date for all regimen components. 
+
+First, I need to figure out what the reference date is. The context provided includes a CarePlan with a period from 2025-10-29 to 2026-10-29. The reference date might be the end of the period mentioned in the CarePlan, which is 2026-10-29. But I should check if there's another reference date. The CarePlan's note mentions a",False,0.0,1251.43,Temporal-anchor failure
+7aec994f-b7dd-8a59-979b-08e97aa3e5b2::ra.horizon_days,b,7aec994f-b7dd-8a59-979b-08e97aa3e5b2,regimen_aggregation,regimen_aggregation,1,2025-09-14,365,"<think>
+Okay, let's see. The user is asking about the projected regimen horizon span in days. I need to look through the provided contexts to find the relevant information.
+
+First, looking at the CarePlan context. The CarePlan has a ""period"" object with ""start"" and ""end"" dates. The start is 2025-06-26 and the end is 2026-06-26. That seems like a one-year period. Let me check if that's correct.
+
+Calculating the days between those two dates. From June 26, 2025, to June 26, 2026. Since 2026 is not ",False,0.0,2584.76,Reasoning-truncated
+1f91357c-bdc2-4fe9-b149-60b390a76af4::ra.total.primary,b,1f91357c-bdc2-4fe9-b149-60b390a76af4,regimen_aggregation,regimen_aggregation,1,2037-10-07,7,"<think>
+Okay, let's see. The user is asking for the total number of primary regimen administrations across the entire regimen horizon. Hmm, looking at the provided data, there are several entries. 
+
+First, there's a MedicationRequest for Amoxicillin 500 MG Oral Tablet. The dosage instruction says to take it three times a day (frequency is 3, period unit is days). But wait, the timing is every 1 day with a frequency of 3. So that's three times a day? Wait, the repeat frequency is 3, period is 1 d",False,0.0,1375.89,Reasoning-truncated
+416a8432-c2eb-07a3-f6f4-6d8362e0aa65::ra.total_last_90d.all,b,416a8432-c2eb-07a3-f6f4-6d8362e0aa65,regimen_aggregation,regimen_aggregation,2,2026-01-22,56,"<think>
+Okay, let's tackle this question. The user is asking how many administrations were recorded in the 90 days up to the reference date for the patient's specialty medication regimen. 
+
+First, I need to figure out what the reference date is. The context provided includes several entries. The most recent MedicationRequest was authored on 2025-11-07. The CarePlan also starts on that date and ends on 2026-11-07. The question mentions ""the 90 days up to the reference date,"" but the reference dat",False,0.0,1605.6,Reasoning-truncated
+b29f7226-2767-73e3-a966-45481a42151c::ra.total_last_30d.all,b,b29f7226-2767-73e3-a966-45481a42151c,regimen_aggregation,regimen_aggregation,2,2039-06-22,13,"<think>
+Okay, let's tackle this question. The user is asking for the number of administrations recorded in the 30 days up to the reference date across all regimen components. First, I need to figure out what the reference date is. The context provided includes several dates, but looking at the CarePlan and MedicationRequest resources, the start date is 2039-06-10, and the end date is 2040-06-09. However, there are also Condition resources with dates in 2021, 2024, and 2025. The reference date mi",False,0.0,1046.94,Reasoning-truncated
+1cab7cf6-ef26-737b-020e-99693672478a::ra.total_last_60d.all,b,1cab7cf6-ef26-737b-020e-99693672478a,regimen_aggregation,regimen_aggregation,3,2026-01-05,0,"<think>
+Okay, let's tackle this question. The user is asking about the number of administrations recorded in the 60 days up to the reference date for all regimen components. First, I need to figure out what the reference date is. The context provided includes several dates, but the most recent one seems to be from the CarePlan, which has a period starting on 2026-01-14 and ending on 2027-01-14. However, the question mentions ""the 60 days up to the reference date."" Since the reference date isn't ",False,0.0,50230.55,Reasoning-truncated
+7e60cbf1-ae18-1135-e752-7e5ee53d3f18::ra.total.primary,b,7e60cbf1-ae18-1135-e752-7e5ee53d3f18,regimen_aggregation,regimen_aggregation,2,2026-03-27,252,"<think>
+Okay, let's see. The user is asking for the total number of primary regimen administrations across the entire regimen horizon. 
+
+First, I need to look at the context provided. There's a CarePlan that's active from 2026-02-09 to 2027-02-09. That's a period of one year. The MedicationRequest specifies a cyclic regimen: 4 weeks on, 2 weeks off. The dosage instruction mentions a repeat with a duration of 4 weeks, frequency 1, period 1 day. Wait, the timing's repeat has a duration of 4 weeks,",False,0.0,14098.14,Reasoning-truncated
+41b64cb8-1c48-9a50-b84e-e6c58fe359ae::ra.total_last_90d.all,b,41b64cb8-1c48-9a50-b84e-e6c58fe359ae,regimen_aggregation,regimen_aggregation,1,2025-10-21,1,"<think>
+Okay, let's tackle this question. The user is asking how many administrations were recorded in the 90 days up to the reference date for all regimen components.
+
+First, I need to figure out what the reference date is. The context provided includes several resources. The CarePlan has a period from 2025-09-28 to 2026-09-28, and the note mentions start=2025-09-28. The question mentions a ""reference date,"" but it's not explicitly stated. However, looking at the CarePlan's period, the start is",False,0.0,1272.74,Temporal-anchor failure
+4a22f595-e1b8-eaf7-d53e-fc53d01684c6::tc.next_first.primary_vs_rescue,b,4a22f595-e1b8-eaf7-d53e-fc53d01684c6,temporal_comparison,temporal_comparison,3,2025-08-21,primary regimen,"<think>
+Okay, let's see. The user is asking which component is next due first on or after the reference date between the primary regimen and the PRN rescue. 
+
+First, I need to look at the context provided. The CarePlan mentions a biologic injectable every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler. The PRN is for breakthrough symptoms, so it's as-needed.
+
+Looking at the MedicationRequest for the rescue inhaler, the dosage instruction says it's PRN (as needed), with no specific sched",False,0.1429,1031.03,Reasoning-truncated
+24fefb6a-8eec-4c3e-ede2-70837d6d3a25::tc.next_first.primary_vs_adjunct,b,24fefb6a-8eec-4c3e-ede2-70837d6d3a25,temporal_comparison,temporal_comparison,3,2026-05-01,oral adjunct,"<think>
+Okay, let's see. The user is asking which component is next due first on or after the reference date—primary regimen or the oral adjunct. But wait, looking at the provided context, there's only information about the oral adjunct. The MedicationRequest mentions a ""daily oral adjunct"" with a route of PO (oral). The MedicationAdministration records show that the oral adjunct was administered on 2026-08-30, 2026-08-31, and 2026-09-29. The MedicationRequest is active and daily.
+
+However, ther",False,0.1429,2719.05,Reasoning-truncated
+3bbc8a28-071f-6eec-a597-11e6197618f7::tc.next_first.adjunct_vs_rescue,b,3bbc8a28-071f-6eec-a597-11e6197618f7,temporal_comparison,temporal_comparison,3,2025-12-08,oral adjunct,"<think>
+Okay, let's see. The user is asking which component is next due first on or after the reference date between the oral adjunct and the PRN rescue.
+
+First, I need to look at the information provided. The context includes a CarePlan with three MedicationRequests: primary, adjunct, and rescue. The CarePlan's description mentions a biologic injectable every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler.
+
+Looking at the MedicationRequest for the oral adjunct (spec-req-...-adjunct), t",False,0.4286,1134.51,Reasoning-truncated
+76897192-781f-2560-f150-d74529a449f1::tc.next_first.primary_vs_adjunct,b,76897192-781f-2560-f150-d74529a449f1,temporal_comparison,temporal_comparison,3,2038-05-25,oral adjunct,"<think>
+Okay, let's see. The user is asking which component is next due first on or after the reference date—the primary regimen or the oral adjunct. 
+
+First, I need to look at the provided context to find information about the dosing schedules of both the primary and adjunct medications. 
+
+Looking at the MedicationRequest for the oral adjunct (id: spec-req-76897192-781f-2560-f150-d74529a449f1-adjunct), the dosageInstruction shows a daily frequency with a repeat every 1 day. The route is oral (P",False,0.2857,1023.2,Reasoning-truncated
+7025919d-4a91-b2b4-f816-74c919eb9542::tc.ref_vs_last.primary,b,7025919d-4a91-b2b4-f816-74c919eb9542,temporal_comparison,temporal_comparison,3,2037-10-25,before,"<think>
+Okay, let's tackle this question. The user is asking whether the most recent primary regimen administration is before, on, or after the reference date. But wait, the question doesn't specify what the reference date is. Hmm, maybe the reference date is implied somewhere in the context provided?
+
+Looking through the context, there's a CarePlan with a period starting on 2037-09-15 and ending on 2038-09-15. The MedicationRequest also has an authoredOn date of 2037-09-15. The Conditions liste",False,0.2857,1464.05,Reasoning-truncated
+8f941356-4a6a-0734-c39d-07a4b49e1134::tc.next_first.adjunct_vs_rescue,b,8f941356-4a6a-0734-c39d-07a4b49e1134,temporal_comparison,temporal_comparison,3,2025-12-16,oral adjunct,"<think>
+Okay, let's see. The user is asking which component is next due first on or after the reference date between the oral adjunct and the PRN rescue.
+
+First, I need to look at the information provided. The context includes a CarePlan with three MedicationRequests: primary, adjunct, and rescue. The CarePlan's description mentions a biologic injectable every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler. 
+
+Looking at the MedicationRequest for the oral adjunct (spec-req-...-adjunct), ",False,0.1429,954.07,Reasoning-truncated
+f1264dac-322c-aa62-ccb8-37bbd22a99d7::tc.latest_admin.primary_vs_adjunct,b,f1264dac-322c-aa62-ccb8-37bbd22a99d7,temporal_comparison,temporal_comparison,2,2033-01-17,,"<think>
+Okay, let's see. The user is asking which component was administered most recently between the primary regimen and the oral adjunct.
+
+First, I need to look at the dates when each medication was authorized. The primary regimen has an authoredOn date of 2032-12-09. The other medications, Amoxicillin and Ibuprofen, have an authoredOn date of 2019-01-22. 
+
+Comparing those dates, 2032 is much later than 2019. So the primary regimen was started more recently. The question is about the most rec",False,0.0,893.51,N/A misuse
+8c91be5b-756b-7375-093a-710baba5a6e3::tc.earlier_start.primary_vs_adjunct,b,8c91be5b-756b-7375-093a-710baba5a6e3,temporal_comparison,temporal_comparison,3,2026-02-08,same-day,"<think>
+Okay, let's see. The user is asking which component started first between the primary regimen and the oral adjunct.
+
+Looking at the context provided, there's a CarePlan with the id ""spec-cp-8c91be5b..."" that includes three activities: primary, adjunct, and rescue. The CarePlan's period starts on 2026-03-06. 
+
+In the MedicationRequest for the adjunct, the authoredOn date is 2026-03-06. Since the CarePlan's start date is the same, and the MedicationRequest is part of that CarePlan, it's li",False,0.2857,1336.85,Wrong-entity / enum error
+5a553ec2-2f55-3f51-904f-1ad9ea0dccb1::tc.latest_admin.primary_vs_adjunct,b,5a553ec2-2f55-3f51-904f-1ad9ea0dccb1,temporal_comparison,temporal_comparison,1,2025-07-11,,"<think>
+Okay, let's see. The user is asking which component was administered most recently between the primary regimen and the oral adjunct.
+
+First, I need to look at the data provided. There are several JSON objects here. Let's start by identifying the primary regimen and any oral adjuncts.
+
+Looking at the CarePlan, it mentions a ""Single long-acting subcutaneous injectable, administered every 8 weeks."" The note says it started on 2025-06-27 and the period ends on 2026-06-27. The status is activ",False,0.0,1406.31,N/A misuse
+0bca16b4-9ed5-4de9-e8e8-17896997a516::tc.latest_admin.primary_vs_rescue,b,0bca16b4-9ed5-4de9-e8e8-17896997a516,temporal_comparison,temporal_comparison,3,2025-05-21,primary regimen,"<think>
+Okay, let's see. The user is asking which component was administered most recently between the primary regimen and the PRN rescue. I need to look through the provided claims data to figure this out.
+
+First, I'll check the dates of each claim. The most recent claim seems to be the one with the billable period ending on 2021-02-03T01:47:10-05:00. That's the encounter for ""Consultation for treatment"" with Anthem insurance. But that's a professional claim, not a pharmacy one. The pharmacy cl",False,0.0,1477.63,Reasoning-truncated
+4cdb3fa5-7a49-cc64-31da-288096b611a7::cr.schedule_kind.primary,b,4cdb3fa5-7a49-cc64-31da-288096b611a7,cross_resource,cross_resource,2,2026-01-18,cyclic,"<think>
+Okay, let's see. The user is asking about the schedule kind for the primary regimen component, specifically whether it's fixed_interval, cyclic, or prn.
+
+Looking at the context provided, there's a MedicationRequest with a dosageInstruction. The text in the dosageInstruction says ""cyclic oral specialty therapy (4 weeks on, 2 weeks off)"". The timing has a repeat structure with duration 4 weeks and period 1 day. 
+
+The key term here is ""cyclic"" mentioned in the text. The timing details descr",False,0.25,937.69,Reasoning-truncated
+795e0041-b983-3c96-5915-44b529710d66::cr.schedule_kind.primary,b,795e0041-b983-3c96-5915-44b529710d66,cross_resource,cross_resource,1,2039-03-18,fixed_interval,"<think>
+Okay, let's tackle this question. The user is asking about the schedule kind for the primary regimen component, specifically whether it's fixed_interval, cyclic, or prn. 
+
+First, I need to look through the provided context to find information related to the regimen's schedule. The primary regimen is mentioned in the first CarePlan resource. The description says it's a ""Single long-acting subcutaneous injectable, administered every 8 weeks."" The note mentions ""tier=1; label=T1-long-acting",False,0.5,986.71,Reasoning-truncated
+0b2a436c-3571-c712-e925-75e895a5b489::cr.tier_label,b,0b2a436c-3571-c712-e925-75e895a5b489,cross_resource,cross_resource,3,2036-07-30,T3-multidrug,"<think>
+Okay, let's see. The user is asking about the tier label assigned to the patient's specialty regimen. I need to look through the provided context to find that information.
+
+First, I'll go through each of the JSON objects provided. The first one is a MedicationRequest for an oral adjunct. The second is a CarePlan with a title ""Specialty regimen — tier 3"" and a note that says ""tier=3; label=T3-multidrug; start=2036-06-02"". That looks promising. The CarePlan's note explicitly mentions the t",False,0.1429,645.22,Reasoning-truncated
+74abbead-07b1-61bb-b3b1-620b31ff48d8::cr.tier_label,b,74abbead-07b1-61bb-b3b1-620b31ff48d8,cross_resource,cross_resource,1,2025-11-17,T1-long-acting-injectable,"<think>
+Okay, let's see. The user is asking for the tier label assigned to the patient's specialty regimen. I need to look through the provided context to find this information.
+
+Looking at the first JSON object, which is a CarePlan, there's a ""note"" array. The first note has a ""text"" field that says ""tier=1; label=T1-long-acting-injectable; start=2025-11-20"". So the tier is 1 and the label is T1-long-acting-injectable. 
+
+The other JSON objects are about claims for Hydrochlorothiazide, which see",False,0.25,795.1,Reasoning-truncated
+a535260f-5c6f-6c3c-690f-369c7c1cfa4e::cr.tier_number,b,a535260f-5c6f-6c3c-690f-369c7c1cfa4e,cross_resource,cross_resource,2,2026-04-25,2,"<think>
+Okay, let's see. The user is asking about the complexity tier of the patient's regimen. The context provided includes several FHIR resources. Let me look through them.
+
+First, there's a MedicationRequest with a dosage instruction that mentions ""cyclic oral specialty therapy (4 weeks on, 2 weeks off)"". Then, in the CarePlan resource, there's a note that says ""tier=2; label=T2-cyclic-oral; start=2026-01-30"". The code in the Medication resource also has ""SPEC-T2-PRIMARY"" which includes ""Spe",False,0.0,654.36,Reasoning-truncated
+e5450aac-30e4-eae8-c887-747d8b3a6277::cr.has.rescue,b,e5450aac-30e4-eae8-c887-747d8b3a6277,cross_resource,cross_resource,1,2025-12-06,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes a PRN rescue component. PRN means ""as needed,"" so I need to check if there's any mention of medications or treatments that are prescribed for use as needed.
+
+Looking at the provided data, there are several entries. The first one is a CarePlan with activities including weight reduction, avoiding alcohol, and continuous positive airway pressure (CPAP) ventilation. These are all ongoing regimens but don't mention PRN use.",False,0.0,1427.56,Wrong-entity / enum error
+563ac66d-dce6-6eb1-c7da-80963186396f::cr.schedule_kind.adjunct,b,563ac66d-dce6-6eb1-c7da-80963186396f,cross_resource,cross_resource,1,2037-03-11,,"<think>
+Okay, let's see. The user is asking about the schedule kind for the oral adjunct component. The options are fixed_interval, cyclic, or prn.
+
+Looking at the provided context, there's a MedicationRequest for Amoxicillin 500 MG Oral Tablet. The dosageInstruction includes a timing with repeat settings: frequency 3, period 1 day. The additionalInstruction mentions taking at regular intervals and completing the course unless directed otherwise.
+
+Fixed_interval typically means taking the medica",False,0.0,703.74,N/A misuse
+eb45a396-93b2-bf66-eb15-c08149fa9658::cr.has.adjunct,b,eb45a396-93b2-bf66-eb15-c08149fa9658,cross_resource,cross_resource,2,2025-12-05,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes an oral adjunct component. First, I need to look through the provided context data to find any information about the medication regimen.
+
+Looking at the first entry, it's a MedicationRequest with the route set to PO (Oral). The dosage instruction mentions ""cyclic oral specialty therapy (4 weeks on, 2 weeks off)"". The medication reference points to a Medication resource with the form as a tablet. So the primary medicati",False,0.0,12484.14,Wrong-entity / enum error
+a535260f-5c6f-6c3c-690f-369c7c1cfa4e::cr.schedule_kind.adjunct,b,a535260f-5c6f-6c3c-690f-369c7c1cfa4e,cross_resource,cross_resource,2,2026-04-25,,"<think>
+Okay, let's see. The user is asking about the schedule kind for the oral adjunct component, specifically whether it's fixed_interval, cyclic, or prn.
+
+Looking at the context provided, there's a MedicationRequest with a dosageInstruction. The text in the dosageInstruction says ""cyclic oral specialty therapy (4 weeks on, 2 weeks off)"". The timing has a repeat structure with duration 4 weeks and period 1 day. 
+
+The key term here is ""cyclic"" mentioned in the text. The timing details support ",False,0.0,691.82,N/A misuse
+96376733-cea5-8ec2-a6f6-7fc4650b1ae3::cr.schedule_kind.rescue,b,96376733-cea5-8ec2-a6f6-7fc4650b1ae3,cross_resource,cross_resource,3,2026-04-04,prn,"<think>
+Okay, let's tackle this question. The user is asking about the schedule kind for the PRN rescue component in the patient's medication regimen. The options are fixed_interval, cyclic, or prn.
+
+First, I need to recall what PRN means. PRN stands for ""pro re nata,"" which translates to ""as needed"" in Latin. In medical terms, PRN medications are those that are taken only when necessary, not on a fixed schedule. So, the schedule for PRN medications isn't based on fixed intervals or cycles but r",False,0.0,14235.41,Reasoning-truncated
+81eb4e5d-1982-5097-727a-b5ceb16e9ed6::rc.consecutive_missed.primary,c,81eb4e5d-1982-5097-727a-b5ceb16e9ed6,regimen_compliance,regimen_compliance,2,2025-10-27,,"<think>
+Okay, let's see. The user is asking about the maximum number of consecutive missed primary regimen doses in the 60 days leading up to the reference date. The context provided is a CarePlan with a cyclic oral therapy of 4 weeks on and 2 weeks off. The period starts on 2025-10-21 and ends on 2026-10-21. The note mentions tier=2 and start date 2025-10-21.
+
+First, I need to figure out the reference date. Since the question is about the 60 days leading up to the reference date, but the contex",False,0.0,1108.52,Other / unclassified
+ae652243-891f-b26d-1d85-169dd84ffe8e::rc.doses_last_30d.primary,c,ae652243-891f-b26d-1d85-169dd84ffe8e,regimen_compliance,regimen_compliance,3,2026-01-09,1,"<think>
+Okay, let's see. The user is asking about the number of primary regimen administrations recorded in the 30 days up to and including the reference date. The context provided is a CarePlan resource with three MedicationRequest references: primary, adjunct, and rescue.
+
+First, I need to focus on the primary regimen. The primary reference is ""MedicationRequest/spec-req-ae652243-891f-b26d-1d85-169dd84ffe8e-primary"". The description mentions a biologic injectable every 4 weeks. The CarePlan's ",False,0.0,50.89,Reasoning-truncated
+9c500d31-c393-b3cc-4630-b42873f90123::rc.doses_last_60d.rescue,c,9c500d31-c393-b3cc-4630-b42873f90123,regimen_compliance,regimen_compliance,3,2026-03-30,0,"<think>
+Okay, let's tackle this question. The user is asking how many PRN rescue administrations were recorded in the 60 days up to and including the reference date. First, I need to figure out what the reference date is. The context provided includes several resources, but none explicitly mention a reference date. However, looking at the CarePlan, the period is from 2026-02-11 to 2027-02-11. The note mentions ""start=2026-02-11"". Since the question is about the 60 days up to and including the re",False,0.0,29.51,Temporal-anchor failure
+c05812a4-6c60-0df5-fa38-efacf3517120::rc.doses_last_60d.adjunct,c,c05812a4-6c60-0df5-fa38-efacf3517120,regimen_compliance,regimen_compliance,1,2039-07-22,,"<think>
+Okay, let's tackle this question. The user is asking about the number of oral adjunct administrations recorded in the 60 days up to and including the reference date. First, I need to figure out what the reference date is. The context provided includes several dates, but the most recent one seems to be from the Condition resources. The second Condition has an onsetDateTime of 2024-07-16, recordedDate same, and abatementDateTime of 2025-01-14. However, the reference date isn't explicitly s",False,0.0,16.58,Temporal-anchor failure
+b7413bdb-7cee-d0e8-dc3c-586acbe9e192::rc.pdc_90d.primary,c,b7413bdb-7cee-d0e8-dc3c-586acbe9e192,regimen_compliance,regimen_compliance,3,2025-10-07,0.5824,"<think>
+Okay, let's see. The user is asking for the Proportion of Days Covered (PDC) for the primary regimen component over the 90 days ending on the reference date. The context provided is a CarePlan with three medication requests: primary, adjunct, and rescue.
+
+First, I need to recall what PDC is. PDC measures medication adherence by calculating the proportion of days in a specified period that the patient has the prescribed medication. It's calculated as (Total days supplied / Days in the per",False,0.0,17.46,Reasoning-truncated
+9704a8c8-ed61-56cb-8c2d-01043ff39a3b::rc.cycle_position.primary,c,9704a8c8-ed61-56cb-8c2d-01043ff39a3b,regimen_compliance,regimen_compliance,2,2026-02-08,on-week,"<think>
+Okay, let's see. The user is asking whether the primary component of the specialty medication is in an on-week or off-week of its cycle on the reference date. First, I need to figure out what the reference date is. Wait, the question doesn't specify a reference date. Hmm, maybe the reference date is implied by the context provided.
+
+Looking through the context, there's a CarePlan with a period starting on 2026-01-26 and ending on 2027-01-26. The note mentions ""start=2026-01-26"". The medi",False,0.25,1480.36,Reasoning-truncated
+871067b4-f86d-209a-2901-ac7209ff5f65::rc.persistent.primary,c,871067b4-f86d-209a-2901-ac7209ff5f65,regimen_compliance,regimen_compliance,1,2026-01-20,yes,"<think>
+Okay, let's see. The user is asking if the patient has been persistent on the primary regimen up to the reference date, with no gap between consecutive doses exceeding 1.5 times the prescribed interval.
+
+First, I need to figure out what the primary regimen is. Looking at the context provided, there's a CarePlan with a description of a ""Single long-acting subcutaneous injectable, administered every 8 weeks."" The period for this CarePlan is from 2026-01-31 to 2027-01-31. The note mentions ",False,0.0,33.43,Wrong-entity / enum error
+835d703e-8605-357d-960b-81dbf5bf8370::rc.prn_used,c,835d703e-8605-357d-960b-81dbf5bf8370,regimen_compliance,regimen_compliance,3,2025-07-12,no,"<think>
+Okay, let's see. The user is asking if the PRN rescue medication has been administered at any point in the regimen. 
+
+First, I need to look through the provided context data. There are several MedicationRequest entries. The first one is for a PRN rescue inhaler with the route of administration as inhalation. The status is active, and it's meant for breakthrough symptoms as needed. The other entries are for Fentanyl and Tramadol, both of which are stopped.
+
+The key here is the ""asNeededBo",False,0.0,1074.56,Wrong-entity / enum error
+24fefb6a-8eec-4c3e-ede2-70837d6d3a25::rc.doses_last_60d.primary,c,24fefb6a-8eec-4c3e-ede2-70837d6d3a25,regimen_compliance,regimen_compliance,3,2026-05-01,2,"<think>
+Okay, let's tackle this question. The user is asking how many primary regimen administrations were recorded in the 60 days up to and including the reference date. First, I need to figure out what the reference date is. The context provided includes several entries with dates. The CarePlan and the primary MedicationRequest for the biologic injectable are both authored on 2026-03-22. The reference date is likely this date since it's the most recent one mentioned.
+
+Next, the primary regimen",False,0.0,1280.29,Reasoning-truncated
+ed34d469-2ca6-57ab-444e-e2e30424146c::rc.mpr_90d.primary,c,ed34d469-2ca6-57ab-444e-e2e30424146c,regimen_compliance,regimen_compliance,2,2026-02-02,,"<think>
+Okay, let's see. The user is asking for the Medication Possession Ratio (MPR) for the primary regimen component over the 90 days ending on the reference date. The context provided is a CarePlan resource.
+
+First, I need to recall what MPR is. MPR is calculated by dividing the total days' supply of medication a patient has by the number of days in the observation period. It's often used to assess adherence, with higher MPR indicating better adherence.
+
+Looking at the context, the CarePlan ",False,0.0,30.85,N/A misuse
+4b2a6ed2-0560-0e53-95d4-cf6748829d82::tl.next_scheduled.primary,c,4b2a6ed2-0560-0e53-95d4-cf6748829d82,temporal_lookup,temporal_lookup,3,2025-11-16,2025-12-09,"<think>
+Okay, let's see. The user is asking about the next scheduled primary regimen dose on the reference date. The context provided is a CarePlan with three MedicationRequest references: primary, adjunct, and rescue.
+
+First, I need to focus on the primary medication, which is the biologic injectable every 4 weeks. The CarePlan's period starts on 2025-11-11 and ends on 2026-11-11. The note mentions the start date as 2025-11-11, so that's when the regimen began.
+
+Assuming the reference date is t",False,0.0,1158.67,Reasoning-truncated
+bd090eb1-991f-56b7-43ed-4cb28801b7d8::tl.first_admin_any,c,bd090eb1-991f-56b7-43ed-4cb28801b7d8,temporal_lookup,temporal_lookup,2,2036-10-23,2036-08-10,"<think>
+Okay, let's see. The user is asking for the earliest administration date across all regimen components. I need to look through the provided data to find the earliest date when a medication was administered.
+
+First, I'll check each of the MedicationAdministration entries because those should have the actual administration dates. There are three entries here:
+
+1. The first one has an effectiveDateTime of 2036-08-12T09:00:00+00:00. That's August 12, 2036.
+2. The second entry is 2036-08-16T0",False,0.0,5797.68,Reasoning-truncated
+11d8ed77-0d25-2dad-2278-60b465ea5002::tl.next_scheduled.adjunct,c,11d8ed77-0d25-2dad-2278-60b465ea5002,temporal_lookup,temporal_lookup,3,2025-07-25,2025-07-25,"<think>
+Okay, let's see. The user is asking about the next scheduled oral adjunct dose on the reference date. First, I need to figure out what the reference date is. The context mentions MedicationAdministration records with dates in October 2025. The latest one is on 2025-10-14. But the question is about the reference date. Wait, the user didn't specify a reference date, but the MedicationRequest was authored on 2025-06-06. Maybe the reference date here is the current date based on the latest a",False,0.0,1088.92,Reasoning-truncated
+0d6de1b9-9963-4de2-2cb1-2532c0a1fe93::tl.first_admin_any,c,0d6de1b9-9963-4de2-2cb1-2532c0a1fe93,temporal_lookup,temporal_lookup,1,2034-08-21,2034-08-19,"<think>
+Okay, let's see. The user is asking for the earliest administration date across all regimen components. I need to look through each of the provided MedicationRequest entries to find the earliest date.
+
+First, I'll check each ""authoredOn"" date. The first entry is from 2018-02-14. The next one is 2020-06-24, which is later. Then there's 2019-04-27, which is after 2018 but before 2020. The fourth entry is from 2034, which is way in the future, so not relevant. The last one is another 2019-0",False,0.0,754.72,Reasoning-truncated
+41b64cb8-1c48-9a50-b84e-e6c58fe359ae::tl.last_administered.adjunct,c,41b64cb8-1c48-9a50-b84e-e6c58fe359ae,temporal_lookup,temporal_lookup,1,2025-10-21,,"<think>
+Okay, let's see. The user is asking for the most recent oral adjunct administration on or before the reference date. First, I need to figure out what the reference date is. Wait, the context provided doesn't mention a specific reference date. Hmm, maybe the reference date is today's date? Or perhaps the latest date in the data?
+
+Looking at the data, there are several MedicationRequest entries for Alendronic acid 10 MG Oral Tablet. Each has an authoredOn date. The dates are: 2024-03-18, 2",False,0.0,1337.36,N/A misuse
+de740e6d-709f-c6ad-3eda-4ed8c09a0c55::tl.days_to_next.primary,c,de740e6d-709f-c6ad-3eda-4ed8c09a0c55,temporal_lookup,temporal_lookup,2,2025-07-21,7,"<think>
+Okay, let's see. The user is asking how many days from the reference date until the next scheduled primary regimen dose. The context provided is a CarePlan with a cyclic oral therapy of 4 weeks on and 2 weeks off. The period starts on 2025-06-16 and ends on 2026-06-16. The note mentions tier=2 and start date 2025-06-16.
+
+First, I need to figure out the cycle schedule. The therapy is 4 weeks on, 2 weeks off. So each cycle is 6 weeks total. But the question is about the next dose after the",False,0.0,44.77,Reasoning-truncated
+d0ac10ec-c31b-58e1-b7db-0fc08899ff6d::tl.next_scheduled.primary,c,d0ac10ec-c31b-58e1-b7db-0fc08899ff6d,temporal_lookup,temporal_lookup,2,2026-02-15,2026-02-27,"<think>
+Okay, let's see. The user is asking about the next scheduled primary regimen dose on the reference date. The context provided is a CarePlan with a cyclic oral therapy of 4 weeks on and 2 weeks off. The period starts on 2026-01-16 and ends on 2027-01-16. The note mentions the start date as 2026-01-16 and it's tier 2.
+
+First, I need to figure out the cycle schedule. The therapy is 4 weeks on, 2 weeks off. So each cycle is 6 weeks total. The start date is January 16, 2026. Let me check if t",False,0.0,47.73,Reasoning-truncated
+17413165-921d-2a2f-9893-bf848b4bd387::tl.days_since_last.primary,c,17413165-921d-2a2f-9893-bf848b4bd387,temporal_lookup,temporal_lookup,1,2025-12-09,33,"<think>
+Okay, let's see. The user is asking how many days have elapsed since the most recent primary regimen administration.
+
+First, I need to figure out what the primary regimen is. Looking at the context provided, there's a MedicationRequest with the id ""spec-req-17413165-921d-2a2f-9893-bf848b4bd387-primary"" and it's active. The medication reference points to ""Medication/med-spec-t1-primary"", which I assume is the primary regimen. 
+
+Next, I need to find the most recent administration of this p",False,0.0,2335.21,Reasoning-truncated
+48ca2916-732f-4e2a-6298-990c73e8f0b1::tl.last_administered.adjunct,c,48ca2916-732f-4e2a-6298-990c73e8f0b1,temporal_lookup,temporal_lookup,1,2026-07-18,,"<think>
+Okay, let's see. The user is asking for the most recent oral adjunct administration on or before the reference date. First, I need to check what the reference date is. The context provided has an effectiveDateTime of ""2027-03-09T09:00:00+00:00"". So the reference date is March 9, 2027.
+
+Now, looking at the medication administrations provided, each has an effectiveDateTime. I need to list them all out and see which ones are on or before March 9, 2027, and then pick the most recent one.
+
+Le",False,0.0,1207.76,N/A misuse
+1e52f480-d236-1b23-ac0c-0dd45141be8a::tl.last_administered.rescue,c,1e52f480-d236-1b23-ac0c-0dd45141be8a,temporal_lookup,temporal_lookup,2,2042-12-17,,"<think>
+Okay, let's see. The user is asking for the most recent PRN rescue administration on or before the reference date. First, I need to check the context provided to find the relevant information.
+
+Looking at the data, there are five MedicationAdministration entries. Each has an effectiveDateTime. The reference date isn't explicitly mentioned, but since the user is asking about the most recent on or before that date, I need to figure out which of these entries is the latest without exceeding",False,0.0,1188.35,Temporal-anchor failure
+4ed78fb7-f712-b867-35c9-1508c20faf92::ra.horizon_days,c,4ed78fb7-f712-b867-35c9-1508c20faf92,regimen_aggregation,regimen_aggregation,2,2026-04-18,365,"<think>
+Okay, let's see. The user is asking about the projected regimen horizon span in days.
+
+Looking at the context provided, there's a CarePlan with an ID ""spec-cp-4ed78fb7-f712-b867-35c9-1508c20faf92"". In that CarePlan, the period has a start date of 2026-02-13 and an end date of 2027-02-13. So I need to calculate the number of days between these two dates.
+
+First, check if both dates are provided. Yes, both start and end are there. The start is February 13, 2026, and the end is February 13,",False,0.0,1175.58,Reasoning-truncated
+4f090b02-a7a8-c7f4-69d2-bc2c8a8b3f85::ra.total.primary,c,4f090b02-a7a8-c7f4-69d2-bc2c8a8b3f85,regimen_aggregation,regimen_aggregation,2,2038-07-09,252,"<think>
+Okay, let's see. The user is asking for the total number of primary regimen administrations across the entire regimen horizon. 
+
+First, I need to figure out which medication is considered the primary regimen. Looking at the context provided, there's a MedicationRequest with the id ""spec-req-4f090b2-a7a8-c7f4-69d2-bc2c8a8b3f85-primary"" and a CarePlan that references it. The CarePlan's description mentions ""Cyclic oral therapy, 4 weeks on / 2 weeks off"" and the note says ""tier=2; label=T2-",False,0.0,1936.98,Reasoning-truncated
+da92ee17-b707-c228-5c6a-1de574b7835f::ra.horizon_days,c,da92ee17-b707-c228-5c6a-1de574b7835f,regimen_aggregation,regimen_aggregation,2,2026-07-18,365,"<think>
+Okay, let's see. The user is asking about the projected regimen horizon's duration in days. I need to look through the provided context to find the start and end dates.
+
+Looking at the first CarePlan entry, there's a ""period"" object with ""start"" and ""end"" dates. The start is 2026-06-30 and the end is 2027-06-30. So that's a one-year period. But wait, the question is about the number of days. Let me calculate the days between those two dates.
+
+From June 30, 2026, to June 30, 2027. That's ",False,0.0,938.84,Reasoning-truncated
+9cdcc32a-647d-de39-21b1-f7e21a08eaec::ra.total_last_60d.all,c,9cdcc32a-647d-de39-21b1-f7e21a08eaec,regimen_aggregation,regimen_aggregation,2,2026-02-10,0,"<think>
+Okay, let's tackle this question. The user is asking how many administrations were recorded in the 60 days up to the reference date across all regimen components. First, I need to figure out what the reference date is. The context provided includes several medication requests and a care plan. The most recent MedicationRequest for the specialty therapy is authored on 2026-02-25, and the CarePlan starts on the same date, 2026-02-25, ending on 2027-02-25. The other MedicationRequests for bu",False,0.0,1480.36,Reasoning-truncated
+82bb4599-02b7-9f5c-5581-97e1fcedb972::ra.total.primary,c,82bb4599-02b7-9f5c-5581-97e1fcedb972,regimen_aggregation,regimen_aggregation,2,2025-07-03,252,"<think>
+Okay, let's see. The user is asking for the total number of primary regimen administrations across the entire regimen horizon. The context provided is a CarePlan resource.
+
+First, I need to check the details in the context. The description mentions ""Cyclic oral therapy, 4 weeks on / 2 weeks off."" The period starts on 2025-07-24 and ends on 2026-07-24. That's a total duration of one year. 
+
+Now, the cycle is 4 weeks on and 2 weeks off. Each cycle is 6 weeks long. To find out how many cycl",False,0.0,1248.34,Reasoning-truncated
+4a3facfa-dce2-f056-9362-4c0f14d379c7::ra.n_components,c,4a3facfa-dce2-f056-9362-4c0f14d379c7,regimen_aggregation,regimen_aggregation,2,2034-07-31,1,"<think>
+Okay, let's see. The user is asking how many distinct medication components are in the patient's regimen. I need to look through the provided context data to figure this out.
+
+First, I'll start by reviewing each of the resources given. There are several MedicationRequest resources and a CarePlan and Medication resource. 
+
+Looking at the first MedicationRequest (id: spec-req-4a3facfa...), it's part of a CarePlan titled ""Specialty regimen — tier 2"". The medication reference points to ""Medi",False,0.0,4229.78,Reasoning-truncated
+4410bf3c-b62f-818f-450a-cefc0f040bd8::ra.avg_gap.rescue,c,4410bf3c-b62f-818f-450a-cefc0f040bd8,regimen_aggregation,regimen_aggregation,1,2025-12-12,,"<think>
+Okay, let's see. The user is asking for the average number of days between consecutive PRN rescue administrations, rounded to the nearest integer. First, I need to figure out what PRN rescue administrations are in the context of the provided data. PRN typically stands for ""pro re nata,"" which means ""as needed"" in medical terms. Rescue administrations might refer to medications used as needed for acute symptoms, like inhalers for asthma.
+
+Looking at the data provided, there are multiple E",False,0.0,52.03,Other / unclassified
+b7d5cb73-83b4-a130-8958-ca8b42100675::ra.total.primary,c,b7d5cb73-83b4-a130-8958-ca8b42100675,regimen_aggregation,regimen_aggregation,2,2039-04-13,252,"<think>
+Okay, let's see. The user is asking for the total number of primary regimen administrations across the entire regimen horizon. 
+
+First, I need to look at the context provided. There are several JSON objects here. The main ones are MedicationRequest and CarePlan.
+
+Looking at the first MedicationRequest, it's part of a cyclic oral specialty therapy with a 4 weeks on, 2 weeks off schedule. The CarePlan mentions that the period starts on 2039-03-02 and ends on 2040-03-01. That's a total dura",False,0.0,19.35,Reasoning-truncated
+28a00458-d65c-b643-bdc9-b4e4e1cf1cff::ra.avg_gap.adjunct,c,28a00458-d65c-b643-bdc9-b4e4e1cf1cff,regimen_aggregation,regimen_aggregation,1,2026-04-25,,"<think>
+Okay, let's see. The user is asking for the average number of days between consecutive oral adjunct administrations, rounded to the nearest integer.
+
+First, I need to look through the provided context data to find any information about oral medications and their administration intervals. The main data includes a CarePlan, several MedicationRequests, and a Claim. 
+
+Looking at the CarePlan, it mentions a ""Single long-acting subcutaneous injectable, administered every 8 weeks."" That's an in",False,0.0,53.8,N/A misuse
+847dd1b1-b6d7-cbcb-562a-987366ea38f8::ra.total_last_90d.all,c,847dd1b1-b6d7-cbcb-562a-987366ea38f8,regimen_aggregation,regimen_aggregation,2,2025-08-12,30,"<think>
+Okay, let's see. The user is asking about the number of administrations recorded in the 90 days up to the reference date for all regimen components. The context provided is a CarePlan resource.
+
+First, I need to check if there's any information about administrations or specific medications in the context. The CarePlan describes a cyclic oral therapy with a 4 weeks on/2 weeks off schedule, starting June 30, 2025, and ending June 30, 2026. The note mentions tier=2 and the start date. 
+
+How",False,0.0,866.2,Reasoning-truncated
+c0fc10af-9fa1-d6ad-d151-873265687380::tc.ref_vs_last.rescue,c,c0fc10af-9fa1-d6ad-d151-873265687380,temporal_comparison,temporal_comparison,3,2025-08-17,no-prior-administration,"<think>
+Okay, let's see. The user is asking about the most recent PRN rescue administration in relation to the reference date. The context provided is a CarePlan with a period from 2025-08-12 to 2026-08-12. The CarePlan includes three MedicationRequests: primary, adjunct, and rescue. The description mentions a PRN rescue inhaler for breakthrough symptoms.
+
+But wait, the question is about the ""most recent"" administration. However, looking at the context, there's no specific information about when",False,0.4286,29.7,Wrong-entity / enum error
+795e0041-b983-3c96-5915-44b529710d66::tc.ref_vs_last.primary,c,795e0041-b983-3c96-5915-44b529710d66,temporal_comparison,temporal_comparison,1,2039-03-18,before,"<think>
+Okay, let's see. The user is asking whether the most recent primary regimen administration is before, on, or after the reference date. First, I need to figure out what the reference date is. Looking at the context provided, each entry has an effectiveDateTime. The reference date isn't explicitly stated, but maybe the question refers to the current date when the data was last updated. However, since all the entries are in the future (2039), that might not make sense. Wait, perhaps the ref",False,0.5,1483.95,Temporal-anchor failure
+bda7987a-b425-b5af-3570-1c82afcfb6e0::tc.ref_vs_last.rescue,c,bda7987a-b425-b5af-3570-1c82afcfb6e0,temporal_comparison,temporal_comparison,1,2026-01-07,,"<think>
+Okay, let's see. The user is asking about the most recent PRN rescue administration relative to the reference date. First, I need to figure out what the reference date is. Looking at the context provided, each entry has an effectiveDateTime. The reference date mentioned in the question isn't explicitly stated, but maybe it's the current date when the query is made. Wait, the user hasn't provided a specific reference date here. Hmm, maybe the reference date is from the first context? Let ",False,0.0,1381.25,Temporal-anchor failure
+4a3facfa-dce2-f056-9362-4c0f14d379c7::tc.earlier_start.primary_vs_rescue,c,4a3facfa-dce2-f056-9362-4c0f14d379c7,temporal_comparison,temporal_comparison,2,2034-07-31,,"<think>
+Okay, let's see. The user is asking which component started first between the primary regimen and the PRN rescue. 
+
+First, I need to check the context provided for any mentions of a PRN rescue medication. The context includes several entries. The first one is a MedicationRequest for a cyclic oral specialty therapy with the status active, authored on 2034-05-19. Then there's a Medication entry related to that. The CarePlan also starts on 2034-05-19 and ends in 2035. 
+
+Looking further, the",False,0.0,1498.6,N/A misuse
+49765a80-0d3e-41c7-00e8-47ea50c75ab7::tc.earlier_start.primary_vs_adjunct,c,49765a80-0d3e-41c7-00e8-47ea50c75ab7,temporal_comparison,temporal_comparison,2,2038-03-09,,"<think>
+Okay, let's see. The user is asking which component started first between the primary regimen and the oral adjunct. 
+
+First, I need to figure out what the primary regimen and the oral adjunct are. Looking at the provided data, there are multiple MedicationRequest entries.
+
+The first context entry mentions a ""cyclic oral specialty therapy (4 weeks on, 2 weeks off)"" with an authoredOn date of 2038-04-02. This seems to be the primary regimen since it's part of an active CarePlan titled ""Spe",False,0.0,1339.69,N/A misuse
+f1264dac-322c-aa62-ccb8-37bbd22a99d7::tc.earlier_start.primary_vs_rescue,c,f1264dac-322c-aa62-ccb8-37bbd22a99d7,temporal_comparison,temporal_comparison,2,2033-01-17,,"<think>
+Okay, let's see. The user is asking which component started first between the primary regimen and the PRN rescue.
+
+First, I need to look at the provided context data. The primary regimen is mentioned in the MedicationRequest with the id ""spec-req-f1264dac-322c-aa62-ccb8-37bbd22a99d7-primary"" and the authoredOn date is ""2032-12-09"". The CarePlan for this regimen also has a period starting on ""2032-12-09"".
+
+Then there's another MedicationRequest for Amoxicillin with an authoredOn date of """,False,0.0,1313.46,N/A misuse
+4a22f595-e1b8-eaf7-d53e-fc53d01684c6::tc.earlier_start.adjunct_vs_rescue,c,4a22f595-e1b8-eaf7-d53e-fc53d01684c6,temporal_comparison,temporal_comparison,3,2025-08-21,,"<think>
+Okay, let's see. The user is asking which component started first between the oral adjunct and the PRN rescue.
+
+Looking at the context provided, there are three MedicationRequest resources: primary, adjunct, and rescue. The CarePlan mentions all three, but the question is about the adjunct and rescue. 
+
+First, I need to check the authoredOn dates for both the adjunct and rescue MedicationRequests. The user provided the details for both:
+
+For the adjunct:
+- authoredOn: 2025-08-29
+
+For the",False,0.0,16.47,N/A misuse
+1663995c-a354-3072-34af-d9d092cdfc72::tc.ref_vs_last.adjunct,c,1663995c-a354-3072-34af-d9d092cdfc72,temporal_comparison,temporal_comparison,1,2026-03-31,,"<think>
+Okay, let's see. The user is asking about the most recent oral adjunct administration relative to the reference date. First, I need to figure out what the reference date is. The context provided has an effectiveDateTime of ""2026-06-06T09:00:00+00:00"". Wait, but there are multiple entries here. Each MedicationAdministration entry has different effective dates.
+
+Looking at each entry's effectiveDateTime:
+
+1. 2026-04-11
+2. 2026-02-14
+3. 2026-06-06 (the context's effective date)
+4. 2026-09-2",False,0.0,3088.58,N/A misuse
+475201cf-1e3f-3389-7d5e-e878633cce6e::tc.ref_vs_last.adjunct,c,475201cf-1e3f-3389-7d5e-e878633cce6e,temporal_comparison,temporal_comparison,2,2026-03-11,,"<think>
+Okay, let's see. The user is asking about the most recent oral adjunct administration relative to the reference date. First, I need to figure out what the reference date is. Looking at the context provided, the MedicationRequest was authored on 2025-12-12. The question is about administrations before, on, or after this date.
+
+Now, checking the MedicationAdministration entries. There are several entries with different dates. The earliest is 2025-12-12 (same as the authored date), then 14t",False,0.0,1039.18,N/A misuse
+ae652243-891f-b26d-1d85-169dd84ffe8e::tc.latest_admin.primary_vs_adjunct,c,ae652243-891f-b26d-1d85-169dd84ffe8e,temporal_comparison,temporal_comparison,3,2026-01-09,oral adjunct,"<think>
+Okay, let's see. The user is asking which component was administered most recently between the primary regimen and the oral adjunct. The context provided is a CarePlan with three MedicationRequest references: primary, adjunct, and rescue. The description mentions a biologic injectable every 4 weeks, daily oral adjunct, and PRN rescue inhaler.
+
+First, I need to check if there's any information about the administration dates. The CarePlan has a period from 2025-12-01 to 2026-12-01. The not",False,0.4286,67.3,Reasoning-truncated
+086c349f-0899-9a6c-984d-63268dfd200b::cr.schedule_kind.adjunct,c,086c349f-0899-9a6c-984d-63268dfd200b,cross_resource,cross_resource,2,2025-06-23,,"<think>
+Okay, let's see. The user is asking about the schedule kind for the oral adjunct component in the provided context. The options are fixed_interval, cyclic, or prn.
+
+Looking at the context, there's a CarePlan with a description that says ""Cyclic oral therapy, 4 weeks on / 2 weeks off."" The term ""cyclic"" is explicitly mentioned here. The note also mentions ""label=T2-cyclic-oral,"" which reinforces that the therapy is cyclic. 
+
+The resourceType is CarePlan, and the status is active. The peri",False,0.0,847.89,N/A misuse
+77b667ce-0208-5943-6da5-82118f97d631::cr.tier_label,c,77b667ce-0208-5943-6da5-82118f97d631,cross_resource,cross_resource,1,2025-11-13,T1-long-acting-injectable,"<think>
+Okay, let's see. The user is asking about the tier label assigned to the patient's specialty regimen. I need to look through the provided context to find that information.
+
+Looking at the context, there's a ""note"" array with an object that has a ""text"" field. The text says ""tier=1; label=T1-long-acting-injectable; start=2025-10-27"". So the tier label here is ""T1-long-acting-injectable"". 
+
+I should check if there's any other mention of a tier label elsewhere in the context, but scanning t",False,0.25,1048.78,Reasoning-truncated
+3099416b-bdec-69b5-2b2e-8eb0a5d43d41::cr.has.adjunct,c,3099416b-bdec-69b5-2b2e-8eb0a5d43d41,cross_resource,cross_resource,1,2026-02-01,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes an oral adjunct component. First, I need to understand what an oral adjunct component is. From what I remember, adjunct medications are those taken in addition to the primary treatment, often to enhance effectiveness or manage side effects. Oral would mean taken by mouth, like pills or tablets.
+
+Looking at the provided data, there are several medication requests. Let's go through each one. 
+
+The first medication is Nap",False,0.0,1574.63,Wrong-entity / enum error
+41b64cb8-1c48-9a50-b84e-e6c58fe359ae::cr.has.adjunct,c,41b64cb8-1c48-9a50-b84e-e6c58fe359ae,cross_resource,cross_resource,1,2025-10-21,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes an oral adjunct component. First, I need to understand what an oral adjunct component is. From what I remember, adjunct medications are those that are used in addition to the primary treatment, often to enhance effectiveness or manage side effects. So, in this case, the main medications listed are Alendronic acid 10 MG Oral Tablets and ferrous sulfate 325 MG Oral Tablets.
+
+Looking at the data provided, there are multip",False,0.0,1080.48,Wrong-entity / enum error
+af6c358a-b266-218b-d3f4-2ae92db1f6a9::cr.schedule_kind.primary,c,af6c358a-b266-218b-d3f4-2ae92db1f6a9,cross_resource,cross_resource,2,2025-08-28,cyclic,"<think>
+Okay, let's see. The user is asking about the schedule kind for the primary regimen component. The options are fixed_interval, cyclic, or prn.
+
+Looking at the context provided, there's a CarePlan with a description that says ""Cyclic oral therapy, 4 weeks on / 2 weeks off."" The word ""Cyclic"" is right there in the description. That seems like a strong indicator that the schedule kind is cyclic. 
+
+Also, the note mentions ""tier=2; label=T2-cyclic-oral; start=2025-09-12"". The label includes """,False,0.5,48.76,Reasoning-truncated
+ef3f2e44-7851-633c-e656-c0d55d908e66::cr.has.adjunct,c,ef3f2e44-7851-633c-e656-c0d55d908e66,cross_resource,cross_resource,1,2026-03-06,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes an oral adjunct component. The context provided is a CarePlan with details about a medication regimen.
+
+First, I need to check the description and other fields in the CarePlan. The description says ""Single long-acting subcutaneous injectable, administered every 8 weeks."" The term ""subcutaneous injectable"" indicates that the medication is injected under the skin, not oral. There's no mention of any oral medications here",False,0.0,171.73,Reasoning-truncated
+81aad57e-4b7e-2185-c550-fd6f21d11a5a::cr.schedule_kind.primary,c,81aad57e-4b7e-2185-c550-fd6f21d11a5a,cross_resource,cross_resource,3,2026-03-30,fixed_interval,"<think>
+Okay, let's see. The user is asking about the schedule kind for the primary regimen component. The options are fixed_interval, cyclic, or prn.
+
+First, I need to look at the context provided. The CarePlan mentions a biologic injectable every 4 weeks, a daily oral adjunct, and a PRN rescue inhaler. The primary component is the biologic injectable every 4 weeks. 
+
+Looking at the MedicationRequest for the primary component (spec-req-...-primary), the dosageInstruction has a timing with repea",False,0.1429,4146.11,Reasoning-truncated
+1207468c-6794-3740-1396-40dfd631f137::cr.schedule_kind.adjunct,c,1207468c-6794-3740-1396-40dfd631f137,cross_resource,cross_resource,3,2025-12-29,fixed_interval,"<think>
+Okay, let's see. The user is asking about the schedule kind for the oral adjunct component in the patient's medication regimen. The options are fixed_interval, cyclic, or prn.
+
+First, I need to look at the provided context data. The relevant part is probably the MedicationRequest for the adjunct. Let me check the dosageInstruction. In the first MedicationRequest, there's a dosageInstruction with timing that has a repeat frequency of 1, period 1, and periodUnit ""d"". The text mentions ""dai",False,0.1429,2778.5,Reasoning-truncated
+09869e74-030e-5a53-b592-bbee5458ab64::cr.has.rescue,c,09869e74-030e-5a53-b592-bbee5458ab64,cross_resource,cross_resource,1,2029-04-12,no,"<think>
+Okay, let's see. The user is asking if the patient's regimen includes a PRN rescue component. PRN means ""as needed,"" so I need to check the medication requests for any instructions that are PRN.
+
+Looking at the first MedicationRequest in the context, it has ""asNeededBoolean"": true and the text says ""Take as needed."" The medication is Epinephrine Auto-Injector. That sounds like a PRN rescue medication because epinephrine is typically used for acute allergic reactions, which are PRN.
+
+Then",False,0.0,1001.57,Wrong-entity / enum error
+0bca16b4-9ed5-4de9-e8e8-17896997a516::cr.tier_label,c,0bca16b4-9ed5-4de9-e8e8-17896997a516,cross_resource,cross_resource,3,2025-05-21,T3-multidrug,"<think>
+Okay, let's see. The user is asking about the tier label assigned to the patient's specialty regimen. I need to look through the provided context to find that information.
+
+Looking at the context, there's a ""note"" section with an array containing a text entry: ""tier=3; label=T3-multidrug; start=2025-05-10"". The label here is ""T3-multidrug"". The tier is 3, but the question specifically asks for the tier label, which would be the ""label"" part. 
+
+I should confirm that there's no other menti",False,0.1429,731.28,Reasoning-truncated

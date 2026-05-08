@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import os
 import random
+import threading
 import time
 from collections import deque
 from dataclasses import dataclass
@@ -44,15 +45,22 @@ class GroqResult:
 
 
 class _TokenBucket:
-    """Sliding-window limiter for requests-per-minute and tokens-per-minute."""
+    """Sliding-window limiter for requests-per-minute and tokens-per-minute.
+
+    Thread-safe: a single lock guards both internal deques. Required because
+    the eval harness uses a ThreadPoolExecutor when run with --concurrency K>1
+    (decisions log: 2026-05-06 concurrency entry).
+    """
 
     def __init__(self, rpm: int, tpm: int) -> None:
         self.rpm = rpm
         self.tpm = tpm
         self._req_times: deque[float] = deque()
         self._tok_events: deque[tuple[float, int]] = deque()
+        self._lock = threading.Lock()
 
     def _expire(self, now: float) -> None:
+        # caller holds self._lock
         cutoff = now - 60.0
         while self._req_times and self._req_times[0] < cutoff:
             self._req_times.popleft()
@@ -61,22 +69,27 @@ class _TokenBucket:
 
     def wait(self, tokens_needed: int) -> None:
         while True:
-            now = time.monotonic()
-            self._expire(now)
-            used_tokens = sum(t for _, t in self._tok_events)
-            if len(self._req_times) < self.rpm and used_tokens + tokens_needed <= self.tpm:
-                return
-            # sleep until earliest limiter resets
-            next_release = min(
-                (self._req_times[0] + 60.0) if self._req_times else now + 0.1,
-                (self._tok_events[0][0] + 60.0) if self._tok_events else now + 0.1,
-            )
-            time.sleep(max(0.05, next_release - now))
+            with self._lock:
+                now = time.monotonic()
+                self._expire(now)
+                used_tokens = sum(t for _, t in self._tok_events)
+                if (
+                    len(self._req_times) < self.rpm
+                    and used_tokens + tokens_needed <= self.tpm
+                ):
+                    return
+                next_release = min(
+                    (self._req_times[0] + 60.0) if self._req_times else now + 0.1,
+                    (self._tok_events[0][0] + 60.0) if self._tok_events else now + 0.1,
+                )
+                sleep_for = max(0.05, next_release - now)
+            time.sleep(sleep_for)
 
     def record(self, tokens: int) -> None:
-        now = time.monotonic()
-        self._req_times.append(now)
-        self._tok_events.append((now, tokens))
+        with self._lock:
+            now = time.monotonic()
+            self._req_times.append(now)
+            self._tok_events.append((now, tokens))
 
 
 class GroqClient:

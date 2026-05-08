@@ -33,6 +33,19 @@ narratives/llm_narratives/_cache/
 .claude/scheduled_tasks.lock
 .claude/settings.local.json
 
+# Local run logs (keep eval/cache instead, that's the reproducibility anchor)
+.eval_logs/
+.index_*.log
+.pip_install*.log
+.smoke_pytest.log
+
+# Backup files left by jsonl filter passes (history is in git, no need to keep .bak)
+results/raw/*.jsonl.bak
+
+# Smoke / W2-handoff intermediate result files (W2 errored runs are quarantined
+# under results/raw/_w2_*_errored.jsonl which IS tracked for audit trail)
+results/*_w2_smoke.csv
+
 # IDE
 .idea/
 .vscode/
@@ -41,3 +54,13 @@ narratives/llm_narratives/_cache/
 # OS
 .DS_Store
 Thumbs.db
+results/raw/a.jsonl
+results/raw/b.jsonl
+results/raw/c.jsonl
+*.jsonl
+*.jsonl
+results/raw/b.jsonl
+results/raw/c.jsonl
+results/raw/a.jsonl
+results/raw/c.jsonl
+results/raw/b.jsonl
