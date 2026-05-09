@@ -1,0 +1,507 @@
+%% paper/refs.bib
+%% Trimmed from docs/literature/*.md BibTeX blocks to only entries actually cited.
+%% DO NOT ADD entries not cited in the paper. DO NOT fabricate keys.
+
+% ── Block 1: Clinical RAG ───────────────────────────────────────────────────
+
+@inproceedings{lewis2020retrieval,
+  title        = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
+  author       = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio
+                  and Karpukhin, Vladimir and Goyal, Naman and K{\"u}ttler, Heinrich and
+                  Lewis, Mike and Yih, Wen-tau and Rockt{\"a}schel, Tim and Riedel, Sebastian
+                  and Kiela, Douwe},
+  booktitle    = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume       = {33},
+  year         = {2020},
+  eprint       = {2005.11401},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.CL}
+}
+
+@inproceedings{xiong2024benchmarking,
+  title     = {Benchmarking Retrieval-Augmented Generation for Medicine},
+  author    = {Xiong, Guangzhi and Jin, Qiao and Lu, Zhiyong and Zhang, Aidong},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2024},
+  pages     = {6233--6251},
+  year      = {2024},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2024.findings-acl.372},
+  eprint    = {2402.13178},
+  archivePrefix = {arXiv}
+}
+
+@article{zakka2024almanac,
+  title   = {Almanac --- Retrieval-Augmented Language Models for Clinical Medicine},
+  author  = {Zakka, Cyril and Shad, Rohan and Chaurasia, Akash and Dalal, Alex R. and
+             Kim, Jennifer L. and Moor, Michael and Fong, Robyn and Phillips, Curran and
+             Alexander, Kevin and Ashley, Euan and Boyd, Jack and Boyd, Kathleen and
+             Hirsch, Karen and Langlotz, Curt and Lee, Rita and Melia, Joanna and
+             Nelson, Joanna and Sallam, Karim and Tullis, Stacey and Vogelsong, Melissa Ann
+             and Cunningham, John Patrick and Hiesinger, William},
+  journal = {NEJM AI},
+  volume  = {1},
+  number  = {2},
+  pages   = {AIoa2300068},
+  year    = {2024},
+  doi     = {10.1056/AIoa2300068}
+}
+
+@article{wu2024medgraphrag,
+  title        = {Medical Graph {RAG}: Towards Safe Medical Large Language Model via Graph
+                  Retrieval-Augmented Generation},
+  author       = {Wu, Junde and Zhu, Jiayuan and Qi, Yunli and Chen, Jingyi and Xu, Min
+                  and Menolascina, Filippo and Grau, Vicente},
+  journal      = {arXiv preprint arXiv:2408.04187},
+  year         = {2024},
+  note         = {Also ACL 2025},
+  eprint       = {2408.04187},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.CL}
+}
+
+@article{soman2024biomedical,
+  title     = {Biomedical Knowledge Graph-Optimized Prompt Generation for Large Language Models},
+  author    = {Soman, Karthik and Rose, Peter W. and Morris, John H. and Akbas, Rabia E.
+               and Smith, Brett and Peetoom, Braian and Villouta-Reyes, Catalina and
+               Cerono, Gabriel and Shi, Yongmei and Rizk-Jackson, Angela and Israni, Sharat
+               and Nelson, Charlotte A. and Huang, Sui and Baranzini, Sergio E.},
+  journal   = {Bioinformatics},
+  volume    = {40},
+  number    = {9},
+  pages     = {btae560},
+  year      = {2024},
+  doi       = {10.1093/bioinformatics/btae560},
+  eprint    = {2311.17330},
+  archivePrefix = {arXiv}
+}
+
+@article{lopez2025clinical,
+  title   = {Clinical Entity Augmented Retrieval for Clinical Information Extraction},
+  author  = {L{\'o}pez, Iv{\'a}n and Swaminathan, Akshay and Vedula, Karthik and
+             Narayanan, Sanjana and Nateghi Haredasht, Fateme and Ma, Stephen P. and
+             Liang, April S. and Tate, Steven and Maddali, Manoj and Gallo, Robert Joseph
+             and Shah, Nigam H. and Chen, Jonathan H.},
+  journal = {npj Digital Medicine},
+  volume  = {8},
+  number  = {1},
+  pages   = {45},
+  year    = {2025},
+  doi     = {10.1038/s41746-024-01377-1}
+}
+
+@article{schmiedmayer2025llmonfhir,
+  title   = {{LLMonFHIR}: A Physician-Validated, Large Language Model--Based Mobile
+             Application for Querying Patient Electronic Health Data},
+  author  = {Schmiedmayer, Paul and Rao, Adrit and Zagar, Philipp and Aalami, Lauren and
+             Ravi, Vishnu and Zahedivash, Aydin and Yao, Dong-han and Fereydooni, Arash
+             and Aalami, Oliver},
+  journal = {JACC: Advances},
+  volume  = {4},
+  number  = {6 Pt 1},
+  pages   = {101780},
+  year    = {2025},
+  doi     = {10.1016/j.jacadv.2025.101780},
+  eprint  = {2402.01711},
+  archivePrefix = {arXiv}
+}
+
+@article{lee2025fhiragentbench,
+  title        = {{FHIR-AgentBench}: Benchmarking {LLM} Agents for Realistic Interoperable
+                  {EHR} Question Answering},
+  author       = {Lee, Gyubok and Bach, Elea and Yang, Eric and Pollard, Tom and
+                  Johnson, Alistair and Choi, Edward and Jia, Yugang and Lee, Jong Ha},
+  journal      = {arXiv preprint arXiv:2509.19319},
+  year         = {2025},
+  note         = {Presented at Machine Learning for Healthcare (ML4H) 2025},
+  eprint       = {2509.19319},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.CL}
+}
+
+% ── Block 2: Structured vs. Unstructured EHR ───────────────────────────────
+
+@article{moldwin2021empirical,
+  author  = {Moldwin, Adam and Demner-Fushman, Dina and Goodwin, Travis R.},
+  title   = {Empirical Findings on the Role of Structured Data, Unstructured Data, and
+             Their Combination for Automatic Clinical Phenotyping},
+  journal = {AMIA Joint Summits on Translational Science Proceedings},
+  volume  = {2021},
+  pages   = {445--454},
+  year    = {2021}
+}
+
+@inproceedings{bardhan2022drugehrqa,
+  author    = {Bardhan, Jayetri and Colas, Anthony and Roberts, Kirk and Wang, Daisy Zhe},
+  title     = {{DrugEHRQA}: A Question Answering Dataset on Structured and Unstructured
+               Electronic Health Records For Medicine Related Queries},
+  booktitle = {Proceedings of the 13th Conference on Language Resources and Evaluation (LREC)},
+  pages     = {1083--1097},
+  year      = {2022},
+  eprint    = {2205.01290},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{hegselmann2023tabllm,
+  author    = {Hegselmann, Stefan and Buendia, Alejandro and Lang, Hunter and Agrawal,
+               Moninder and Jiang, Xiaoyi and Sontag, David},
+  title     = {{TabLLM}: Few-shot Classification of Tabular Data with Large Language Models},
+  booktitle = {Proceedings of the 26th International Conference on Artificial Intelligence
+               and Statistics (AISTATS)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {206},
+  pages     = {5549--5581},
+  year      = {2023},
+  eprint    = {2210.10723},
+  archivePrefix = {arXiv}
+}
+
+@article{lee2025pseudonotes,
+  author  = {Lee, Sung A. and Jain, Siddharth and Chen, Alexandr and Ono, Kohta and
+             Biswas, Arpita and Rudas, Akos and Fang, Jason and Chiang, Jeffrey N.},
+  title   = {Clinical decision support using pseudo-notes from multiple streams of
+             {EHR} data},
+  journal = {npj Digital Medicine},
+  volume  = {8},
+  number  = {1},
+  pages   = {394},
+  year    = {2025},
+  doi     = {10.1038/s41746-025-01777-x},
+  eprint  = {2402.00160},
+  archivePrefix = {arXiv}
+}
+
+% ── Block 3: FHIR + ML/LLM ─────────────────────────────────────────────────
+
+@article{engelke2025fhirformer,
+  author  = {Engelke, Moritz and Baldini, Giulia and Kleesiek, Jens and Nensa, Felix
+             and Dada, Amin},
+  title   = {{FHIR-Former}: enhancing clinical predictions through {Fast Healthcare
+             Interoperability Resources} and large language models},
+  journal = {Journal of the American Medical Informatics Association},
+  volume  = {32},
+  number  = {12},
+  pages   = {1793--1801},
+  year    = {2025},
+  doi     = {10.1093/jamia/ocaf165}
+}
+
+@article{grimes2025sqlonfhir,
+  author  = {Grimes, John and Brush, Ryan and Ryzhikov, Nikolai and Szul, Piotr and
+             Mandel, Joshua and Gottlieb, Daniel and Grieve, Grahame and Sadjad, Bashir
+             and Sanyal, Aditi},
+  title   = {{SQL on FHIR} --- Tabular views of {FHIR} data using {FHIRPath}},
+  journal = {npj Digital Medicine},
+  volume  = {8},
+  number  = {1},
+  pages   = {342},
+  year    = {2025},
+  doi     = {10.1038/s41746-025-01708-w}
+}
+
+@article{grimes2022pathling,
+  author  = {Grimes, John and Szul, Piotr and Metke-Jimenez, Alejandro and Lawley,
+             Michael and Loi, Kayvan},
+  title   = {{Pathling}: analytics on {FHIR}},
+  journal = {Journal of Biomedical Semantics},
+  volume  = {13},
+  number  = {1},
+  pages   = {23},
+  year    = {2022},
+  doi     = {10.1186/s13326-022-00277-1}
+}
+
+@article{li2024fhirgpt,
+  author  = {Li, Yikuan and Wang, Hanyin and Yerebakan, Halid Ziya and Shinagawa,
+             Yoshihisa and Luo, Yuan},
+  title   = {{FHIR-GPT} Enhances Health Interoperability with Large Language Models},
+  journal = {NEJM AI},
+  year    = {2024},
+  doi     = {10.1056/AIcs2300301}
+}
+
+@article{idrissiyaghir2025fhirworkbench,
+  author  = {Idrissi-Yaghir, Ahmad and Arzideh, Kamyar and Sch{\"a}fer, Henning and
+             Eryilmaz, Bahadir and Bahn, Maximilian and Wen, Yufan and Borys, Kevin and
+             Hartmann, Eva and Schmidt, Christoph and Pelka, Obioma and Haubold, Johannes
+             and Friedrich, Christoph M. and Nensa, Felix and Hosch, Ren{\'e}},
+  title   = {Using a Diverse Test Suite to Assess Large Language Models on {Fast Health
+             Care Interoperability Resources} Knowledge: Comparative Analysis},
+  journal = {Journal of Medical Internet Research},
+  volume  = {27},
+  pages   = {e73540},
+  year    = {2025},
+  doi     = {10.2196/73540}
+}
+
+@article{kothari2025patientqa,
+  author  = {Kothari, Sara and Gupta, Ayush},
+  title   = {Question Answering on Patient Medical Records with Private Fine-Tuned {LLMs}},
+  journal = {arXiv preprint arXiv:2501.13687},
+  year    = {2025},
+  eprint  = {2501.13687},
+  archivePrefix = {arXiv}
+}
+
+% ── Block 5: Synthea ────────────────────────────────────────────────────────
+
+@article{walonoski2018synthea,
+  author  = {Walonoski, Jason and Kramer, Mark and Nichols, Joseph and Quina, Andre
+             and Moesel, Chris and Hall, Dylan and Duffett, Carlton and Dube, Kudakwashe
+             and Gallagher, Thomas and McLachlan, Scott},
+  title   = {{Synthea}: An approach, method, and software mechanism for generating
+             synthetic patients and the synthetic electronic health care record},
+  journal = {Journal of the American Medical Informatics Association},
+  volume  = {25},
+  number  = {3},
+  pages   = {230--238},
+  year    = {2018},
+  doi     = {10.1093/jamia/ocx079}
+}
+% verified-from: https://academic.oup.com/jamia/article/25/3/230/4098271 (publisher page); cross-checked https://pubmed.ncbi.nlm.nih.gov/29025144/
+
+@article{hodges2023medication,
+  author  = {Hodges, Robert and Tokunaga, Kristen and LeGrand, Joseph},
+  title   = {A novel method to create realistic synthetic medication data},
+  journal = {JAMIA Open},
+  volume  = {6},
+  number  = {3},
+  pages   = {ooad052},
+  year    = {2023},
+  doi     = {10.1093/jamiaopen/ooad052}
+}
+% verified-from: https://academic.oup.com/jamiaopen/article/doi/10.1093/jamiaopen/ooad052/7223896 (publisher page); cross-checked https://pubmed.ncbi.nlm.nih.gov/37457749/
+
+@article{meeker2022synthea,
+  author  = {Meeker, Daniella and Kallem, Crystal and Heras, Yan and Garcia, Stephanie
+             and Thompson, Casey},
+  title   = {Case report: evaluation of an open-source synthetic data platform for
+             simulation studies},
+  journal = {JAMIA Open},
+  volume  = {5},
+  number  = {3},
+  pages   = {ooac067},
+  year    = {2022},
+  doi     = {10.1093/jamiaopen/ooac067}
+}
+% verified-from: https://academic.oup.com/jamiaopen/article/5/3/ooac067/6658391 (publisher page); cross-checked https://pubmed.ncbi.nlm.nih.gov/35958672/
+
+% ── Block 6/10: PSP Adherence / Canadian PSP ───────────────────────────────
+
+@article{niu2024specialty,
+  author  = {Niu, Sheng and Happe, Laura E. and Abuloha, Sumaya and Svensson, Mikael},
+  title   = {Concentration of spending and share of specialty drug spending in
+             {Medicare Part D} over a 10-year period},
+  journal = {Journal of Managed Care \& Specialty Pharmacy},
+  year    = {2024},
+  volume  = {30},
+  number  = {12},
+  pages   = {1355--1363},
+  doi     = {10.18553/jmcp.2024.30.12.1355}
+}
+
+@techreport{cihi2023prescribed,
+  author      = {{Canadian Institute for Health Information}},
+  title       = {Prescribed Drug Spending in {Canada}, 2023: A focus on public drug programs},
+  institution = {Canadian Institute for Health Information},
+  address     = {Ottawa},
+  year        = {2023},
+  url         = {https://www.cihi.ca/en/prescribed-drug-spending-in-canada-2023}
+}
+
+@article{grundy2023psp,
+  author  = {Grundy, Quinn and Quanbury, Alexandra and Chaudhry, Sohaib Asif and
+             Hart, Alexander and Tavangar, Farnaz and Lexchin, Joel and
+             Gagnon, Marc-Andr{\'e} and Tadrous, Mina},
+  title   = {Prevalence and nature of manufacturer-sponsored patient support programs
+             for prescription drugs in {Canada}: a cross-sectional study},
+  journal = {CMAJ},
+  year    = {2023},
+  volume  = {195},
+  number  = {46},
+  pages   = {E1565--E1576},
+  doi     = {10.1503/cmaj.230841}
+}
+
+@article{correll2024pp6m,
+  author  = {Correll, Christoph U. and Litman, Robert E. and Filts, Yuriy and
+             Llaud{\'o}, Jordi and Naber, Dieter and Torres, Ferran and
+             Mart{\'i}nez, Javier and Gopal, Srihari and Hough, David and
+             Savitz, Adam and Kern Sliwa, Jennifer},
+  title   = {Three-year outcomes of 6-month paliperidone palmitate in adults with
+             schizophrenia: an open-label extension study of a randomized clinical trial},
+  journal = {JAMA Psychiatry},
+  year    = {2024},
+  volume  = {81},
+  number  = {11},
+  pages   = {1099--1108},
+  doi     = {10.1001/jamapsychiatry.2024.1994}
+}
+
+@inproceedings{yao2024chemotimelines,
+  author    = {Yao, Jianfu and Hochheiser, Harry and Yoon, Wonjin and Goldner, Eli
+               and Savova, Guergana},
+  title     = {Overview of the 2024 shared task on chemotherapy treatment timeline extraction},
+  booktitle = {Proceedings of the 6th Clinical Natural Language Processing Workshop},
+  year      = {2024},
+  pages     = {557--569},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2024.clinicalnlp-1.53}
+}
+
+% ── Block 7: LLM Clinical Documentation ────────────────────────────────────
+
+@article{tierney2024ambient,
+  title   = {Ambient Artificial Intelligence Scribes to Alleviate the Burden of
+             Clinical Documentation},
+  author  = {Tierney, Aaron A. and Gayre, Gregg and Hoberman, Brian and Mattern, Britt
+             and Ballesca, Manuel and Kipnis, Patricia and Liu, Vincent and Lee, Kristine},
+  journal = {NEJM Catalyst Innovations in Care Delivery},
+  volume  = {5},
+  number  = {3},
+  year    = {2024},
+  doi     = {10.1056/CAT.23.0404}
+}
+
+@article{rotenstein2026changes,
+  title   = {Changes in Clinician Time Expenditure and Visit Quantity With Adoption of
+             Artificial Intelligence--Powered Scribes: A Multisite Study},
+  author  = {Rotenstein, Lisa and Holmgren, A. Jay and Thombley, Robert and Sriram,
+             Aditi and Dbouk, Reema H. and Jost, Melissa and others},
+  journal = {JAMA},
+  year    = {2026},
+  doi     = {10.1001/jama.2026.2253}
+}
+
+% ── Block 8: Retrieval Strategies ──────────────────────────────────────────
+
+@inproceedings{jiang2023structgpt,
+  title     = {{StructGPT}: A General Framework for Large Language Model to Reason over
+               Structured Data},
+  author    = {Jiang, Jinhao and Zhou, Kun and Dong, Zican and Ye, Keming and
+               Zhao, Wayne Xin and Wen, Ji-Rong},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural
+               Language Processing (EMNLP)},
+  pages     = {9237--9251},
+  year      = {2023},
+  publisher = {Association for Computational Linguistics},
+  eprint    = {2305.09645},
+  archivePrefix = {arXiv}
+}
+
+@article{jin2023medcpt,
+  title = {{MedCPT}: Contrastive Pre-trained Transformers with large-scale {PubMed}
+           search logs for zero-shot biomedical information retrieval},
+  author = {Jin, Qiao and Kim, Won and Chen, Qingyu and Comeau, Donald C. and
+            Yeganova, Lana and Wilbur, W. John and Lu, Zhiyong},
+  journal = {Bioinformatics},
+  volume  = {39},
+  number  = {11},
+  pages   = {btad651},
+  year    = {2023},
+  doi     = {10.1093/bioinformatics/btad651}
+}
+
+% ── Block 9: Clinical Temporal Reasoning ───────────────────────────────────
+
+@inproceedings{fleming2024medalign,
+  title={MedAlign: A Clinician-Generated Dataset for Instruction Following with Electronic Medical Records},
+  author={Fleming, Scott L. and Lozano, Alejandro and Haberkorn, William J. and Jindal, Jenelle A. and Reis, Eduardo Pontes and Thapa, Rahul and Blankemeier, Louis and Genkins, Julian Z. and Steinberg, Ethan and Nayak, Ashwin and others},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={38},
+  pages={22021--22030},
+  year={2024},
+  doi={10.1609/aaai.v38i20.30205},
+  url={https://arxiv.org/abs/2308.14089}
+}
+
+@article{cui2025timer,
+  title={TIMER: temporal instruction modeling and evaluation for longitudinal clinical records},
+  author={Cui, Hejie and others},
+  journal={npj Digital Medicine},
+  year={2025},
+  doi={10.1038/s41746-025-01965-9},
+  url={https://arxiv.org/abs/2503.04176},
+  note={Also presented at ICLR 2025}
+}
+
+@inproceedings{yuan2023zeroshot,
+  title={Zero-shot Temporal Relation Extraction with {ChatGPT}},
+  author={Yuan, Chenhan and Xie, Qianqian and Ananiadou, Sophia},
+  booktitle={Proceedings of the 22nd Workshop on Biomedical Natural Language Processing and BioNLP Shared Tasks},
+  pages={92--102},
+  year={2023},
+  publisher={Association for Computational Linguistics},
+  address={Toronto, Canada},
+  doi={10.18653/v1/2023.bionlp-1.7}
+}
+
+% ── Block 11: Adherence ML ──────────────────────────────────────────────────
+
+@article{lociganic2015using,
+  author  = {Lo-Ciganic, Wei-Hsuan and Donohue, Julie M. and Thorpe, Joshua M. and
+             Perera, Subashan and Thorpe, Carolyn T. and Marcum, Zachary A. and
+             Gellad, Walid F.},
+  title   = {Using Machine Learning to Examine Medication Adherence Thresholds and
+             Risk of Hospitalization},
+  journal = {Medical Care},
+  volume  = {53},
+  number  = {8},
+  pages   = {720--728},
+  year    = {2015},
+  doi     = {10.1097/MLR.0000000000000394}
+}
+
+@article{zullig2019novel,
+  author  = {Zullig, Leah L. and Jazowski, Shelley A. and Wang, Tracy Y. and
+             Hellkamp, Anne and Wojdyla, Daniel and Thomas, Laine and
+             Egbuonu-Davis, Lisa and Beal, Anne and Bosworth, Hayden B.},
+  title   = {Novel Application of Approaches to Predicting Medication Adherence
+             Using Medical Claims Data},
+  journal = {Health Services Research},
+  volume  = {54},
+  number  = {6},
+  pages   = {1255--1262},
+  year    = {2019},
+  doi     = {10.1111/1475-6773.13200}
+}
+
+@article{nateghi2025predicting,
+  author  = {Nateghi Haredasht, Fateme and Lopez, Ivan and Tate, Steven and
+             Ashtari, Pooya and Chan, Min Min and Kulkarni, Deepali and
+             Chen, Chwen-Yuen Angie and Vangala, Maithri and Griffith, Kira and
+             Bunning, Bryan and Miner, Adam S. and Hernandez-Boussard, Tina and
+             Humphreys, Keith and Lembke, Anna and Vance, L. Alexander and
+             Chen, Jonathan H.},
+  title   = {Predicting Treatment Retention in Medication for Opioid Use Disorder:
+             A Machine Learning Approach Using {NLP} and {LLM}-Derived Clinical Features},
+  journal = {Journal of the American Medical Informatics Association},
+  volume  = {32},
+  number  = {12},
+  pages   = {1865--1876},
+  year    = {2025},
+  doi     = {10.1093/jamia/ocaf157}
+}
+
+@misc{anderson2025paging,
+  author        = {Anderson, David and Anderson, Michaela and Bjarnadottir, Margret and
+                   Mahar, Stephen and Reyya, Shriyan},
+  title         = {Paging {Dr.}~{GPT}: Extracting Information from Clinical Notes to
+                   Enhance Patient Predictions},
+  year          = {2025},
+  eprint        = {2504.12338},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  note          = {Preprint; not yet peer-reviewed}
+}
+
+@inproceedings{gao2024raw,
+  author    = {Gao, Yanjun and Myers, Skatje and Chen, Shan and Dligach, Dmitriy and
+               Miller, Timothy A. and Bitterman, Danielle and Churpek, Matthew and
+               Afshar, Majid},
+  title     = {When Raw Data Prevails: Are Large Language Model Embeddings Effective in
+               Numerical Data Representation for Medical Machine Learning Applications?},
+  booktitle = {Findings of the Association for Computational Linguistics: {EMNLP} 2024},
+  pages     = {5414--5428},
+  year      = {2024},
+  publisher = {Association for Computational Linguistics}
+}

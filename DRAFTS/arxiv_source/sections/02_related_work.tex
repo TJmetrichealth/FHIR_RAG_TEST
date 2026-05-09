@@ -1,0 +1,74 @@
+%% 02_related_work.tex
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Clinical and medical RAG.}
+Lewis et al.~\citep{lewis2020retrieval} introduced RAG as a framework for knowledge-intensive
+NLP tasks; the MIRAGE benchmark~\citep{xiong2024benchmarking} established medical RAG evaluation
+over literature corpora, and Almanac~\citep{zakka2024almanac} demonstrated clinical guideline
+grounding.  These systems retrieve over \emph{population-level} knowledge (publications,
+guidelines), not per-patient EHR data.  Schmiedmayer et al.~\citep{schmiedmayer2025llmonfhir}
+built LLMonFHIR, a function-calling retrieval system over patient-level FHIR bundles,
+validated on Synthea data with physician Likert ratings; it is the closest functional
+predecessor to our work and evaluates only structured retrieval, not a narrative baseline.
+MedGraphRAG~\citep{wu2024medgraphrag} and KG-RAG~\citep{soman2024biomedical} add
+hierarchical graph structure to retrieval, but over LLM-extracted or literature-derived graphs
+rather than schema-defined FHIR resources.
+
+\paragraph{Structured vs.\ unstructured EHR.}
+Moldwin et al.~\citep{moldwin2021empirical} performed the closest paired same-patient
+comparison, finding that text features outperformed structured features for 84\% of
+MIMIC phenotypes while acknowledging the information-content confound explicitly.  TabLLM~\citep{hegselmann2023tabllm}
+and Lee et al.~\citep{lee2025pseudonotes} demonstrate competitive or superior performance from
+serialising structured EHR tables to natural language for classification tasks.  DrugEHRQA~\citep{bardhan2022drugehrqa}
+pairs structured tables and discharge notes for medication QA but admits cross-modal
+information asymmetry.  CLEAR~\citep{lopez2025clinical} compares entity-aware vs.\ embedding
+RAG on 20,000 clinical notes, reporting F1 gains from entity-structured retrieval; the
+comparison is within-narrative, not FHIR-structured.
+
+\paragraph{FHIR and ML/LLM.}
+FHIR-Former~\citep{engelke2025fhirformer} applies FHIR-structured resources plus notes to
+clinical prediction tasks.  SQL-on-FHIR~\citep{grimes2025sqlonfhir} and Pathling~\citep{grimes2022pathling}
+provide analytics-oriented FHIR access, complementary to but distinct from semantic retrieval.
+FHIR-GPT~\citep{li2024fhirgpt} and the FHIR Workbench~\citep{idrissiyaghir2025fhirworkbench}
+characterise LLM competence on FHIR production and understanding tasks.
+Kothari and Gupta~\citep{kothari2025patientqa} propose a two-stage pipeline for FHIR
+QA on Synthea (the closest Synthea-grounded predecessor) but include no narrative baseline
+and focus on fine-tuning rather than retrieval representation.
+FHIR-AgentBench~\citep{lee2025fhiragentbench} benchmarks agentic retrieval strategies over
+MIMIC-IV-FHIR at scale, identifying medication questions as the weakest category
+(5--14\% correctness) and retrieval precision as the dominant bottleneck; it contains no
+narrative arm.
+
+\paragraph{Clinical temporal reasoning.}
+Temporal reasoning remains the weakest category in clinical LLM performance across benchmark
+evaluations. Zero-shot temporal-relation extraction substantially trails supervised methods
+on clinical text~\citep{yuan2023zeroshot}, and instruction-following on longitudinal EHRs
+remains hard even for frontier models: MedAlign~\citep{fleming2024medalign}, a dataset of
+983 clinician-curated instructions over 275 OMOP-structured longitudinal records, shows
+GPT-4 reaching only 60.1\% correctness despite a 32k context window.
+TIMER~\citep{cui2025timer} introduces a dedicated temporal instruction benchmark for
+longitudinal clinical records and reports a 6.6\% completeness improvement from specialised
+instruction tuning, confirming that temporal grounding is a distinct skill not inherited
+from general language modelling.
+Our error taxonomy provides a complementary characterisation of temporal-anchor failures
+specifically within structured-FHIR and narrative RAG retrieval contexts.
+
+\paragraph{Adherence-indicator ML.}
+Lo-Ciganic et al.~\citep{lociganic2015using} established the canonical feature set for
+claims-based adherence prediction; Zullig et al.~\citep{zullig2019novel} provide a
+reference AUC benchmark (0.664--0.677).  Nateghi Haredasht et al.~\citep{nateghi2025predicting}
+demonstrate LLM-extracted narrative features for medication retention prediction on a MOUD
+cohort; Anderson et al.~\citep{anderson2025paging} apply the same design to mortality.
+Gao et al.~\citep{gao2024raw} show that raw numerical features often match or beat LLM
+embeddings on tabular clinical tasks.  Our O6 arm extends this line to a non-MOUD
+specialty-regimen adherence task with matched FHIR-structured and narrative feature sets.
+
+\paragraph{Novelty claim.}
+To our knowledge, no prior work evaluates narrative RAG, naive structured FHIR RAG, and
+resource-aware structured FHIR RAG on \emph{paired data} for specialty-medication
+adherence-indicator questions with programmatic ground truth, nor compares these
+representations as feature sources for adherence classification on the same patient cohort.
+The four-part intersection, namely (1) paired same-bundle rendering, (2) resource-aware vs.\
+naive structured retrieval, (3) specialty-medication QA domain, and (4) feature-extraction
+comparison, is unoccupied in the literature we surveyed.

@@ -1,0 +1,33 @@
+%% 00_abstract.tex
+\begin{abstract}
+Clinical records are increasingly expressed in both structured standards (HL7 FHIR R4B) and
+LLM-generated narrative summaries. When both representations encode the same facts, it is
+unclear which should serve as the retrieval substrate for downstream question answering or
+adherence-risk prediction.  We present a \emph{paired-data} empirical comparison that holds
+information content constant: 200 synthetic patients rendered as FHIR~R4B bundles and as
+LLM-generated narratives from the same underlying facts.  Three retrieval systems answer
+13,800 programmatically-verified adherence-indicator questions across five Patient Support
+Program (PSP) families (next-dose lookup, dose-history aggregation/MPR, coverage-window
+reasoning/PDC, missed-dose detection, and persistence signalling) at three regimen-complexity
+tiers.  A fourth arm extracts features from each representation for a synthetic adherence
+classification task.
+
+\textbf{Results.}  System~A (Narrative RAG) achieves 40.6\% exact-match accuracy
+(95\% CI [39.8\%, 41.4\%]), outperforming System~B (Structured-Naive, 35.3\%) and
+System~C (Structured-Aware, 33.4\%).  All pairwise gaps are statistically significant
+(McNemar $p<0.001$; paired bootstrap CIs exclude zero).  An error taxonomy reveals
+that \textit{reasoning truncation} is the dominant failure mode (44--58\% of failures),
+disproportionately penalising the structured systems because FHIR JSON contexts require
+longer reasoning chains.  On the feature-extraction arm, evaluated against a synthetic
+adherence label whose construction is partly entailed by the structured representation,
+FS-Structured features achieve AUC~0.997 against FS-Narrative AUC~0.843 and FS-Aware
+AUC~0.793; the partial tautology is examined in Results and Discussion.
+
+\textbf{Contribution.}  We demonstrate and empirically characterise a \textit{representation
+dissociation}: the representation that wins narrative QA (narrative $>$ structured) is not
+the same representation that wins downstream ML adherence prediction (structured $\gg$
+narrative).  This is the first paired-data comparison of narrative RAG, naive structured FHIR
+RAG, and resource-aware structured FHIR RAG on specialty-medication adherence-indicator
+questions with programmatic ground truth.  Code and dataset are released under Apache-2.0 /
+CC-BY-4.0.
+\end{abstract}
