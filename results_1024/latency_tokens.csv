@@ -1,0 +1,4 @@
+system,n_calls,n_errors,error_rate,latency_mean_ms,latency_p50_ms,latency_p95_ms,latency_p99_ms,tokens_in_mean,tokens_out_mean,total_tokens,exact_match_rate
+a,495,0,0.0,1154.07,843.17,2339.34,3512.6,484.1,429.0,451951,0.4424
+b,495,0,0.0,4626.06,1440.34,16282.28,112625.2,4142.4,506.3,2301112,0.3899
+c,495,0,0.0,2796.75,1286.14,3339.86,23912.64,1837.0,479.4,1146634,0.3818

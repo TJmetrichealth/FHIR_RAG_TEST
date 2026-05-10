@@ -6,20 +6,24 @@
 \label{sec:discussion}
 
 \paragraph{Interpreting the A $>$ B $>$ C ordering.}
-% Source: analysis/results.md, analysis/error_taxonomy.md
+% Source: analysis/results.md, analysis/error_taxonomy.md, analysis/token_sweep_compare.md
 System~A outperforms both structured variants on exact-match accuracy by 5.3~pp (vs.\ B)
-and 7.2~pp (vs.\ C), with statistically significant pairwise differences.  The ordering
-is real, but its interpretation requires care.  The error taxonomy reveals that
-44--58\% of all failures arise from reasoning truncation under the 512-token output
-budget, disproportionately affecting B and C because their FHIR-JSON contexts demand
-longer reasoning chains before a final answer can be stated.  Had the output budget
-been unconstrained, the gap would likely narrow, and would narrow further for C,
-whose resource-aware retrieval already demonstrates superior retrieval recall
-(0.852 vs.\ 0.762 at $k=5$; Table~\ref{tab:recall}).
-The 512-token limit was set to control API costs during the evaluation run and
-is a methodological artefact, not a property of narrative vs.\ structured RAG.
-Future work should sweep ANSWER\_MAX\_TOKENS to isolate the architecture effect from
-the budget effect.
+and 7.2~pp (vs.\ C), with statistically significant pairwise differences.  The error
+taxonomy attributes 44--58\% of failures to reasoning truncation under the 512-token
+output budget, raising the question of whether the ordering is conditional on that
+budget.  The 1024-token sensitivity sweep in \S\ref{sec:results:budget_sweep}
+answers this directly: doubling the answer budget gives no benefit to System~A
+($\Delta = 0.000$), but moves System~B by $+3.8$~pp and System~C by $+5.1$~pp on
+the same paired sample.  C gains slightly more than B, consistent with C's superior
+retrieval recall (0.852 vs.\ 0.762 at $k=5$; Table~\ref{tab:recall}) being partly
+masked by truncation in the 512-token regime.
+
+The budget effect is real and quantifiable, but it does not flip the ordering.
+At 1024 tokens, A still leads C by 6.0~pp and B by 5.2~pp.  The A $>$ B $>$ C
+ordering is therefore not an artefact of the 512-token cap alone, even though
+that cap accounts for roughly half of the structured-system deficit.  A practitioner
+choosing between architectures should expect the gap to narrow but not close as the
+output budget grows.
 
 \paragraph{Why the narrative format has a temporal weakness.}
 The temporal-anchor failure rate gradient (A:~30\%, B:~18\%, C:~10\%) is the most
@@ -33,20 +37,21 @@ the reference date is absent from the prompt context.  This is a structural prop
 that would persist regardless of token budget, and it motivates future work embedding
 reference-date context directly into narrative chunks at indexing time.
 
-\paragraph{The cross-resource family as a diagnostic.}
+\paragraph{The cross-resource family as a scope statement.}
 Structured retrieval should, in theory, have the largest advantage on cross-resource
 questions that require traversing FHIR references (e.g.\ linking a CarePlan to its
-MedicationRequests to their Medications).  In practice, cross-resource accuracy is
-at parity across all three systems (A=43.4\%, B=44.5\%, C=43.4\%;
-Table~\ref{tab:family_results}).  Two non-exclusive explanations exist.  First,
-the discriminative cross-resource templates surviving the W2 ground-truth patch
-(tier label, schedule kind, component presence) are not the most structurally demanding
-question type; the trivial templates were removed precisely because they were
-non-discriminative.  Second, the reasoning-truncation problem affects all three systems
-equally on this family, masking any structural advantage.
+MedicationRequests to their Medications).  In practice, cross-resource accuracy is at
+parity across all three systems (A=43.4\%, B=44.5\%, C=43.4\%;
+Table~\ref{tab:family_results}).  The retained \texttt{cross\_resource} templates target
+tier label, schedule kind, and component presence: each of these resolves a single FHIR
+reference rather than a multi-hop traversal.  The current question bank therefore does
+not exercise multi-hop reference traversal, and we do not claim evidence for or against
+a structural advantage of resource-aware retrieval on harder cross-resource templates.
+Whether such an advantage emerges under multi-hop traversal questions is a scope
+question for follow-up work, not a methodological miss in this evaluation.
 
 \paragraph{The representation dissociation: QA winner $\neq$ ML-feature winner.}
-The central finding of the feature-extraction arm (O6) is a \emph{dissociation} between
+The central finding of the feature-extraction arm is a \emph{dissociation} between
 QA performance and adherence-prediction performance.  System~A wins the QA comparison
 (40.6\% vs.\ 33.4--35.3\%), but FS-Structured features substantially outperform
 FS-Narrative features on adherence classification (LightGBM AUC 0.997 vs.\ 0.843;
@@ -65,13 +70,13 @@ uniformly dominates across downstream use cases.
 
 \paragraph{A point where readers may disagree.}
 A reasonable reviewer might argue that the near-perfect FS-Structured AUC (0.997--1.000)
-renders the O6 comparison trivial: if structured features are essentially tautological
-summaries of the labelling rule, the ``dissociation'' finding collapses to ``the features
-used to generate the label also predict the label.''  We acknowledge this directly.  The
-synthetic-label design (consecutive missed doses OR gap $>$ 1.5$\times$ interval) was
-chosen for reproducibility and programmatic verifiability; its alignment with the
-FS-Structured feature set is intentional and documented.  The meaningful signal in O6 is
-not the absolute FS-Structured AUC, but (1) the tied CI between FS-Narrative and FS-Aware
+renders the feature-arm comparison trivial: if structured features are essentially
+tautological summaries of the labelling rule, the ``dissociation'' finding collapses to
+``the features used to generate the label also predict the label.''  We acknowledge this
+directly.  The synthetic-label design (consecutive missed doses OR gap $>$ 1.5$\times$
+interval) was chosen for reproducibility and programmatic verifiability; its alignment
+with the FS-Structured feature set is intentional and documented.  The meaningful signal
+is not the absolute FS-Structured AUC, but (1) the tied CI between FS-Narrative and FS-Aware
 despite very different feature sources, and (2) the relative ordering (Structured $\gg$
 Narrative $\approx$ Aware) which is robust across both classifiers.  We do not claim
 that structured features will achieve near-perfect AUC on a real noisy cohort; we claim
@@ -83,14 +88,14 @@ For practitioners building RAG over specialty-medication clinical records, the c
 representation should follow the downstream task.  When the answer LLM's output budget
 is constrained, narrative RAG is the lower-risk choice: its compact context (490 mean
 tokens-in vs.\ 4,463 for System~B) allows more reasoning headroom within a fixed token
-limit.  If output budgets are generous, structured RAG's temporal grounding becomes a
-meaningful advantage; the temporal-anchor failure gradient (A:~30\%, B:~18\%, C:~10\%)
-suggests that structured systems would recover faster than narrative systems once the
-token ceiling is raised.  For downstream adherence risk stratification, structured FHIR
-features are preferable to reusing the narrative representation: extracting numeric
-adherence metrics directly from FHIR resources is both more interpretable and more
-predictive in this evaluation.  Finally, LLM-generated narratives should be treated as
-summaries, not as drop-in replacements for the structured record.  The fidelity audit
-confirms 100\% entity recovery after prompt iteration, but entity recovery does not
-guarantee that every temporal relation is preserved in a form the answer LLM can
-exploit during reasoning.
+limit.  If output budgets are generous, structured RAG closes part of the gap but does
+not overtake narrative RAG on QA accuracy in our evaluation: the 1024-token sweep
+recovers $+5.1$~pp for System~C and $+3.8$~pp for System~B while leaving System~A
+unchanged, narrowing but not eliminating A's lead (\S\ref{sec:results:budget_sweep}).
+For downstream adherence risk stratification, structured FHIR features are preferable
+to reusing the narrative representation: extracting numeric adherence metrics directly
+from FHIR resources is both more interpretable and more predictive in this evaluation.
+Finally, LLM-generated narratives should be treated as summaries, not as drop-in
+replacements for the structured record.  The fidelity audit confirms 100\% entity
+recovery after prompt iteration, but entity recovery does not guarantee that every
+temporal relation is preserved in a form the answer LLM can exploit during reasoning.
