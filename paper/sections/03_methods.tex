@@ -27,8 +27,8 @@ Each patient is represented in two parallel forms derived from the same FHIR bun
 \begin{enumerate}
   \item FHIR bundle (structured): Synthea base plus the specialty overlay
     (MedicationRequest, MedicationAdministration, Medication, CarePlan, Encounter, Patient,
-    Practitioner), frozen at git tag \texttt{dataset-freeze-v1} (commit \texttt{98959f8};
-    manifest SHA-256 \texttt{4d0da93e\ldots}).
+    Practitioner), frozen at release tag \texttt{dataset-freeze-v1}
+    (manifest SHA-256 \texttt{4d0da93e\ldots}).
   \item LLM narrative: generated from the bundle by Llama~3.3-70B via Groq with
     a fixed system prompt (hash \texttt{518bc71d87b7}), fixed temperature (0.0), and a
     mid-window administration date instruction to surface temporal entities.  A deterministic

@@ -1,0 +1,52 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-003",
+      "request": {"method": "POST", "url": "Patient"},
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-003",
+        "birthDate": "1990-03-10",
+        "gender": "male"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:mr-003",
+      "request": {"method": "POST", "url": "MedicationRequest"},
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "mr-003",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {"text": "Drug-C placeholder"},
+        "subject": {"reference": "urn:uuid:DOES-NOT-EXIST"}
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:adm-003",
+      "request": {"method": "POST", "url": "MedicationAdministration"},
+      "resource": {
+        "resourceType": "MedicationAdministration",
+        "id": "adm-003",
+        "status": "completed",
+        "medicationCodeableConcept": {"text": "Drug-C placeholder"},
+        "subject": {"reference": "urn:uuid:patient-003"},
+        "effectiveDateTime": "2026-03-01T09:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cp-003",
+      "request": {"method": "POST", "url": "CarePlan"},
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "cp-003",
+        "status": "active",
+        "intent": "plan",
+        "subject": {"reference": "urn:uuid:patient-003"},
+        "note": [{"text": "tier=1; label=T1-fixed; start=2026-03-01"}]
+      }
+    }
+  ]
+}

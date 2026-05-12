@@ -1,0 +1,59 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-002",
+      "request": {"method": "POST", "url": "Patient"},
+      "resource": {
+        "resourceType": "Patient",
+        "id": "p2",
+        "birthDate": "1975-06-15",
+        "gender": "female"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:mr-002",
+      "request": {"method": "POST", "url": "MedicationRequest"},
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "mr2",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {"text": "Drug-B placeholder"},
+        "subject": {"reference": "Patient/p2"}
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:adm-002",
+      "request": {"method": "POST", "url": "MedicationAdministration"},
+      "resource": {
+        "resourceType": "MedicationAdministration",
+        "id": "adm2",
+        "status": "completed",
+        "medicationCodeableConcept": {"text": "Drug-B placeholder"},
+        "subject": {"reference": "Patient/p2"},
+        "request": {"reference": "MedicationRequest/mr2"},
+        "effectiveDateTime": "2026-02-01T09:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cp-002",
+      "request": {"method": "POST", "url": "CarePlan"},
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "cp2",
+        "status": "active",
+        "intent": "plan",
+        "title": "Specialty regimen",
+        "subject": {"reference": "Patient/p2"},
+        "activity": [
+          {
+            "reference": {"reference": "MedicationRequest/mr2"}
+          }
+        ],
+        "note": [{"text": "tier=1; label=T1-fixed; start=2026-02-01"}]
+      }
+    }
+  ]
+}

@@ -111,6 +111,7 @@ python scripts/freeze_dataset.py --output data/freeze.json --strict
 - `eval/cache/` holds every Groq response keyed by request hash. With it present, `make reproduce` is offline; without it, the rebuild reissues live calls and burns rate-limit time. The Make target prints a warning and a 5-second abort window.
 - The `dataset-freeze-v1` and `results-freeze-v1` git tags pin the exact commits the paper's numbers come from.
 - A `Dockerfile` is provided for hermetic builds.
+- FHIR R4B conformance is verified by `make fhir-validate` (HL7 official Java validator + extended Pydantic checks over every `Reference` field). Compliance posture, allowlisted warnings, and out-of-scope items are documented in [docs/FHIR_COMPLIANCE.md](docs/FHIR_COMPLIANCE.md).
 
 ## Licence
 

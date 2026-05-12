@@ -1,0 +1,53 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-007",
+      "request": {"method": "POST", "url": "Patient"},
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-007",
+        "birthDate": "1958-09-12",
+        "gender": "male"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:mr-007",
+      "request": {"method": "POST", "url": "MedicationRequest"},
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "mr-007",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {"text": "Drug-G placeholder"},
+        "subject": {"reference": "urn:uuid:patient-007"},
+        "requester": {"reference": "Practitioner?identifier=https://example.org/ids|12345"}
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:adm-007",
+      "request": {"method": "POST", "url": "MedicationAdministration"},
+      "resource": {
+        "resourceType": "MedicationAdministration",
+        "id": "adm-007",
+        "status": "completed",
+        "medicationCodeableConcept": {"text": "Drug-G placeholder"},
+        "subject": {"reference": "urn:uuid:patient-007"},
+        "effectiveDateTime": "2026-07-01T09:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cp-007",
+      "request": {"method": "POST", "url": "CarePlan"},
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "cp-007",
+        "status": "active",
+        "intent": "plan",
+        "subject": {"reference": "urn:uuid:patient-007"},
+        "note": [{"text": "tier=1; label=T1-fixed; start=2026-07-01"}]
+      }
+    }
+  ]
+}

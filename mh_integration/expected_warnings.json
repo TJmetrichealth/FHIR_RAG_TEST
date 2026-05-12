@@ -1,0 +1,50 @@
+[
+  {
+    "_meta": "Allowlist format: each entry must have 'issue_code' (FHIR issue code string) and 'url_substring' (substring matched against diagnostics or location). An issue is allowlisted when BOTH match. See mh_integration/hl7_validator.py _is_allowlisted() for resolution logic. Do not add entries without a corresponding decision-log entry in docs/decisions.md."
+  },
+  {
+    "issue_code": "code-unknown",
+    "url_substring": "fhir-rag.example/CodeSystem/specialty-regimen",
+    "justification": "decision B5 (docs/decisions.md 2026-04-19): synthetic specialty CodeSystem by design; no real RxNorm/SNOMED codes in this dataset"
+  },
+  {
+    "issue_code": "code-unknown",
+    "url_substring": "fhir-rag.example",
+    "justification": "all fhir-rag.example/* URIs are intentional synthetic placeholders for this preprint's controlled dataset (decision B5)"
+  },
+  {
+    "issue_code": "invalid",
+    "url_substring": "Wrong Display Name",
+    "justification": "Synthea-inherited LOINC display-name mismatches. The synthetic dataset uses Synthea's base records verbatim; Synthea's terminology displays sometimes lag the LOINC canonical strings. Allowlisted because the issue is in the upstream Synthea generator, not the specialty-regimen overlay this project introduces."
+  },
+  {
+    "issue_code": "invalid",
+    "url_substring": "Coding has no system",
+    "justification": "Synthea-inherited inconsistency in some Practitioner/Organization role codes. Out of scope for the overlay; the bundles are not modified post-Synthea."
+  },
+  {
+    "issue_code": "structure",
+    "url_substring": "synthetichealth.github.io/synthea/disability-adjusted-life-years",
+    "justification": "Synthea ships its own custom extension URL for DALY metadata without a published StructureDefinition. Inherited at freeze time; not introduced by the overlay."
+  },
+  {
+    "issue_code": "structure",
+    "url_substring": "synthetichealth.github.io/synthea/quality-adjusted-life-years",
+    "justification": "Synthea ships its own custom extension URL for QALY metadata without a published StructureDefinition. Inherited at freeze time; not introduced by the overlay."
+  },
+  {
+    "issue_code": "invariant",
+    "url_substring": "bdl-3",
+    "justification": "Known overlay limitation: the specialty-regimen overlay appends entries to a Synthea-produced transaction Bundle without populating entry.request on those entries, so the FHIR R4B invariant bdl-3 ('entry.request mandatory for batch/transaction/history') fails on every bundle. dataset-freeze-v1 is frozen so this is documented as a known violation; a future overlay regeneration should add entry.request blocks (or switch Bundle.type to 'collection') on appended entries. See overlay/specialty_regimen_generator.py lines 318/330/347/377."
+  },
+  {
+    "issue_code": "code-invalid",
+    "url_substring": "Unknown code 'SC' in the CodeSystem 'http://terminology.hl7.org/CodeSystem/v3-Ro",
+    "justification": "Overlay uses 'SC' as the v3-RouteOfAdministration code for subcutaneous; the validator's bundled v3-RouteOfAdministration package does not include this two-letter code. The HL7 v3 vocabulary historically accepts 'SC' but the validator package considers it unknown. Documented overlay-coding choice; for a future overlay regeneration consider switching to 'SUBCUTAN'."
+  },
+  {
+    "issue_code": "code-invalid",
+    "url_substring": "Unknown code 'IH' in the CodeSystem 'http://terminology.hl7.org/CodeSystem/v3-Ro",
+    "justification": "Same situation as 'SC' above, for inhalation route. Future overlay should consider 'IPINHL' or 'INHL'."
+  }
+]

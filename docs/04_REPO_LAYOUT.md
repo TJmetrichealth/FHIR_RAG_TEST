@@ -104,10 +104,17 @@ fhir-rag-preprint/
 │       └── smoke/                # End-to-end smoke tests per system
 │
 ├── mh_integration/               # NEW for v3 — artefacts destined for metricHEALTH
-│   ├── r4b_validator.py          # Pre-write R4B conformance validator (Phase 1 hookup); standalone copy if mH repo unavailable at W1 start
+│   ├── r4b_validator.py          # Pre-write R4B conformance validator (Phase 1 hookup); generic Reference walker over all fields
+│   ├── hl7_validator.py          # NEW (2026-05-11) — wrapper around HL7 official Java FHIR Validator (validator_cli.jar)
+│   ├── expected_warnings.json    # NEW (2026-05-11) — allowlist for intentional terminology warnings (decision B5)
 │   ├── case_manager_qa.py        # FastAPI wrapper around System C — mounts into metricCONNECT (Phase 4 prototype)
 │   ├── schemas/
 │   │   └── case_manager_qa.py    # Pydantic request/response models
+│   ├── tests/                    # NEW (2026-05-11) — pytest suite with synthetic fixtures for both validators
+│   │   ├── conftest.py
+│   │   ├── test_r4b_validator_extended.py
+│   │   ├── test_hl7_validator.py
+│   │   └── fixtures/             # 8 small Bundle fixtures: valid_minimal_urn, valid_minimal_relative, broken_subject_ref, broken_nested_ref, missing_careplan, bad_status, logical_reference, contained_resource
 │   └── README.md                 # How the metricHEALTH team picks these up
 │
 ├── eval/
@@ -129,7 +136,9 @@ fhir-rag-preprint/
 │   ├── scored.csv                # Scored evaluation matrix
 │   ├── latency_tokens.csv        # Cost / latency per system
 │   ├── recall_at_k.csv           # Retrieval-only metrics
-│   ├── conformance_rates.csv     # NEW for v3 — per-tier R4B conformance (Phase 1 evidence)
+│   ├── conformance_rates.csv     # Per-tier R4B conformance (Pydantic validator)
+│   ├── hl7_validator_results.csv # NEW (2026-05-11) — per-bundle HL7 official-validator outcome
+│   ├── hl7_validator_raw/        # NEW (2026-05-11) — raw OperationOutcome JSON per bundle (gitignored optionally)
 │   └── feature_extraction/       # NEW for v3
 │       ├── auc_by_feature_set.csv
 │       ├── auc_by_classifier.csv
@@ -174,7 +183,10 @@ fhir-rag-preprint/
 └── scripts/
     ├── freeze_dataset.py         # Computes SHA-256 manifest; writes data/freeze.json
     ├── check_cache.py            # Sanity-check cache hit rate
-    └── cost_preflight.py         # Estimate API cost before a full run (spoiler: $0 per v2)
+    ├── cost_preflight.py         # Estimate API cost before a full run (spoiler: $0 per v2)
+    ├── setup_java_portable.sh    # Portable Eclipse Temurin JRE 21 into tools/jre/
+    ├── setup_hl7_validator.sh    # NEW (2026-05-11) — pinned HL7 FHIR Validator jar into tools/hl7-validator/
+    └── run_fhir_validation.py    # NEW (2026-05-11) — orchestrator: Pydantic + HL7 validator + report aggregator
 ```
 
 ---
@@ -189,6 +201,7 @@ fhir-rag-preprint/
 - **`docs/decisions.md`** is append-only. Earlier decisions are never edited — only superseded by later entries.
 - **`features/adherence_metrics.py`** is load-bearing: the question-architect uses it for ground truth, the evaluator uses it for feature extraction, metricHEALTH Phase 3 will use it for ML features. Any edit after the Week 1 freeze requires regenerating ground truth AND all feature extractions.
 - **`mh_integration/`** artefacts are designed to be lifted into the metricHEALTH repo as-is. Changes there are cross-repo decisions.
+- **FHIR R4B compliance posture** is documented in [docs/FHIR_COMPLIANCE.md](FHIR_COMPLIANCE.md): what is checked, by which validator, what is intentionally out of scope (profile conformance, real terminology), and how to reproduce `make fhir-validate` locally.
 
 ---
 

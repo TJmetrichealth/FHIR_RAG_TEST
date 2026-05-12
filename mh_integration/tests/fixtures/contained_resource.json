@@ -1,0 +1,59 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-008",
+      "request": {"method": "POST", "url": "Patient"},
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-008",
+        "birthDate": "2000-02-20",
+        "gender": "female"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:mr-008",
+      "request": {"method": "POST", "url": "MedicationRequest"},
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "mr-008",
+        "status": "active",
+        "intent": "order",
+        "contained": [
+          {
+            "resourceType": "Medication",
+            "id": "m1",
+            "code": {"text": "Drug-H placeholder (contained)"}
+          }
+        ],
+        "medicationReference": {"reference": "#m1"},
+        "subject": {"reference": "urn:uuid:patient-008"}
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:adm-008",
+      "request": {"method": "POST", "url": "MedicationAdministration"},
+      "resource": {
+        "resourceType": "MedicationAdministration",
+        "id": "adm-008",
+        "status": "completed",
+        "medicationCodeableConcept": {"text": "Drug-H placeholder"},
+        "subject": {"reference": "urn:uuid:patient-008"},
+        "effectiveDateTime": "2026-08-01T09:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cp-008",
+      "request": {"method": "POST", "url": "CarePlan"},
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "cp-008",
+        "status": "active",
+        "intent": "plan",
+        "subject": {"reference": "urn:uuid:patient-008"},
+        "note": [{"text": "tier=3; label=T3-multidrug; start=2026-08-01"}]
+      }
+    }
+  ]
+}

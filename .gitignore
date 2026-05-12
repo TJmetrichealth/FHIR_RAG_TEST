@@ -24,6 +24,10 @@ data/synthea_base/*.json.gz
 data/synthea_base/**/*.json
 !data/synthea_base/.gitkeep
 
+# HL7 official FHIR Validator (downloaded on demand; pinned by tools/hl7-validator/validator_cli.sha256)
+tools/hl7-validator/validator_cli.jar
+tools/hl7-validator/.installed
+
 # Generated large artefacts (data/ itself is versioned up to freeze).
 # LLM-generated narratives (*.txt, *.meta.json) are tracked because Groq
 # regeneration is rate-limited and not byte-reproducible. The intermediate
@@ -33,6 +37,9 @@ narratives/llm_narratives/_cache/
 # Claude Code harness — local-only, not part of the published artefact
 .claude/
 CLAUDE.md
+CLAUDE.local.md
+.claudeignore
+docs/01_CLAUDE_CODE_AGENT_PLAN.md
 
 # Local run logs (keep eval/cache instead, that's the reproducibility anchor)
 .eval_logs/
@@ -46,6 +53,9 @@ results/raw/*.jsonl.bak
 # Large raw result dumps — too big for git; processed summaries in results_1024/ are tracked
 results/raw_1024/
 results/raw_large/
+
+# HL7 FHIR validator raw per-bundle JSON dumps (~2.3 GB); summary CSV is tracked
+results/hl7_validator_raw/
 
 # Overleaf build artifact — regenerated from paper/ sources
 fhir_rag_paper_overleaf.zip

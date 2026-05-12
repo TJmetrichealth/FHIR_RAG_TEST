@@ -1,4 +1,4 @@
-.PHONY: help setup synthea overlay narratives fidelity fidelity-templated templated questions freeze dataset smoke clean reproduce
+.PHONY: help setup synthea overlay narratives fidelity fidelity-templated templated questions freeze dataset smoke clean reproduce fhir-validate fhir-reaggregate
 
 PY := python
 SEED := 20260427
@@ -108,3 +108,14 @@ reproduce:
 	  sleep 5; \
 	fi
 	$(MAKE) dataset
+
+fhir-validate:
+	bash scripts/setup_java_portable.sh
+	bash scripts/setup_hl7_validator.sh
+	$(PY) scripts/run_fhir_validation.py \
+	  --bundles data/fhir_bundles \
+	  --output-dir results \
+	  --reports-dir reports
+
+fhir-reaggregate:
+	$(PY) scripts/reaggregate_fhir_validation.py

@@ -1,0 +1,53 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-004",
+      "request": {"method": "POST", "url": "Patient"},
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-004",
+        "birthDate": "1985-07-22",
+        "gender": "female"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:mr-004",
+      "request": {"method": "POST", "url": "MedicationRequest"},
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "mr-004",
+        "status": "active",
+        "intent": "order",
+        "medicationCodeableConcept": {"text": "Drug-D placeholder"},
+        "subject": {"reference": "urn:uuid:patient-004"}
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:adm-004",
+      "request": {"method": "POST", "url": "MedicationAdministration"},
+      "resource": {
+        "resourceType": "MedicationAdministration",
+        "id": "adm-004",
+        "status": "completed",
+        "medicationCodeableConcept": {"text": "Drug-D placeholder"},
+        "subject": {"reference": "urn:uuid:patient-004"},
+        "context": {"reference": "Encounter/MISSING"},
+        "effectiveDateTime": "2026-04-01T09:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cp-004",
+      "request": {"method": "POST", "url": "CarePlan"},
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "cp-004",
+        "status": "active",
+        "intent": "plan",
+        "subject": {"reference": "urn:uuid:patient-004"},
+        "note": [{"text": "tier=2; label=T2-cyclic; start=2026-04-01"}]
+      }
+    }
+  ]
+}

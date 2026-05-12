@@ -1,0 +1,5 @@
+# HL7 official FHIR Validator validator_cli.jar SHA-256 pin
+# Initial state: empty. scripts/setup_hl7_validator.sh writes the SHA on first
+# download; commit the resulting file to lock the version. Subsequent runs
+# verify against this checksum and fail closed on mismatch.
+ded486a2241d714c53b847976b44875179e472fc5d09f79a3e6c0a08578317a8
