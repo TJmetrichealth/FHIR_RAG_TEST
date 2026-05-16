@@ -36,14 +36,17 @@ Each patient is represented in two parallel forms derived from the same FHIR bun
 \end{enumerate}
 
 \paragraph{Fidelity audit.}
-Narrative quality is verified by an independent programmatic audit that recovers eight entity
-classes (medication name, regimen start/end, tier integer, tier description, administration
-dates, administration count, dosage schedule) directly from FHIR resources (not from the
-generation prompt, fixing the circular-audit problem).  After one prompt-iteration step to
-add mid-window administration dates, both generators reached 100\% weighted entity
-recall across all 200 patients and all 2{,}403 checks (all bundles passed the audit
-threshold).  The same audit was replicated on the templated-narrative ablation with
-the same result.
+Narrative quality is verified by an independent programmatic audit that recovers eight
+\emph{prompted} entity classes (medication name, regimen start/end, tier integer, tier
+description, administration dates, administration count, dosage schedule) directly from
+FHIR resources, not from the generation prompt itself.  The audit verifies that entities
+explicitly listed in the generation prompt were preserved in the narrative; it does not
+claim recovery of FHIR resources outside the prompted set (e.g., allergies, encounters not
+referenced in the regimen, or practitioner specialties beyond the prescriber).  After one
+prompt-iteration step to add mid-window administration dates, both generators reached
+100\% weighted prompted-entity recall across all 200 patients and all 2{,}403 checks
+(all bundles passed the audit threshold).  The same audit was replicated on the
+templated-narrative ablation with the same result.
 
 \paragraph{Question bank.}
 We generate 13,800 questions (200 patients $\times$ 69 templates, 2 paraphrases per logical

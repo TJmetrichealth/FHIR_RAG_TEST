@@ -27,25 +27,25 @@ synthetic dataset.
 
 | Feature set | LightGBM | Logistic Regression |
 |-------------|----------|---------------------|
-| FS-Structured | 0.997 (95% CI 0.986–1.000) | 1.000 (95% CI 0.999–1.000) |
-| FS-Narrative | 0.843 (95% CI 0.771–0.896) | 0.836 (95% CI 0.764–0.897) |
-| FS-Aware | 0.793 (95% CI 0.680–0.865) | 0.708 (95% CI 0.634–0.799) |
+| FS-Structured | 0.997 (95% CI 0.983–1.000) | 1.000 (95% CI 0.999–1.000) |
+| FS-Narrative | 0.846 (95% CI 0.761–0.889) | 0.836 (95% CI 0.764–0.897) |
+| FS-Aware | 0.769 (95% CI 0.660–0.844) | 0.708 (95% CI 0.634–0.799) |
 
 The winning combination is **fs_structured** × **logreg** (AUC = 1.000).
 
 ## Pairwise AUC differences (LightGBM, paired bootstrap, N = 10,000 resamples)
 
-- FS-Structured vs FS-Narrative: Δ=+0.160 (95% CI +0.099–+0.226)
-- FS-Structured vs FS-Aware: Δ=+0.219 (95% CI +0.132–+0.316)
-- FS-Narrative vs FS-Aware: Δ=+0.060 (95% CI -0.051–+0.177)
+- FS-Structured vs FS-Narrative: Δ=+0.167 (95% CI +0.104–+0.234)
+- FS-Structured vs FS-Aware: Δ=+0.238 (95% CI +0.150–+0.336)
+- FS-Narrative vs FS-Aware: Δ=+0.071 (95% CI -0.039–+0.190)
 
 ## Per-tier breakdown (LightGBM, mean ± std across folds)
 
 | Feature set | Tier 1 | Tier 2 | Tier 3 |
 |-------------|--------|--------|--------|
 | FS-Structured | N/A | 0.988 ± 0.028 | N/A |
-| FS-Narrative | N/A | 0.582 ± 0.161 | N/A |
-| FS-Aware | N/A | 0.589 ± 0.223 | N/A |
+| FS-Narrative | N/A | 0.583 ± 0.117 | N/A |
+| FS-Aware | N/A | 0.589 ± 0.205 | N/A |
 
 "N/A" or degenerate folds occur where a tier's test set contains only one class (common
 for Tier 1 and Tier 3 with label = 0 throughout; the fold may have no positives).

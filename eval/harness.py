@@ -64,9 +64,13 @@ def _load_system(name: str) -> BaseSystem:
         from systems.structured_rag_aware import StructuredRAGAware  # type: ignore[import]
         return StructuredRAGAware()
 
+    if name_lower in ("n", "noretrieval", "no_retrieval", "system_n_noretrieval"):
+        from systems.no_retrieval import NoRetrieval  # type: ignore[import]
+        return NoRetrieval()
+
     raise ValueError(
         f"Unknown system: {name!r}. "
-        "Valid names: stub, a/narrative, b/naive, c/aware"
+        "Valid names: stub, a/narrative, b/naive, c/aware, n/noretrieval"
     )
 
 

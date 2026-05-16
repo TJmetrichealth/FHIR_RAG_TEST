@@ -716,3 +716,120 @@ The allowlist (`mh_integration/expected_warnings.json`) is closed at 9 entries c
 **Rationale:** Closing the compliance run with a documented allowlist gives the preprint a precise, reproducible R4B conformance statement: every bundle parses, every reference resolves, and every ERROR-severity finding from the HL7 official validator falls into one of five enumerated patterns with a justification. That is a stronger and more honest claim than "no errors" would have been, because it acknowledges the upstream Synthea inheritance and the overlay-introduced `bdl-3` violation rather than hiding them.
 
 **Supersedes:** Extends the earlier 2026-05-11 entry (validator strategy + allowlist mechanism) by recording the actual run output and pinning the allowlist content. Both entries remain active.
+
+---
+
+## 2026-05-16 — results-freeze-v2: peer-review revisions
+
+**Decision:** Open a new release tag `results-freeze-v2` covering the four
+substantive revisions made in response to a peer-review pass on the
+`results-freeze-v1` preprint. `results-freeze-v1` remains intact and tagged
+for byte-reproducibility against the pre-revision draft.
+
+**Revisions folded into results-freeze-v2:**
+
+1. **No-retrieval baseline (System N).** New runner `scripts/run_no_retrieval_arm.py`
+   plus `systems/no_retrieval.py` plus registry entry in `eval/harness.py`.
+   13,800 questions answered with empty context; overall accuracy 25.2%
+   [24.4%, 25.9%], collapsing to 6.9% at Tier 3. Retrieval-attributable lifts
+   (paired bootstrap, 10,000 resamples, seed 42): A +15.4pp [+14.6, +16.3],
+   B +10.1pp [+9.3, +11.0], C +8.2pp [+7.3, +9.1]; all CIs exclude zero.
+   New cache dir `eval/cache_noretrieval/answers/`. Scored outputs under
+   `results/scored_noretrieval/`. Reported in paper §4.9.
+
+2. **Templated-narrative QA arm (System A-T).** New runner
+   `scripts/run_templated_arm.py` plus parameterization of
+   `systems/narrative_rag.py` (added `narratives_dir`, `chroma_base`, and
+   instance-level `name` constructor args; backward-compatible). 13,800
+   questions answered against deterministic templated narratives. Overall
+   accuracy 41.3% [40.5%, 42.1%] vs canonical A at 40.6%; paired-bootstrap
+   delta +0.74pp [+0.13, +1.34]. CI excludes zero in favour of templated.
+   Per-tier and per-family heterogeneity reported in Table 8. New cache dir
+   `eval/cache_templated/answers/` and Chroma index at
+   `systems/system_a_templated/chroma/`. Reported in paper §4.10.
+
+3. **LightGBM `class_weight='balanced'`.** Reverses the earlier choice
+   documented in the 2026-05-08 O6 entry to leave LightGBM unweighted.
+   Logistic regression already used class-weighting; now both classifiers do.
+   AUCs shift by ≤0.03 in every cell; relative ordering FS-Structured >>
+   FS-Narrative > FS-Aware is preserved. Reported in paper §4.7, with
+   per-cell comparison in `analysis/lightgbm_class_weight_comparison.md`.
+   **Supersedes:** the "rejected for LightGBM" item in the 2026-05-08 entry.
+
+4. **Tier-3 retriever-vs-reasoning attribution.** Pure analysis on existing
+   `results/recall_at_k.csv` and `results/scored.csv`. New analysis script
+   `analysis/run_tier3_recall_breakdown.py` produces
+   `analysis/tier3_recall_breakdown.md`. Finding: at Tier 3, retrieval
+   recall@5 stays at 80-86% for both structured systems on four of five
+   families while accuracy collapses to ~20%, locating the bottleneck in
+   downstream reasoning under multi-component context, not retrieval.
+   Architectural implications discussed in paper §5.
+
+**Editorial revisions (no data change):**
+
+- Fidelity audit wording in §3.1 and §1 tightened from "all FHIR entities"
+  to "all prompted entity classes." Reviewer flagged the original as
+  overclaiming the audit scope.
+- Abstract "first paired-data comparison" tightened to match §2 precision
+  ("information content held constant by shared-source rendering; ground
+  truth produced programmatically rather than by LLM-as-judge").
+- Cost-per-correct-answer column added to Table 4. System B at 5.1x System A.
+- Table 3 McNemar discordant cells (b, c) added alongside χ² values.
+- §4.1 effect-size acknowledgement: phi 0.054 for B vs C is below Cohen's
+  small-effect threshold; statistically detectable but practically equivalent.
+- §4.2 Tier-3 paragraph: "strictly below" → "below" (margin is 2pp, not
+  large); "hard temporal arithmetic" → "multi-step temporal reasoning".
+- §4.7 inline note on the class-weight standardisation.
+- §6 Limitations re-ordered: synthetic-data limitation now leads; the
+  no-zero-retrieval and class-imbalance items removed since both are now
+  resolved by revisions 1 and 3; ANSWER_MAX_TOKENS=512 demoted given the
+  1024-token sweep already partially quantifies it.
+- §5 Discussion: new Tier-3 architectural paragraph; new Format-vs-LLM
+  paragraph; new path-(a) infeasibility note in the "point where readers
+  may disagree" subsection.
+- §7 Reproducibility: GitHub URL placeholder kept (will populate on
+  submission day); new cache directories and reproduction commands added
+  for the two new arms.
+
+**Outcome on the headline framing:** the templated-narrative ablation
+(revision 2) returned H1 (templated matches or slightly beats LLM-narrative
+overall), so the abstract, Contribution 4, and Conclusion retain the
+"representation dissociation" framing and add the templated-narrative
+confirmation as supporting evidence. No softening of the headline was needed.
+
+**Alternatives considered:**
+
+- **Replace the synthetic adherence label with a non-tautological signal
+  (reviewer's path-a).** Investigated and not feasible on the current
+  cohort: Synthea bundles do not contain post-regimen disease-progression
+  events of the kind that would yield a non-entailed label. Documented in
+  §5 Discussion and §6 Limitations. Deferred to full-venue work with
+  regimen-impact-modeled synthetic data or real PSP outcomes.
+- **Re-run all three canonical systems with the templated narratives
+  swapped in as a System B / C input instead of just System A.** Out of
+  scope. System B serialises FHIR JSON; System C uses resource-aware
+  retrieval over FHIR JSON. Neither uses narratives. The substitution test
+  is meaningful only for System A.
+- **Add multi-hop cross-resource questions to exercise System C's
+  reference-chain traversal primitive.** Out of scope for this revision;
+  deferred to v1.1 of the question bank. Documented in §5 Discussion.
+
+**Rationale:** Each substantive revision addresses a specific reviewer
+priority (#1 templated arm, #3 no-retrieval, #4 Tier-3, #8 class-weight).
+The path-(a) reviewer recommendation (replace the label) is acknowledged as
+the right call for a non-tautological feature-arm result but is not feasible
+on the dataset-freeze-v1 cohort, so editorial mitigation (clearer disclosure
+of the tautology, removal of overclaims in front-matter, explicit
+infeasibility note) is used instead. The result is a paper whose
+limitations section is shorter (two items resolved), whose front-matter
+matches its Discussion, and whose central representation-dissociation
+claim is now triangulated across LLM and templated narratives.
+
+**Supersedes:**
+- The "Oversampling (SMOTE, class_weight): rejected for LightGBM" sub-bullet
+  in the 2026-05-08 — Feature-arm O6 implementation choices entry. LightGBM
+  is now class-weighted.
+
+**Does not supersede:** All other 2026-05-08 O6 choices (K=5, n_estimators=200,
+learning_rate=0.05, num_leaves=31, random_state=42, bootstrap N=10,000,
+class balance, label threshold) remain unchanged.

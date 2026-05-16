@@ -42,27 +42,31 @@ test statistics; all bootstrap CIs exclude zero and all McNemar $p < 0.001$.
 \centering
 \caption{Pairwise accuracy comparisons. Paired bootstrap (10,000 resamples, seed 42,
 paired by question\_id). McNemar $\chi^2$ uses the uncorrected formula $(b-c)^2 / (b+c)$
-with 1~df. Phi = effect size.}
+with 1~df, where $b$ is the count of questions where the first system is correct
+and the second is wrong, and $c$ is the converse. Phi = effect size.}
 \label{tab:pairwise}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-Comparison & Observed diff (pp) & Bootstrap 95\% CI & McNemar $\chi^2$ ($p$, $\phi$) \\
+Comparison & Observed diff (pp) & Bootstrap 95\% CI & Discordant ($b$, $c$) & McNemar $\chi^2$ ($p$, $\phi$) \\
 \midrule
-A vs.\ B & +5.27 & [+4.5\%, +6.0\%] & 185.0 ($p{<}0.001$, $\phi{=}0.116$) \\
-A vs.\ C & +7.21 & [+6.4\%, +8.0\%] & 330.8 ($p{<}0.001$, $\phi{=}0.155$) \\
-B vs.\ C & +1.94 & [+1.3\%, +2.5\%] &  40.2 ($p{<}0.001$, $\phi{=}0.054$) \\
+A vs.\ B & +5.27 & [+4.5\%, +6.0\%] & (1{,}792, 1{,}065) & 185.0 ($p{<}0.001$, $\phi{=}0.116$) \\
+A vs.\ C & +7.21 & [+6.4\%, +8.0\%] & (1{,}994, 999) & 330.8 ($p{<}0.001$, $\phi{=}0.155$) \\
+B vs.\ C & +1.94 & [+1.3\%, +2.5\%] & (1{,}027, 759) &  40.2 ($p{<}0.001$, $\phi{=}0.054$) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 The effect sizes (phi 0.054--0.155) are modest, consistent with a 5--7 percentage-point
-absolute gap on a large, difficult question set.  We return to their practical significance
-in Section~\ref{sec:discussion}.
+absolute gap on a large, difficult question set.  By Cohen's convention the A vs.\ B
+($\phi{=}0.116$) and A vs.\ C ($\phi{=}0.155$) effects sit between "very small" and "small";
+the B vs.\ C effect ($\phi{=}0.054$) is below the conventional small-effect threshold.
+The McNemar test detects the B vs.\ C gap as significant given the large sample size
+(N=13,800), but the two structured systems are practically equivalent on this evaluation.
+We return to their practical significance in Section~\ref{sec:discussion}.
 
 \paragraph{Partial credit.}
-The partial-credit metric (Jaccard for list answers, 1.0/0.0 for scalar types, 2\%
-relative tolerance for floats) tracks exact-match closely overall: A 0.438, B 0.380,
-C 0.360.  The largest exact-to-partial gap appears on \texttt{temporal\_comparison}
+The partial-credit metric (defined in \S\ref{sec:methods:eval}) tracks exact-match
+closely overall: A 0.438, B 0.380, C 0.360.  The largest exact-to-partial gap appears on \texttt{temporal\_comparison}
 (missed-dose detection), where System~A rises from 43.7\% exact to 58.3\% partial
 ($+14.6$~pp) and System~C from 34.3\% to 43.5\% ($+9.2$~pp).  This indicates that on
 date-valued answers the systems often produce a date close to the ground truth but
@@ -77,7 +81,7 @@ A $>$ B $>$ C ordering.
 \includegraphics[width=0.85\textwidth]{../figures/accuracy_by_tier.png}
 \caption{Exact-match accuracy by system and complexity tier (Wilson 95\% CI error bars).
 Tier~1: single long-acting injectable; Tier~2: cyclic regimen; Tier~3: multi-drug.
-All three systems converge near 20\% at Tier~3, with 95\%~CIs strictly below the
+All three systems converge near 20\% at Tier~3, with 95\%~CIs below the
 within-family most-frequent-class baseline at 24.8\%; on Tier~3 multi-drug regimens
 the systems perform worse than a trivial within-family majority predictor, and the
 result is robust to a doubled (1024-token) output budget
@@ -94,12 +98,13 @@ of retrieval architecture.
 \begin{table}[htbp]
 \centering
 \caption{Accuracy by complexity tier (Wilson 95\% CIs).
-Tier 1: single LAI on fixed schedule; Tier 2: cyclic regimen; Tier 3: multi-drug.}
+Tier 1: single LAI on fixed schedule; Tier 2: cyclic regimen; Tier 3: multi-drug.
+$n$ is the question count per tier (each patient contributes 69 questions).}
 \label{tab:tier_results}
 \small
 \begin{tabular}{lccccc}
 \toprule
-Tier & $n$ & A & B & C \\
+Tier & $n$ (questions) & A & B & C \\
 \midrule
 1 & 4,347 & 53.9\% [52.4, 55.3] & 47.0\% [45.5, 48.5] & 40.8\% [39.3, 42.2] \\
 2 & 4,347 & 51.0\% [49.5, 52.5] & 41.8\% [40.4, 43.3] & 41.6\% [40.2, 43.1] \\
@@ -121,11 +126,14 @@ At Tier 3 all three systems converge to $\approx 20\%$, but a per-family
 most-frequent-class baseline (predict the modal ground-truth label within each
 question family on Tier 3) reaches \textbf{24.8\% [23.6\%, 26.0\%]}.  The 95\%~CIs
 of the three systems (A:~[19.3\%, 21.6\%]; B:~[18.7\%, 20.9\%]; C:~[19.0\%, 21.2\%])
-sit strictly below the baseline CI: every system is significantly worse than the
+sit below the baseline CI: every system is significantly worse than the
 trivial within-family majority predictor on Tier~3 multi-drug regimens.  This
 shifts the interpretation: at Tier 3 the answer LLM is not merely under-budgeted
-on hard temporal arithmetic, it is actively misled by retrieved context relative
-to a constant prediction strategy.
+on multi-step temporal reasoning, it is actively misled by retrieved context relative
+to a constant prediction strategy.  We analyse the retrieval-vs-reasoning attribution
+of this Tier-3 failure in Section~\ref{sec:discussion}, using a per-family Tier-3
+recall@k breakdown that shows the retrieved context generally contains the supporting
+evidence even on questions the systems answer incorrectly.
 
 \subsection{By Question Family}
 \label{sec:results:families}
@@ -206,26 +214,30 @@ Table~\ref{tab:latency} summarises latency and token usage.
 
 \begin{table}[htbp]
 \centering
-\caption{Latency (milliseconds) and mean token usage per call.
-Cost estimated at Groq Developer-plan pricing (\$0.29/M tokens-in, \$0.59/M tokens-out).}
+\caption{Latency (milliseconds), mean token usage per call, and cost.
+Cost estimated at Groq Developer-plan pricing (\$0.29/M tokens-in, \$0.59/M tokens-out).
+Cost-per-correct = total cost divided by exact-match correct answers (5{,}600 / 4{,}873 /
+4{,}605 for A / B / C respectively).}
 \label{tab:latency}
-\begin{tabular}{lccccc}
+\begin{tabular}{lcccccc}
 \toprule
-System & p50 (ms) & p95 (ms) & p99 (ms) & Tokens-in (mean) & Est.\ cost (USD) \\
+System & p50 (ms) & p95 (ms) & p99 (ms) & Tokens-in (mean) & Total cost (USD) & Cost / correct \\
 \midrule
-A -- Narrative  & 1,060 & 6,031  & 53,038 &   490 & \$4.74 \\
-B -- Naive      & 1,354 & 17,890 & 46,301 & 4,463 & \$21.07 \\
-C -- Aware      & 1,056 & 4,538  &  8,513 & 2,175 & \$6.88 \\
+A -- Narrative  & 1,060 & 6,031  & 53,038 &   490 & \$4.74  & \$0.00085 \\
+B -- Naive      & 1,354 & 17,890 & 46,301 & 4,463 & \$21.07 & \$0.00432 \\
+C -- Aware      & 1,056 & 4,538  &  8,513 & 2,175 & \$6.88  & \$0.00149 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 System~B's 9$\times$ context expansion (4,463 vs.\ 490 mean tokens-in) drives a
-4.4$\times$ cost premium over System~A (\$21.07 vs.\ \$4.74) and the highest
-tail latency (p99 = 46,301~ms).  System~C's resource-aware filtering reduces context
-by $\approx$51\% vs.\ B, yielding the lowest p50 latency (1,056~ms) and a cost
-comparable to System~A (\$6.88).  Neither structured system is cost-effective
-relative to System~A given the accuracy deficit.
+4.4$\times$ cost premium over System~A on total spend (\$21.07 vs.\ \$4.74), but the
+gap widens to roughly 5$\times$ on a cost-per-correct-answer basis (\$0.00432 vs.\
+\$0.00085) because the extra spend buys fewer correct answers.  System~B also has
+the highest tail latency (p99 = 46,301~ms).  System~C's resource-aware filtering
+reduces context by $\approx$51\% vs.\ B, yielding the lowest p50 latency (1,056~ms)
+and a 1.76$\times$ cost-per-correct premium over A (\$0.00149).  Neither structured
+system is cost-effective relative to System~A given the accuracy deficit.
 
 \subsection{Error Taxonomy}
 \label{sec:results:errors}
@@ -295,7 +307,12 @@ prescribed interval in final 90~d; class balance 14.5\% positive / 85.5\% negati
 \begin{table}[htbp]
 \centering
 \caption{Feature-extraction arm AUC-ROC. Bootstrap 95\% CIs at patient level from
-out-of-fold predictions (10,000 resamples). FS-Structured = FHIR-derived numerics;
+out-of-fold predictions (10,000 resamples). Both classifiers use
+\texttt{class\_weight="balanced"} for parity (the original
+preprint left LightGBM unweighted; we re-ran with class-weighting after peer review and
+report the resulting numbers here; the unweighted numbers differ by under 0.03~AUC in
+every cell and preserve the relative ordering).
+FS-Structured = FHIR-derived numerics;
 FS-Narrative = heuristic regex on LLM narratives; FS-Aware = per-patient aggregates
 from System~C retrieval traces.}
 \label{tab:auc}
@@ -303,17 +320,18 @@ from System~C retrieval traces.}
 \toprule
 Feature set & LightGBM AUC & Logistic Regression AUC \\
 \midrule
-FS-Structured & 0.997 [0.986, 1.000] & 1.000 [0.999, 1.000] \\
-FS-Narrative  & 0.843 [0.771, 0.896] & 0.836 [0.764, 0.897] \\
-FS-Aware      & 0.793 [0.680, 0.865] & 0.708 [0.634, 0.799] \\
+FS-Structured & 0.997 [0.983, 1.000] & 1.000 [0.999, 1.000] \\
+FS-Narrative  & 0.846 [0.761, 0.889] & 0.836 [0.764, 0.897] \\
+FS-Aware      & 0.769 [0.660, 0.844] & 0.708 [0.634, 0.799] \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-% Source: analysis/feature_extraction.md, pairwise differences
-Pairwise bootstrap differences (LightGBM): FS-Structured vs.\ FS-Narrative
-$\Delta{=}+0.160$ [+0.099, +0.226]; FS-Structured vs.\ FS-Aware $\Delta{=}+0.219$
-[+0.132, +0.316]; FS-Narrative vs.\ FS-Aware $\Delta{=}+0.060$ [$-0.051$, $+0.177$].
+% Source: analysis/feature_extraction.md, pairwise differences (class-weighted re-run)
+Pairwise bootstrap differences (LightGBM, class-weighted):
+FS-Structured vs.\ FS-Narrative $\Delta{=}+0.167$ [+0.104, +0.234];
+FS-Structured vs.\ FS-Aware $\Delta{=}+0.238$ [+0.150, +0.336];
+FS-Narrative vs.\ FS-Aware $\Delta{=}+0.071$ [$-0.039$, $+0.190$].
 Reported $\Delta$ values are bootstrap means and may differ from the point-estimate
 differences in Table~\ref{tab:auc} by approximately one percentage point due to
 resampling variance.  The FS-Narrative vs.\ FS-Aware CI straddles zero: these two
@@ -387,4 +405,143 @@ problem.  By family, the largest structured-system gains land on
 (B $+9.1$~pp; C $+10.1$~pp); \texttt{cross\_resource} and \texttt{regimen\_aggregation}
 do not gain, consistent with the cross-resource scope statement in
 \S\ref{sec:discussion}.
+
+\subsection{No-Retrieval Baseline}
+\label{sec:results:noretrieval}
+
+% Source: results/scored_noretrieval/scored.csv (run via scripts/run_no_retrieval_arm.py)
+To decompose absolute accuracy into a question-text-attributable component and a
+retrieval-attributable component, we run a fourth arm (System~N) that passes each
+question to the answer LLM with empty retrieved context.  All other variables --
+answer LLM, system prompt, temperature, max\_tokens -- are identical to A/B/C.
+With no patient context, qwen3-32b answers from question-text priors alone, giving a
+floor for what the model can guess about specialty-medication adherence without any
+patient-specific evidence.
+
+System~N achieves $25.2\%$~[$24.4\%$, $25.9\%$] exact-match on the full
+13{,}800-question evaluation, lifting roughly two-thirds of System~A's absolute
+accuracy and three-quarters of Systems~B and~C's.  Per-tier the picture is sharper:
+no-retrieval accuracy is $35.1\%$ at Tier~1, $36.7\%$ at Tier~2, and collapses to
+$6.9\%$~[$6.2\%$, $7.6\%$] at Tier~3 -- well below both the per-family modal
+baseline (24.8\%) and every retrieval system (19.8--20.4\%).
+
+Paired bootstrap differences (system minus no-retrieval; 10{,}000 resamples; seed
+42) confirm that retrieval contributes real signal in every comparison:
+A vs.\ N $\Delta{=}{+}15.4$~pp $[+14.6$, $+16.3]$;
+B vs.\ N $\Delta{=}{+}10.1$~pp $[+9.3$, $+11.0]$;
+C vs.\ N $\Delta{=}{+}8.2$~pp $[+7.3$, $+9.1]$.  All CIs exclude zero.  The
+relative ordering of retrieval-attributable accuracy (A $>$ B $>$ C) matches the
+overall accuracy ordering, so the A advantage on QA is not driven by a higher
+question-text-attributable floor: the gap between A and the structured systems
+comes from how much each retrieval substrate adds to the question-text prior.
+
+Three caveats.  First, at Tier~3 retrieval contributes a roughly uniform $+13$~pp
+across A, B, and C, but the resulting accuracy ($\approx{20}\%$) still sits below
+the modal baseline (24.8\%).  The interpretation in \S\ref{sec:results:tiers}
+that the systems are ``actively misled by retrieved context relative to a constant
+prediction strategy'' is consistent with this: retrieval is doing real work on
+Tier~3, just not enough work to overcome the LLM's confused reasoning on
+multi-component regimens.  Second, by family the no-retrieval baseline is highest
+on \texttt{regimen\_compliance} ($34.9\%$) and \texttt{temporal\_lookup} ($33.1\%$),
+indicating that those families contain a high fraction of questions whose modal
+answer is guessable from text (yes/no or canonical dosing-interval responses); the
+retrieval-attributable lift on those families is correspondingly smaller.  The
+\texttt{regimen\_aggregation} family has the lowest no-retrieval baseline ($5.3\%$),
+matching the intuition that arithmetic over administration events is essentially
+ungiessable without the underlying data.  Third, this decomposition holds A/B/C's
+shared answer LLM and prompt template constant; it does not address whether a
+different answer LLM with weaker priors would shift the floor.
+
+\begin{table}[htbp]
+\centering
+\caption{No-retrieval baseline (System~N) and retrieval-attributable accuracy per
+system.  Retrieval-attributable = paired exact-match accuracy difference vs.\
+System~N on the same 13{,}800 questions; 95\% CIs from 10{,}000-resample paired
+bootstrap, seed 42.}
+\label{tab:noretrieval}
+\begin{tabular}{lccc}
+\toprule
+System & Overall accuracy & Retrieval-attributable (pp) & 95\% CI \\
+\midrule
+N -- No retrieval & 25.2\% & --- & --- \\
+A -- Narrative   & 40.6\% & $+15.4$ & $[+14.6, +16.3]$ \\
+B -- Naive       & 35.3\% & $+10.1$ & $[+9.3, +11.0]$ \\
+C -- Aware       & 33.4\% & $+8.2$  & $[+7.3, +9.1]$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Templated-Narrative Ablation: Is the A Advantage LLM-Specific?}
+\label{sec:results:templated}
+
+% Source: results/scored_templated/scored.csv and analysis/templated_compare.md
+% (run via scripts/run_templated_arm.py + analysis/run_templated_compare.py)
+The headline finding that System~A wins QA leaves an attribution question
+unresolved: does narrative \emph{format} drive the advantage, or do
+LLM-generated narratives carry additional structure (lexical regularity,
+idiomatic clinical phrasing) beyond format alone?  To disambiguate, we ran a
+fifth arm (System A-T) in which the canonical System~A pipeline -- same
+chunker, same BGE embedder, same retriever, same answer LLM, same
+ANSWER\_MAX\_TOKENS, same answer prompt template -- is pointed at the
+deterministic templated narratives instead of the LLM-generated narratives.
+Both narrative sources passed the same prompted-entity fidelity audit at
+100\% recall (\S\ref{sec:methods:dataset}).  Only the narrative text differs
+between A and A-T.
+
+A-T achieves $41.3\%$~[$40.5\%$, $42.1\%$] exact-match accuracy, compared to
+A's $40.6\%$~[$39.8\%$, $41.4\%$].  The paired-bootstrap delta
+(A-T~$-$~A; 10{,}000 resamples, seed~42) is $+0.74$~pp [$+0.13$, $+1.34$]:
+the CI excludes zero and lies entirely above $-2$~pp, the threshold below
+which we would conclude that LLM-specific narrative features carry meaningful
+extra signal.  Templated narratives at minimum match LLM-generated narratives
+overall and very slightly beat them.  The ``narrative format wins'' claim
+therefore generalises beyond the specific LLM that generated the original
+narratives.
+
+Per-tier and per-family deltas (Table~\ref{tab:templated}) show meaningful
+heterogeneity.  Templated narratives gain $+3.4$~pp on Tier~1 single-LAI
+regimens (where templated dose-event tables are precise), tie on Tier~2 cyclic
+regimens, and lose $-0.9$~pp on Tier~3 multi-drug regimens (where the LLM's
+flowing prose may help the answer model navigate a denser narrative).  By
+family, the templated source gains $+10.2$~pp on
+\texttt{temporal\_comparison} (missed-dose detection), where deterministic
+date tables outperform LLM prose, and gains $+1.8$~pp on
+\texttt{regimen\_compliance}.  It loses $-2.3$~pp on \texttt{cross\_resource}
+and $-7.3$~pp on \texttt{regimen\_aggregation}, where LLM narrative summaries
+of dose counts and adjunct components appear to help the answer model.
+
+\begin{table}[htbp]
+\centering
+\caption{Templated vs.\ LLM-generated narrative arm: per-tier and per-family
+paired deltas (A-T minus A). 95\% CIs from 10{,}000-resample paired bootstrap,
+seed 42. Bold = CI excludes zero in favour of templated; italic = CI excludes
+zero in favour of LLM.}
+\label{tab:templated}
+\begin{tabular}{lcccc}
+\toprule
+Slice & $n$ & A-T acc & A acc & Delta [95\% CI] \\
+\midrule
+Overall & 13{,}800 & 41.3\% & 40.6\% & \textbf{$+0.74$~pp $[+0.13, +1.34]$} \\
+Tier 1  & 4{,}347 & 57.3\% & 53.9\% & \textbf{$+3.43$~pp $[+2.42, +4.44]$} \\
+Tier 2  & 4{,}347 & 50.9\% & 51.0\% & $-0.07$~pp $[-1.33, +1.20]$ \\
+Tier 3  & 5{,}106 & 19.6\% & 20.4\% & \textit{$-0.86$~pp $[-1.70, -0.04]$} \\
+\midrule
+\texttt{cross\_resource}      & 1{,}600 & 41.1\% & 43.4\% & \textit{$-2.25$~pp $[-4.25, -0.25]$} \\
+\texttt{regimen\_aggregation} & 2{,}400 & 24.5\% & 31.8\% & \textit{$-7.29$~pp $[-8.92, -5.75]$} \\
+\texttt{regimen\_compliance}  & 4{,}200 & 32.6\% & 30.9\% & \textbf{$+1.79$~pp $[+0.81, +2.79]$} \\
+\texttt{temporal\_comparison} & 2{,}400 & 53.9\% & 43.7\% & \textbf{$+10.21$~pp $[+8.62, +11.75]$} \\
+\texttt{temporal\_lookup}     & 3{,}200 & 56.0\% & 56.2\% & $-0.22$~pp $[-1.28, +0.84]$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The interpretation: narrative \emph{format} is the load-bearing property of
+System~A, not LLM-specific lexical regularity.  The heterogeneity across
+families further suggests that the optimal narrative style is task-dependent:
+deterministic table-like phrasing helps date-arithmetic families, while
+LLM-generated prose helps cross-resource aggregation families.  A practical
+implication is that a templated narrative generator -- which is auditable,
+deterministic, and free of LLM hallucination risk -- is a viable production
+substitute for an LLM-narrative pipeline for this QA workload, and may be
+preferable on the families where it is at parity or better.
 

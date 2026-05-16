@@ -54,8 +54,10 @@ from systems.common.embedder import EmbeddingClient
 # Constants (not hyperparameters — these are naming/layout choices)
 # ---------------------------------------------------------------------------
 
-# Base directory for all System A ChromaDB collections.
-# Persisted so re-indexing is skipped on subsequent runs.
+# Default base directory for System A ChromaDB collections (LLM-narrative source).
+# Persisted so re-indexing is skipped on subsequent runs. May be overridden by
+# the NarrativeRAG constructor's chroma_subdir argument to support the
+# templated-narrative arm without colliding with the canonical run.
 _CHROMA_BASE: Path = PROJECT_ROOT / "systems" / "system_a" / "chroma"
 
 # Collection name prefix.  Combined with first 8 chars of patient UUID.
@@ -75,11 +77,6 @@ def _collection_name(patient_id: str) -> str:
     return f"{_COLLECTION_PREFIX}{patient_id[:8]}"
 
 
-def _chroma_dir(patient_id: str) -> Path:
-    """Return the on-disk path for this patient's Chroma collection."""
-    return _CHROMA_BASE / patient_id
-
-
 # Lock around chromadb.PersistentClient instantiation. Concurrent first-time
 # creation on the same path races on chroma's internal Rust-binding init
 # (observed errors: "Could not connect to tenant default_tenant",
@@ -89,16 +86,15 @@ def _chroma_dir(patient_id: str) -> Path:
 _CHROMA_OPEN_LOCK = threading.Lock()
 
 
-def _open_client(patient_id: str) -> chromadb.PersistentClient:
-    """Open (or create) the PersistentClient for *patient_id*."""
-    chroma_path = _chroma_dir(patient_id)
+def _open_client(chroma_path: Path) -> chromadb.PersistentClient:
+    """Open (or create) the PersistentClient at *chroma_path*."""
     chroma_path.mkdir(parents=True, exist_ok=True)
     with _CHROMA_OPEN_LOCK:
         return chromadb.PersistentClient(path=str(chroma_path))
 
 
 class NarrativeRAG:
-    """System A: LLM narrative → chunks → BGE embeddings → ChromaDB → answer LLM.
+    """System A: narrative → chunks → BGE embeddings → ChromaDB → answer LLM.
 
     Satisfies the ``BaseSystem`` protocol from ``systems.base`` via structural
     subtyping (duck typing).  No inheritance is needed because ``BaseSystem``
@@ -109,13 +105,37 @@ class NarrativeRAG:
     embedder:
         Optional pre-constructed EmbeddingClient.  Defaults to a fresh client
         using the config defaults.  Inject in tests to control the cache dir.
+    narratives_dir:
+        Directory holding ``{patient_id}.txt`` narrative files. Defaults to
+        the canonical LLM-narrative directory. Override to point at the
+        templated-narrative source for the reviewer-revision ablation arm.
+    chroma_base:
+        Base directory for per-patient Chroma collections. Defaults to
+        ``systems/system_a/chroma``. Override for arm-isolation (e.g.
+        ``systems/system_a_templated/chroma``) so the canonical run's
+        collections remain untouched.
+    name:
+        Identifier written into result records. Defaults to
+        ``"system_a_narrative"`` for the LLM-narrative source; override to
+        ``"system_a_templated"`` (or another label) for the ablation arm.
     """
 
-    #: Identifier used by the harness for result records.
-    name: str = "system_a_narrative"
-
-    def __init__(self, embedder: EmbeddingClient | None = None) -> None:
+    def __init__(
+        self,
+        embedder: EmbeddingClient | None = None,
+        *,
+        narratives_dir: Path | None = None,
+        chroma_base: Path | None = None,
+        name: str = "system_a_narrative",
+    ) -> None:
         self._embedder = embedder or EmbeddingClient()
+        self._narratives_dir: Path = narratives_dir or LLM_NARRATIVES_DIR
+        self._chroma_base: Path = chroma_base or _CHROMA_BASE
+        self.name = name
+
+    def _chroma_dir(self, patient_id: str) -> Path:
+        """Return the on-disk path for this patient's Chroma collection."""
+        return self._chroma_base / patient_id
 
     # ------------------------------------------------------------------
     # Public API
@@ -137,13 +157,13 @@ class NarrativeRAG:
         FileNotFoundError
             If the narrative file for *patient_id* does not exist.
         """
-        narrative_path = LLM_NARRATIVES_DIR / f"{patient_id}.txt"
+        narrative_path = self._narratives_dir / f"{patient_id}.txt"
         if not narrative_path.exists():
             raise FileNotFoundError(
                 f"Narrative not found for patient {patient_id!r}: {narrative_path}"
             )
 
-        client = _open_client(patient_id)
+        client = _open_client(self._chroma_dir(patient_id))
         col_name = _collection_name(patient_id)
 
         # get_or_create with cosine distance (matching normalised BGE vectors)
@@ -215,7 +235,7 @@ class NarrativeRAG:
         q_vec: np.ndarray = self._embedder.embed_one(question)
 
         # Query ChromaDB
-        client = _open_client(patient_id)
+        client = _open_client(self._chroma_dir(patient_id))
         col_name = _collection_name(patient_id)
         collection = client.get_or_create_collection(
             name=col_name,

@@ -25,6 +25,40 @@ that cap accounts for roughly half of the structured-system deficit.  A practiti
 choosing between architectures should expect the gap to narrow but not close as the
 output budget grows.
 
+The no-retrieval baseline (\S\ref{sec:results:noretrieval}) shows that
+$25.2\%$ of overall accuracy is question-text-attributable: qwen3-32b answers
+this fraction of questions correctly with no patient context at all, drawing on
+prior knowledge of typical specialty-medication dosing patterns and on the
+prevalence of canonical responses in the question phrasing.  The remaining
+accuracy is genuinely retrieval-attributable: A adds $+15.4$~pp on top of the
+floor, B adds $+10.1$~pp, and C adds $+8.2$~pp; all three paired bootstrap CIs
+exclude zero.  The retrieval-attributable component preserves the A $>$ B $>$ C
+ordering, indicating that the QA win of System A is not driven by a higher
+question-text-attributable floor but by how much each retrieval substrate adds to
+the LLM's prior.
+
+\paragraph{Tier 3: retriever vs answer LLM.}
+% Source: analysis/tier3_recall_breakdown.md (run_tier3_recall_breakdown.py)
+All three systems sit below the per-family modal baseline at Tier~3
+(\S\ref{sec:results:tiers}, 19.8--20.4\% vs.\ 24.8\%).  This raises the question of
+whether the failure is upstream (retriever missing relevant resources) or downstream
+(answer LLM unable to reason over the retrieved evidence).  At Tier~3, retrieval
+recall@5 remains high across four of the five families for both structured systems:
+\texttt{cross\_resource} 89.7\% / 99.7\%, \texttt{regimen\_aggregation} 83.2\% /
+94.1\%, \texttt{regimen\_compliance} 76.6\% / 89.9\%, and \texttt{temporal\_comparison}
+80.0\% / 77.4\% for B and C respectively.  The supporting evidence is in the
+retrieved context on most Tier-3 questions yet the answer LLM still produces wrong
+answers, so the Tier-3 collapse is a reasoning bottleneck, not a retrieval bottleneck.
+The 1024-token sweep moves Tier-3 by $+3$--$5$~pp but does not clear the modal
+baseline, indicating that longer outputs alone are insufficient.  The architectural
+implication is that multi-component regimens may require structured intermediate
+steps -- per-component decomposition, explicit date enumeration before aggregation,
+or chain-of-thought scaffolding -- rather than additional one-shot reasoning budget.
+\texttt{temporal\_lookup} is the one family where System~C does not beat System~B at
+Tier-3 recall (76.5\% vs.\ 78.0\%); a follow-up should examine whether C's temporal
+pre-filter is over-pruning candidate \texttt{Observation} or
+\texttt{MedicationAdministration} resources at the highest complexity tier.
+
 \paragraph{Why the narrative format has a temporal weakness.}
 The temporal-anchor failure rate gradient (A:~30\%, B:~18\%, C:~10\%) is the most
 structurally informative finding in the error taxonomy.  Narrative chunks do not
@@ -36,6 +70,20 @@ MedicationRequest.authoredOn) that enable the LLM to reason about ``when'' even 
 the reference date is absent from the prompt context.  This is a structural property
 that would persist regardless of token budget, and it motivates future work embedding
 reference-date context directly into narrative chunks at indexing time.
+
+\paragraph{Format vs.\ LLM lexical regularity.}
+The templated-narrative ablation (\S\ref{sec:results:templated}) addresses a
+natural objection: System~A's advantage might be specific to LLM-generated
+text, in which case the result would not transfer to non-LLM narrative sources.
+A-T uses a deterministic template generator with no LLM and matches the
+LLM-narrative arm overall ($+0.74$~pp [$+0.13$, $+1.34$]).  Narrative format,
+not LLM lexical regularity, is the load-bearing property.  The per-family
+heterogeneity (templated narratives are $+10.2$~pp better on
+\texttt{temporal\_comparison} but $-7.3$~pp worse on
+\texttt{regimen\_aggregation}) suggests a follow-up direction: hybrid
+narratives that use deterministic table-like phrasing for date-arithmetic
+families and LLM prose for aggregation families could outperform either
+single-style narrative on a workload mix.
 
 \paragraph{The cross-resource family as a scope statement.}
 Structured retrieval should, in theory, have the largest advantage on cross-resource
@@ -54,9 +102,9 @@ question for follow-up work, not a methodological miss in this evaluation.
 The central finding of the feature-extraction arm is a \emph{dissociation} between
 QA performance and adherence-prediction performance.  System~A wins the QA comparison
 (40.6\% vs.\ 33.4--35.3\%), but FS-Structured features substantially outperform
-FS-Narrative features on adherence classification (LightGBM AUC 0.997 vs.\ 0.843;
-bootstrap CI excludes zero).  FS-Narrative and FS-Aware are tied within the bootstrap
-interval ($\Delta{=}+0.060$ [$-0.051$, $+0.177$]).
+FS-Narrative features on adherence classification (LightGBM class-weighted AUC 0.997
+vs.\ 0.846; bootstrap CI excludes zero).  FS-Narrative and FS-Aware are tied within
+the bootstrap interval ($\Delta{=}+0.071$ [$-0.039$, $+0.190$]).
 
 The practical implication is that the choice of representation should be made
 \emph{separately} for each downstream task.  A clinical workflow that uses narrative RAG
@@ -82,6 +130,16 @@ Narrative $\approx$ Aware) which is robust across both classifiers.  We do not c
 that structured features will achieve near-perfect AUC on a real noisy cohort; we claim
 that they encode the adherence signal more directly than narrative-derived or
 retrieval-trace features, a claim that should hold under richer real-world labels as well.
+
+A non-tautological remediation -- replacing the synthetic label with a Synthea-derived
+clinical-outcome label (e.g., a disease-progression encounter, treatment switch, or
+hospitalisation event post-regimen-start) -- was investigated before submission and is
+not feasible on the current cohort.  The synthetic bundles do not contain post-regimen
+disease-progression events of the kind that would yield such a label; in a representative
+positive Tier-2 case there is exactly one encounter post-medication-start and no condition
+or observation that could plausibly proxy a non-adherence outcome.  Constructing such a
+label requires either regenerating the Synthea data with regimen-impact modules or moving
+to a real PSP cohort, both of which are deferred to full-venue follow-up work.
 
 \paragraph{Practical guidance for system designers.}
 For practitioners building RAG over specialty-medication clinical records, the choice of

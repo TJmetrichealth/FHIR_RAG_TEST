@@ -14,27 +14,28 @@ protocol-discordant adherence patterns present in real Patient Support Program d
 Absolute accuracy numbers should not be extrapolated to production clinical workflows.
 External validity to real de-identified PSP data is the explicit follow-up step.
 
-\paragraph{ANSWER\_MAX\_TOKENS = 512 is a partial confounder.}
-The 512-token output budget contributes to 44--58\% of sampled failures via
-reasoning truncation (Table~\ref{tab:errors}) and disproportionately penalises
-structured systems whose FHIR-JSON contexts require longer chain-of-thought
-arithmetic.  The 1024-token sensitivity sweep (\S\ref{sec:results:budget_sweep})
-quantifies this contribution on 495 paired questions: doubling the budget gives
-$+0$~pp to System~A, $+3.8$~pp to System~B, and $+5.1$~pp to System~C, narrowing
-but not eliminating A's lead.  The A $>$ B $>$ C ordering survives at 1024 tokens.
-A full sweep across additional budget points (256, 768, 2048) is left for the
-full-venue extension.
-
 \paragraph{Single answer LLM and single embedding model.}
 Results are conditioned on \path{qwen/qwen3-32b} (Groq) as the answer LLM and
 \path{BAAI/bge-large-en-v1.5} as the embedding model.  Robustness across other
-LLMs or domain-adapted embeddings (MedCPT~\citep{jin2023medcpt}) is flagged as future
-work.  The templated-narrative ablation (deterministic generator, no LLM) was generated
-and passed the same fidelity audit at 100\% entity recall across all 200 patients and
-all entity classes.  A downstream QA evaluation against the templated narratives was
-planned to test robustness of the A $>$ B $>$ C ordering to narrative-LLM choice, but
-was not completed in time for this submission.  Whether structured systems would beat
-or tie templated narratives remains an open question, deferred to the full-venue version.
+LLMs or domain-adapted embeddings (MedCPT~\citep{jin2023medcpt}) is flagged as
+future work.
+
+\paragraph{Feature-extraction arm: synthetic adherence label.}
+The near-ceiling FS-Structured AUC (0.997--1.000) is partly entailed by the
+synthetic-label design.  All 29 positives are Tier-2 patients (no Tier-1 or
+Tier-3 patient is positive in the perfectly-scheduled synthetic dataset), and
+FS-Structured encodes tier directly as one-hot columns alongside gap statistics
+that functionally implement the label rule.  The feature-arm finding should be
+read as "structured features encode the adherence signal more directly than
+narrative-derived features \emph{on this synthetic cohort}," not as a
+representation-transferable claim.  A non-tautological remediation -- replacing
+the synthetic label with a Synthea-derived clinical-outcome label (e.g., a
+disease-progression encounter post-regimen-start) -- was investigated and is
+not feasible on the current cohort because synthetic bundles do not contain
+post-regimen disease-progression events of the kind that would yield such a
+signal.  Future work with regimen-impact-modeled synthetic data, or with real
+adherence outcomes, is required to test the dissociation on a label that is
+not entailed by the structured representation.
 
 \paragraph{Per-cell N at tier $\times$ family intersections.}
 With 200 patients across 3 tiers and 5 families, per-cell question counts range from
@@ -55,27 +56,17 @@ top-$k$ chunk IDs include the patient's primary MedicationRequest or specialty C
 This is a conservative proxy; a full per-question source-resource mapping (requiring
 ground-truth functions in ``explain'' mode) is deferred to a follow-up release.
 
-\paragraph{Feature-extraction arm: synthetic adherence label.}
-The FS-Structured AUC near 1.0 reflects label/feature alignment in the synthetic design:
-all positive cases are Tier-2 patients, and FS-Structured directly encodes tier as a
-one-hot feature.  The near-perfect AUC should not be interpreted as evidence that
-structured features will achieve similar performance on real, noisy adherence outcomes.
-The feature-extraction arm is a design-informing benchmark, not a production predictor.
-
-\paragraph{No zero-retrieval baseline.}
-We do not report an arm in which the answer LLM is asked the same questions with no
-retrieved context.  Such a baseline would partition the 40.6\% A accuracy into a
-question-text-only component and a retrieval-attributable component.  The omission
-limits direct attribution of the absolute accuracy numbers, but does not affect the
-paired pairwise comparisons (A vs.\ B, A vs.\ C, B vs.\ C), all of which use the same
-answer LLM and the same questions.
-
-\paragraph{Class-imbalance handling for LightGBM.}
-The synthetic adherence label is 14.5\% positive.  Logistic regression uses
-\texttt{class\_weight=balanced}; LightGBM is trained with default class-weight settings
-(no \texttt{is\_unbalance} or \texttt{scale\_pos\_weight} adjustment).  Because AUC-ROC
-is threshold-independent, the reported AUCs are not biased by this choice; downstream
-threshold-dependent metrics (precision, recall at a fixed cut-off) would be.
+\paragraph{ANSWER\_MAX\_TOKENS = 512 is a partial confounder.}
+The 512-token output budget contributes to 44--58\% of sampled failures via
+reasoning truncation (Table~\ref{tab:errors}) and disproportionately penalises
+structured systems whose FHIR-JSON contexts require longer chain-of-thought
+arithmetic.  The 1024-token sensitivity sweep (\S\ref{sec:results:budget_sweep})
+quantifies this contribution on 495 paired questions: doubling the budget gives
+$+0$~pp to System~A, $+3.8$~pp to System~B, and $+5.1$~pp to System~C, narrowing
+but not eliminating A's lead.  The A $>$ B $>$ C ordering survives at 1024 tokens,
+and Tier-3 accuracy stays below the per-family modal baseline at the larger budget.
+A full sweep across additional budget points (256, 768, 2048) is left for the
+full-venue extension.
 
 \paragraph{Dataset release contingent on IP clearance.}
 Dataset release under CC-BY-4.0 is contingent on employer IP clearance and may be

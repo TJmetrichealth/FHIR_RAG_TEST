@@ -13,6 +13,9 @@ dist/
 .mypy_cache/
 eval/cache/
 eval/cache_1024/
+eval/cache_templated/
+eval/cache_noretrieval/
+eval/cache_smoke/
 *.chroma/
 .chromadb/
 systems/*/chroma/
@@ -53,6 +56,10 @@ results/raw/*.jsonl.bak
 # Large raw result dumps — too big for git; processed summaries in results_1024/ are tracked
 results/raw_1024/
 results/raw_large/
+results/raw_templated/
+results/raw_noretrieval/
+results/raw_templated.log
+results/raw_noretrieval.log
 
 # HL7 FHIR validator raw per-bundle JSON dumps (~2.3 GB); summary CSV is tracked
 results/hl7_validator_raw/

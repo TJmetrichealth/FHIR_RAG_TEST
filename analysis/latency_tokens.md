@@ -30,20 +30,37 @@
 
 Cache hit counts (excluded from cost): A=10, B=36, C=3765.
 
+## Cost per correct answer (reviewer revision #7)
+
+Denominator is exact-match correct on the full 13,800-question evaluation
+(from `results/scored.csv`). Cost is the Groq live-call cost above.
+
+| System | Cost (USD) | Correct answers | Cost / correct (USD) | Ratio vs A |
+|--------|-----------|-----------------|----------------------|------------|
+| A (narrative_rag) | $4.74 | 5,600 | $0.000847 | 1.00x |
+| B (structured_naive) | $21.07 | 4,873 | $0.004324 | 5.10x |
+| C (structured_aware) | $6.88 | 4,605 | $0.001494 | 1.76x |
+
+System B requires roughly **5x the spend per correct answer** of System A.
+System C's per-correct premium over A (1.76x) is closer in magnitude to the
+3.4-percentage-point accuracy deficit (40.6% vs 33.4%) than B's premium is to
+its 5.3-pp deficit, reflecting C's smaller mean input-token payload (2,175 vs
+4,463 for B).
+
 ## Interpretation
 
 System B (structured_naive) is the most expensive system by a significant margin at
-$21.07 — 4.4x the cost of System A
+$21.07 ï¿½ 4.4x the cost of System A
 ($4.74). This is driven almost entirely by its large input context:
 B serialises the full FHIR bundle (mean 4463 tokens_in vs
 A's 490), whereas A retrieves only the relevant narrative chunk.
-System C ($6.88) is intermediate — its resource-aware retrieval
+System C ($6.88) is intermediate ï¿½ its resource-aware retrieval
 prunes the context more aggressively than B's naive approach, reducing mean tokens_in from
 4463 to 2175.
 
 Critically, System B's 4.4x cost premium delivers
 35.3% exact-match accuracy versus System A's
-40.6% — a 5.3% deficit at
+40.6% ï¿½ a 5.3% deficit at
 more than 4.4x the price. System C achieves a similar
 accuracy (33.4%) at 1.5x
 A's cost. None of the structured systems is "worth" the extra latency or token cost

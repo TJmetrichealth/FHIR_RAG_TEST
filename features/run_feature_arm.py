@@ -49,7 +49,7 @@ from features.adherence_metrics import (
 BUNDLE_DIR = ROOT / "data" / "fhir_bundles"
 NARRATIVE_DIR = ROOT / "narratives" / "llm_narratives"
 QUESTIONS_FILE = ROOT / "questions" / "questions.jsonl"
-C_JSONL = ROOT / "results" / "raw" / "c.jsonl"
+C_JSONL = ROOT / "results" / "raw_large" / "c.jsonl"
 FEATURES_DIR = ROOT / "features"
 FIGURES_DIR = ROOT / "figures"
 ANALYSIS_DIR = ROOT / "analysis"
@@ -472,11 +472,15 @@ def train_evaluate(
     y_all = labels_df["label"].values
     tiers_all = labels_df["tier"].values
 
+    # Per reviewer revision #8: LightGBM now uses class_weight="balanced" to
+    # match LogisticRegression's imbalance handling (29 positives / 171 negatives
+    # = 14.5% prevalence). lightgbm 4.x sklearn API supports class_weight directly.
     classifiers = {
         "lightgbm": LGBMClassifier(
             n_estimators=200,
             learning_rate=0.05,
             num_leaves=31,
+            class_weight="balanced",
             random_state=SEED,
             verbose=-1,
         ),
@@ -865,15 +869,26 @@ label threshold: ≥2 consecutive missed doses in final 60d OR median gap in fin
   patients, too few to compute stable per-tier AUC breakdowns.
 - Calibration plots: deferred — not required for the preprint's primary O6 objective.
 - SHAP / feature importance: deferred to follow-up; out of scope for this phase.
-- Oversampling (SMOTE, class_weight): rejected for LightGBM (tree models handle
-  imbalance via leaf weights); for logistic regression class_weight='balanced' is
-  used instead of SMOTE to avoid data leakage across folds.
+- SMOTE oversampling: rejected to avoid data leakage across folds. Both
+  LightGBM and logistic regression use `class_weight='balanced'` for
+  consistency (per reviewer revision #8; supersedes the earlier choice of
+  leaving LightGBM unweighted).
 
 **Supersedes:** Nothing. New entry covering Phase 6 / Objective O6 feature arm.
 """
 
 
 def append_decision_log() -> None:
+    """Append the O6 decision entry, but skip if an identical entry already exists.
+
+    Without this guard, every re-run produces another duplicate "Feature-arm O6
+    implementation choices" entry in docs/decisions.md.
+    """
+    existing = DECISIONS_FILE.read_text(encoding="utf-8")
+    marker = "## 2026-05-08 — Feature-arm O6 implementation choices"
+    if marker in existing:
+        print(f"  decision log: O6 entry already present, skipping append")
+        return
     with DECISIONS_FILE.open("a", encoding="utf-8") as fh:
         fh.write(DECISION_ENTRY)
     print(f"  decision log appended: {DECISIONS_FILE}")
