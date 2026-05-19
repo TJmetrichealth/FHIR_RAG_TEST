@@ -1,4 +1,0 @@
-% arXiv build hints for moderators
-% Build with: pdflatex -> bibtex -> pdflatex -> pdflatex
-% Toplevelfile: main.tex
-% Engine: pdflatex

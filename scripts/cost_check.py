@@ -1,4 +1,4 @@
-"""One-off Groq cost projection for the W3 eval matrix."""
+"""One-off Groq cost projection for the evaluation matrix."""
 from __future__ import annotations
 
 import json

@@ -1,4 +1,4 @@
-"""Phase 7 -- Error Taxonomy Analysis for FHIR-RAG preprint.
+"""Error Taxonomy Analysis for FHIR-RAG.
 
 Invocation:
     python analysis/run_error_taxonomy.py
@@ -561,7 +561,7 @@ def _write_markdown(samples_df, summary_df, pivot, sample_shapes, t0):
     L = []
 
     L += [
-        "# Error Taxonomy -- FHIR-RAG Phase 7",
+        "# Error Taxonomy -- FHIR-RAG",
         "",
         "**Invocation:** `python analysis/run_error_taxonomy.py`",
         "",
@@ -771,13 +771,13 @@ def _write_markdown(samples_df, summary_df, pivot, sample_shapes, t0):
     L += [
         "## Implication for the Paper",
         "",
-        "The taxonomy qualifies the A > B > C ordering from Phase 5. The dominant "
+        "The taxonomy qualifies the A > B > C accuracy ordering reported above. The dominant "
         "failure mode across all systems is **reasoning truncation** -- a direct "
         "consequence of the 500-character output budget used during the smoke-test "
         "run. This is not an architectural property of narrative vs. structured "
         "retrieval; it is a token-budget artefact that disproportionately penalises "
         "B and C because their denser FHIR JSON contexts require longer reasoning chains. "
-        "The implication is that the Phase 5 accuracy gap between A and B/C is partly "
+        "The implication is that the headline accuracy gap between A and B/C is partly "
         "budget-driven: a fuller evaluation with adequate output tokens would narrow "
         "the gap and might reverse the A > C ordering for temporal-reasoning tasks "
         "(where C's resource-aware retrieval would help most).",

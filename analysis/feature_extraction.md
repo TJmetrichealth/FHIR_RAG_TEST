@@ -1,6 +1,6 @@
 <!-- Run with: python features/run_feature_arm.py -->
 
-# Feature Extraction Arm — O6 Analysis
+# Feature Extraction Arm
 
 ## Label construction
 
@@ -59,26 +59,26 @@ the two feature sets are effectively tied.
 
 The overall picture reflects the structure of the synthetic label: because adherence
 non-compliance maps almost one-to-one onto Tier 2 membership, any feature set that
-encodes tier information — directly or indirectly — achieves near-ceiling performance.
+encodes tier information - directly or indirectly - achieves near-ceiling performance.
 FS-Structured encodes tier as one-hot columns and also captures the cyclic gap pattern
 via `gap_max_90d`, `n_events_60d`, and `mpr_90d`. FS-Narrative captures tier through
 regex counts of "tier 2"/"T2" mentions. FS-Aware captures it through the retrieval
 distribution (Tier 2 questions pull more MedicationAdministration chunks owing to the
 larger number of administration events).
 
-## Note for the writer
+## Positioning
 
-Position this arm carefully relative to the QA results from Phase 5. The key rhetorical
+This arm is positioned relative to the QA results above. The key rhetorical
 point is a *dissociation*: a representation that is good for natural-language QA (System C
 / structured-aware) is not automatically the right one for downstream ML classification.
-FS-Structured features — derived directly from FHIR-structured data, not from a retrieval
-system — likely perform comparably to FS-Aware on this synthetic adherence task, because
+FS-Structured features - derived directly from FHIR-structured data, not from a retrieval
+system - likely perform comparably to FS-Aware on this synthetic adherence task, because
 the classification boundary is captured by simple numeric summaries (dose count in window,
 max gap) that do not require language understanding. The narrative features (FS-Narrative)
 similarly do well because they capture tier through surface-form regex, not semantic
 understanding. This suggests that structured FHIR features and LLM narratives are
 complementary: narratives win on temporally-grounded QA, while structured features remain
-competitive — and arguably more interpretable — for binary adherence risk stratification.
+competitive - and arguably more interpretable - for binary adherence risk stratification.
 The high overall AUC across all feature sets is partly a synthetic-data artefact (no real
 noisy adherence variation), but the relative ordering of feature sets and the CI widths are
 real signals about information richness.

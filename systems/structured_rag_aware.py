@@ -37,17 +37,15 @@ Expansion cap:
 
   SYSTEM_C_EXPANSION_CAP is kept as a module-level constant (not in eval.config)
   because it is a C-only implementation detail with no direct equivalent in A
-  or B.  If the planner decides to expose it as a sweep variable in the W3
-  ablation, it should be moved to eval.config under that decision-log entry.
-  FLAG for planner: SYSTEM_C_EXPANSION_CAP = 10 (module constant, not config).
+  or B.
 
 Provenance reporting:
   ``SystemResponse.retrieved`` contains the primary top-k chunks with
   ``role="primary"`` on each dict.
   ``SystemResponse.extras["expansion_chunks"]`` contains the expansion chunks
   with ``role="expansion"`` on each dict.
-  The evaluator in W3 can inspect both fields independently.
-  This avoids modifying base.py while keeping the W3 evaluator's needs met.
+  The evaluator can inspect both fields independently, and base.py is left
+  unchanged.
 
 Reference graph:
   Built once at index time; stored as a JSON file at:
@@ -116,9 +114,7 @@ _CHUNK_SEPARATOR: str = "\n\n---\n\n"
 # Separator between primary context block and reference-expansion block.
 _EXPANSION_SEPARATOR: str = "\n\n=== Referenced resources ===\n\n"
 
-# Hard cap on expansion chunks (C-only implementation detail).
-# FLAG for planner: this is NOT in eval.config; decision-log entry required if
-# it becomes a W3 ablation sweep variable.
+# Hard cap on expansion chunks (C-only implementation detail; not in eval.config).
 SYSTEM_C_EXPANSION_CAP: int = 10
 
 # ---------------------------------------------------------------------------
@@ -415,7 +411,7 @@ class StructuredRAGAware:
     Differences from System B:
     1. Resource-type filter at retrieval time (QUESTION_TYPE_ROUTER).
     2. One-hop reference expansion after top-k retrieval.
-    3. expansion_chunks in extras (provenance for W3 evaluator).
+    3. expansion_chunks in extras (provenance for downstream evaluators).
 
     Parameters
     ----------

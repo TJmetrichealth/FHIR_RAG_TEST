@@ -37,15 +37,12 @@ from systems.base import BaseSystem, SystemResponse
 
 # ---------------------------------------------------------------------------
 # System registry
-# STUB is always available. Real systems A/B/C will be imported lazily when
-# they exist so this module stays importable before Week 2 implementations.
+# STUB is always available. Real systems A/B/C are imported lazily so this
+# module stays importable even if optional dependencies are missing.
 # ---------------------------------------------------------------------------
 
 def _load_system(name: str) -> BaseSystem:
-    """Resolve *name* to a system instance.
-
-    Add real systems here as they are implemented in T2.2–T2.4.
-    """
+    """Resolve *name* to a system instance."""
     name_lower = name.lower()
 
     if name_lower == "stub":

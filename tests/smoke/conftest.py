@@ -6,9 +6,9 @@ Question selection: one question per type (5 types) taken from questions.jsonl
 
 Invariants:
 - Dataset is frozen (dataset-freeze-v1). Do NOT write to data/ or questions/.
-- LLM calls are cached in eval/cache/ — must be preserved across runs.
-- No accuracy assertions here (that is W3 T3.2 for the evaluator).
-- Schema uses 'question' and 'type' fields (W1 retrospective note).
+- LLM calls are cached in eval/cache/ and must be preserved across runs.
+- No accuracy assertions here; accuracy is evaluated by the full harness.
+- Schema uses 'question' and 'type' fields.
 """
 from __future__ import annotations
 

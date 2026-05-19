@@ -60,7 +60,7 @@ pip install -e ".[dev]"
 
 ```bash
 make smoke SAMPLE=10        # 10-patient end-to-end check, writes to *_smoke paths only
-make dataset                # Full W1 pipeline: synthea, overlay, narratives, fidelity, questions, freeze
+make dataset                # Full dataset build: synthea, overlay, narratives, fidelity, questions, freeze
 make reproduce              # As above; warns and pauses if eval/cache/ is empty
 ```
 
@@ -82,7 +82,7 @@ python -m overlay.specialty_regimen_generator \
 python -m narratives.gen_llm_narrative       --bundles data/fhir_bundles --output narratives/llm_narratives
 python -m narratives.gen_templated_narrative --bundles data/fhir_bundles --output narratives/templated_narratives
 
-# 4. Fidelity audit (W1 gate >= 90%; both narrative sources passed at 100% prompted-entity recall)
+# 4. Fidelity audit (both narrative sources achieved 100% prompted-entity recall)
 python -m narratives.fidelity_audit \
     --bundles data/fhir_bundles \
     --narratives narratives/llm_narratives \
@@ -133,7 +133,7 @@ Regenerating evaluation responses without `eval/cache*/` populated will issue li
 ## Reproducibility
 
 - All seeds are pinned (default `20260427`); every stochastic call passes `seed` or `random_state` explicitly.
-- `data/freeze.json` is the SHA-256 manifest pinning the W1 dataset bit-for-bit (overall SHA-256 `4d0da93e...`). `data/freeze_v2.json` extends this with the 20 revision-arm artifacts (overall SHA-256 `2358e828...`).
+- `data/freeze.json` is the SHA-256 manifest pinning the core dataset bit-for-bit (overall SHA-256 `4d0da93e...`). `data/freeze_v2.json` extends this with the 20 revision-arm artifacts (overall SHA-256 `2358e828...`).
 - `eval/cache/`, `eval/cache_1024/`, `eval/cache_noretrieval/`, and `eval/cache_templated/` hold every Groq response keyed by request hash. With them present, `make reproduce` is offline; without them, the rebuild reissues live calls.
 - The `dataset-freeze-v1`, `results-freeze-v1`, and `results-freeze-v2` git tags pin the exact commits the paper's numbers come from.
 - A `Dockerfile` is provided for hermetic builds.

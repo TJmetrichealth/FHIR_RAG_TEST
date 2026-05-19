@@ -33,7 +33,7 @@ Serialisation choice (documented here per the task spec):
 Chunk IDs:
   Format: ``{resourceType}_{resource_id}::chunk_{i}``
   The double-colon mirrors System A's ``{patient_id}::chunk_{i}`` convention.
-  The resource identity prefix lets post-hoc analysis (W3 error taxonomy) trace
+  The resource identity prefix lets post-hoc error-taxonomy analysis trace
   retrieved chunks back to their source resource without parsing the chunk text.
 
 ChromaDB collection:
@@ -42,7 +42,7 @@ ChromaDB collection:
   Naming convention mirrors System A's ``narrative_<first8>`` — 8 hex chars from
   the UUID guarantee Chroma's 3-63 char + [a-zA-Z0-9_-] constraint is met.
 
-Metadata stored per chunk (for W3 error taxonomy; NOT used at retrieval time):
+Metadata stored per chunk (for error-taxonomy analysis; NOT used at retrieval time):
   ``resource_type``  — FHIR resourceType string (e.g. "MedicationRequest")
   ``resource_id``    — FHIR resource.id string
   ``chunk_index``    — index of this chunk within the resource's serialisation
@@ -225,7 +225,7 @@ class StructuredRAGNaive:
 
             for chunk in chunks:
                 # Chunk ID encodes resource identity + chunk index so duplicates
-                # can be detected and provenance can be traced in W3 analysis.
+                # can be detected and provenance can be traced post-hoc.
                 chunk_id = f"{resource_type}_{resource_id}::chunk_{chunk.chunk_index}"
                 all_ids.append(chunk_id)
                 all_texts.append(chunk.text)

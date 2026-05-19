@@ -1,4 +1,4 @@
-# Zenodo Release Tutorial — FHIR-RAG
+# Zenodo Release Tutorial - FHIR-RAG
 
 Two Zenodo deposits, two different workflows. Read both sections before publishing either.
 
@@ -11,7 +11,7 @@ Mint the code deposit **first**. The dataset deposit links to the code deposit's
 
 ---
 
-## §1 — Code deposit (auto-archive via GitHub release)
+## §1 - Code deposit (auto-archive via GitHub release)
 
 Zenodo's GitHub integration archives any GitHub release of a linked repo and reads metadata from `.zenodo.json` at the repo root. Once linked, every future release auto-mints a new DOI in the same Concept DOI family.
 
@@ -59,7 +59,7 @@ Tag-name convention used in this repo: `v<MAJOR>.<MINOR>.<PATCH>-<context>`. The
 
 ### Step 4: Verify the Zenodo deposit
 
-Within ~1 minute of the GitHub release, check **https://zenodo.org/account/settings/github/** — the repo should show a fresh deposit with status `Published`. Click through to:
+Within ~1 minute of the GitHub release, check **https://zenodo.org/account/settings/github/** - the repo should show a fresh deposit with status `Published`. Click through to:
 
 - Confirm the title, description, creators, license, keywords match `.zenodo.json`.
 - Copy the **Concept DOI** (e.g. `10.5281/zenodo.12345678`). This is the DOI that resolves to the latest version regardless of release.
@@ -82,7 +82,7 @@ If you change `.zenodo.json` between releases (e.g. add an author, fix a typo), 
 
 ---
 
-## §2 — Dataset deposit (manual upload, CC-BY-4.0)
+## §2 - Dataset deposit (manual upload, CC-BY-4.0)
 
 This is **separate from §1** and depends on:
 
@@ -133,7 +133,7 @@ Get-FileHash dist\fhir_rag_dataset_v1.zip -Algorithm SHA256
 
 ### Step 2: Write the dataset-only README and LICENSE
 
-The dataset deposit must be **standalone-comprehensible** — a researcher who downloads the zip without ever visiting the GitHub repo needs to understand what it is.
+The dataset deposit must be **standalone-comprehensible** - a researcher who downloads the zip without ever visiting the GitHub repo needs to understand what it is.
 
 Minimum contents for `dist/zenodo_dataset_v1/README.md`:
 
@@ -165,7 +165,7 @@ Work through the `_pre_upload_checklist` array; every item must be ticked.
    - Title, creators, ORCID, affiliation, description, keywords, license (CC-BY-4.0), publication date.
    - Related identifiers: arXiv URL (`isSupplementTo`), code-archive Concept DOI (`isSupplementedBy`).
    - Notes: the no-PHI / synthetic disclosure.
-4. Save as draft. Preview. If it looks right, click **Publish** (this mints the DOI and is irreversible for that version — you can publish new versions later).
+4. Save as draft. Preview. If it looks right, click **Publish** (this mints the DOI and is irreversible for that version - you can publish new versions later).
 5. Copy the dataset's Concept DOI and Version DOI.
 
 ### Step 5: Cross-link from the code deposit
@@ -185,11 +185,11 @@ You can edit this on the Zenodo deposit page directly (the published DOI doesn't
 
 ### Step 6: Update the paper
 
-In `paper/sections/07_reproducibility.tex`, the dataset-DOI placeholder block can now be filled in. Re-build the Overleaf zip ([`docs/zenodo/`](.) is not in the bundle — the bundle is at [`dist/overleaf_fhir_rag_v2/`](../../dist/overleaf_fhir_rag_v2/)) and re-upload to Overleaf.
+In `paper/sections/07_reproducibility.tex`, the dataset-DOI placeholder block can now be filled in. Re-build the Overleaf zip ([`docs/zenodo/`](.) is not in the bundle - the bundle is at [`dist/overleaf_fhir_rag_v2/`](../../dist/overleaf_fhir_rag_v2/)) and re-upload to Overleaf.
 
 ---
 
-## §3 — Maintenance and gotchas
+## §3 - Maintenance and gotchas
 
 ### Versioning vs new deposits
 
@@ -200,9 +200,9 @@ In `paper/sections/07_reproducibility.tex`, the dataset-DOI placeholder block ca
 
 Authoritative reference: https://developers.zenodo.org/#representation. Common pitfalls in this repo's metadata files:
 
-- `license` must be a SPDX identifier (e.g., `Apache-2.0`, `CC-BY-4.0`, `MIT`) — not free-text like "Apache License v2".
+- `license` must be a SPDX identifier (e.g., `Apache-2.0`, `CC-BY-4.0`, `MIT`) - not free-text like "Apache License v2".
 - `creators[].name` must be `"Last, First"`. Listing `"Tirthesh Jani"` instead of `"Jani, Tirthesh"` will display incorrectly.
-- `upload_type` for code is `software`; for the dataset deposit it is `dataset`. Do not use `publication` for either of these — that's for the arXiv preprint itself, which arXiv handles, not Zenodo.
+- `upload_type` for code is `software`; for the dataset deposit it is `dataset`. Do not use `publication` for either of these - that's for the arXiv preprint itself, which arXiv handles, not Zenodo.
 - `keywords` is a free-tag list, not a controlled vocabulary; choose the ones a researcher would actually search for.
 
 ### What does NOT belong in the code deposit
@@ -222,8 +222,8 @@ Authoritative reference: https://developers.zenodo.org/#representation. Common p
 
 ### If the GitHub-Zenodo sync breaks
 
-1. Check https://zenodo.org/account/settings/github/ — the repo should be ON and the latest release should show a green checkmark.
-2. If the release didn't trigger Zenodo, click "Refresh" on the GitHub settings page in Zenodo. If still nothing, delete the GitHub release and re-create it (the Zenodo deposit will be created from scratch — no risk to existing deposits).
+1. Check https://zenodo.org/account/settings/github/ - the repo should be ON and the latest release should show a green checkmark.
+2. If the release didn't trigger Zenodo, click "Refresh" on the GitHub settings page in Zenodo. If still nothing, delete the GitHub release and re-create it (the Zenodo deposit will be created from scratch - no risk to existing deposits).
 3. Common cause: a malformed `.zenodo.json`. Validate it with `python -m json.tool .zenodo.json` (or any JSON linter) before pushing the tag.
 
 ### Validate JSON before release
@@ -244,7 +244,7 @@ If `ConvertFrom-Json` errors, the file has a syntax issue. Fix before tagging.
 
 ---
 
-## §4 — Quick reference
+## §4 - Quick reference
 
 | Action | File or URL |
 |---|---|

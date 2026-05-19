@@ -53,10 +53,10 @@ Check for:
 - **Duplicate entries** — the same paper summarized on two pages with divergent framings.
 - **Count drift** — a topic page claims "8 papers retained" but actually lists 7 or 9.
 
-Report findings as an `## [YYYY-MM-DD] lint | <scope>` entry in `log.md` with a checklist of fixes. Do not silently apply the fixes — surface them to the user first.
+Report findings as an `## [YYYY-MM-DD] lint | <scope>` entry in `log.md` with a checklist of fixes. Do not silently apply the fixes; surface them to the user first.
 
 ## What this wiki is NOT
 
 - Not a source of evaluation signal. Retrieval-system evaluation is scored against programmatic ground truth, never against claims in this directory.
 - Not a place for results. Experimental numbers live in `results/` and `analysis/`.
-- Not a general project journal. Project decisions go in [`../decisions.md`](../decisions.md); project status in [`../00_PROJECT_PLAN.md`](../00_PROJECT_PLAN.md).
+- Not a general project journal. This directory only catalogues prior literature; it does not track project status or decisions.

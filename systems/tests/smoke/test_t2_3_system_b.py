@@ -219,7 +219,7 @@ def test_chunk_count_reasonable(tmp_path: Path) -> None:
 def test_resource_type_metadata_present(tmp_path: Path) -> None:
     """Every retrieved chunk must have a non-empty resource_type in its metadata.
 
-    This metadata is the hook for W3 error-taxonomy analysis: which resource
+    This metadata is the hook for error-taxonomy analysis: which resource
     types were retrieved for which question categories.  If resource_type is
     missing, that analysis breaks silently.
     """

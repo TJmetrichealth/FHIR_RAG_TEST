@@ -666,8 +666,7 @@ The retrieval recall metric measures the right resource being selected; it does 
 whether the LLM can extract the answer from that resource's structured representation.
 
 Note: System A recall@k figures are all N/A because narrative chunks carry no FHIR resource
-IDs; a resource-level recall cannot be defined for System A under the v1 heuristic
-(see decisions.md 2026-05-05 scoring rules entry).
+IDs; a resource-level recall cannot be defined for System A under the v1 heuristic.
 """
 
 with open(os.path.join(ANALYSIS, "recall_at_k.md"), "w") as f:

@@ -1,4 +1,4 @@
-"""Phase 4 scoring module for the FHIR-RAG preprint evaluation.
+"""Scoring module for the FHIR-RAG evaluation.
 
 Reads raw JSONL traces from results/raw/{a,b,c}.jsonl, scores each answer
 against the programmatic ground truth, and writes:

@@ -4,7 +4,7 @@
 
 ## Summary
 
-System A (narrative_rag) does not have resource-level provenance — its index contains
+System A (narrative_rag) does not have resource-level provenance ï¿½ its index contains
 narrative text chunks with no FHIR resource IDs. Recall@k is undefined for System A and
 is reported as N/A throughout. All comparisons below are between System B (structured_naive)
 and System C (structured_aware).
@@ -47,12 +47,11 @@ both systems given enough budget, but C arrives at them sooner.
 
 The recall advantage of C over B does NOT translate into an end-to-end accuracy advantage
 (C scores 33.4% exact-match vs B's 35.3%
-— B is actually better). The most likely explanation is that the FHIR-structured context
+ï¿½ B is actually better). The most likely explanation is that the FHIR-structured context
 fed to the answer LLM by both structured systems is harder for the LLM to reason over than
 the fluent narrative text used by System A, regardless of which resource is retrieved.
 The retrieval recall metric measures the right resource being selected; it does not measure
 whether the LLM can extract the answer from that resource's structured representation.
 
 Note: System A recall@k figures are all N/A because narrative chunks carry no FHIR resource
-IDs; a resource-level recall cannot be defined for System A under the v1 heuristic
-(see decisions.md 2026-05-05 scoring rules entry).
+IDs; a resource-level recall cannot be defined for System A under the v1 heuristic.

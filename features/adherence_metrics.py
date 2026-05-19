@@ -2,7 +2,7 @@
 
 All functions operate on sorted list[date] (not datetime). Used by:
   - questions/ground_truth/regimen_compliance.py (programmatic ground truth)
-  - features/extractors/ (Week 3 feature extraction arm)
+  - features/extractors/ (feature extraction arm)
 
 Reference definitions:
   - PDC: Proportion of Days Covered (days supply / observation days)

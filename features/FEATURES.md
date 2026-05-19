@@ -1,4 +1,4 @@
-# Feature Documentation — O6 Feature Arm
+# Feature Documentation - Feature Arm
 
 All features are patient-level (one row per patient). Calculations reference
 `features/adherence_metrics.py` where applicable.

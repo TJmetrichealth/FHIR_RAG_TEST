@@ -1,4 +1,4 @@
-# Error Taxonomy -- FHIR-RAG Phase 7
+# Error Taxonomy -- FHIR-RAG
 
 **Invocation:** `python analysis/run_error_taxonomy.py`
 
@@ -375,7 +375,7 @@ For each (system, category) pair with at least one sampled failure, up to 3 exam
 
 ## Implication for the Paper
 
-The taxonomy qualifies the A > B > C ordering from Phase 5. The dominant failure mode across all systems is **reasoning truncation** -- a direct consequence of the 500-character output budget used during the smoke-test run. This is not an architectural property of narrative vs. structured retrieval; it is a token-budget artefact that disproportionately penalises B and C because their denser FHIR JSON contexts require longer reasoning chains. The implication is that the Phase 5 accuracy gap between A and B/C is partly budget-driven: a fuller evaluation with adequate output tokens would narrow the gap and might reverse the A > C ordering for temporal-reasoning tasks (where C's resource-aware retrieval would help most).
+The taxonomy qualifies the A > B > C accuracy ordering reported above. The dominant failure mode across all systems is **reasoning truncation** -- a direct consequence of the 500-character output budget used during the smoke-test run. This is not an architectural property of narrative vs. structured retrieval; it is a token-budget artefact that disproportionately penalises B and C because their denser FHIR JSON contexts require longer reasoning chains. The implication is that the headline accuracy gap between A and B/C is partly budget-driven: a fuller evaluation with adequate output tokens would narrow the gap and might reverse the A > C ordering for temporal-reasoning tasks (where C's resource-aware retrieval would help most).
 The temporal-anchor category further reveals that A's narrative format does not embed the question's reference date in the retrieved chunk text, making it the system most likely to lose temporal context -- a structural weakness that would persist at higher token budgets. Systems B and C are better positioned to resolve temporal anchoring once the token limit is lifted, since the FHIR CarePlan period and administration dates are directly retrievable.
 
 ## Figure
