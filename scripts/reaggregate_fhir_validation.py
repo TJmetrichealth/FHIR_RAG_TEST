@@ -177,7 +177,7 @@ def main() -> int:
         "",
         "## Allowlist coverage",
         "",
-        "Issues matched by `mh_integration/expected_warnings.json`. Each entry has a justification documented in that file and traceable to docs/decisions.md.",
+        "Issues matched by `mh_integration/expected_warnings.json`. Each entry has a justification documented in that file.",
         "",
         "| Issue code | URL substring pattern | Justification (short) |",
         "|------------|----------------------|------------------------|",

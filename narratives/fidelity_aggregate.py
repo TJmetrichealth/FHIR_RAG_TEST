@@ -145,8 +145,8 @@ def main(argv: list[str] | None = None) -> int:
     if weighted_recall < 0.85:
         lines.append(
             "> WARNING: Weighted entity recall is below 85%. "
-            "This triggers the templated-narrative fallback risk R1 "
-            "(see docs/00_PROJECT_PLAN.md). Manual review and prompt escalation required."
+            "This triggers the templated-narrative fallback risk. "
+            "Manual review and prompt escalation required."
         )
         lines.append("")
         print(

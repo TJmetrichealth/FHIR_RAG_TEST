@@ -9,8 +9,6 @@ git add Makefile
 git add scripts/freeze_dataset.py
 git add data/freeze.json
 git add questions/questions.jsonl
-git add docs/00_PROJECT_PLAN.md
-git add docs/decisions.md
 
 # Also stage any fidelity_reports_templated that exist (new untracked directory)
 git add narratives/fidelity_reports_templated/ 2>/dev/null || true

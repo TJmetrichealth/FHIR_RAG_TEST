@@ -47,7 +47,7 @@ if _actual_hash != PINNED_PROMPT_HASH:
         f"Prompt hash mismatch: pinned={PINNED_PROMPT_HASH!r}, actual={_actual_hash!r}. "
         "The LLM-narrative prompt has been edited without updating PINNED_PROMPT_HASH. "
         "Either revert your prompt changes, or deliberately bump PINNED_PROMPT_HASH "
-        "and add an entry to docs/decisions.md documenting the new prompt version."
+        "and tag a new release documenting the new prompt version."
     )
 
 

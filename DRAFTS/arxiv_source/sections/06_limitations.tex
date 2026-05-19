@@ -1,6 +1,6 @@
 %% 06_limitations.tex
 % Every risk in R1--R17 that materialised is named here.
-% Numbers from: analysis/results.md, analysis/feature_extraction.md, docs/decisions.md
+% Numbers from: analysis/results.md, analysis/feature_extraction.md
 
 \section{Limitations}
 \label{sec:limitations}
@@ -24,8 +24,8 @@ penalises structured systems whose FHIR-JSON contexts require longer chain-of-th
 arithmetic.  The A $>$ B $>$ C ordering should therefore be interpreted as conditional
 on this budget constraint, not as a general architectural property of narrative vs.\
 structured RAG.  Future work should sweep ANSWER\_MAX\_TOKENS to isolate the
-architecture effect.  The sensitivity sweep listed as future work (decision C2 in
-\texttt{docs/decisions.md}) was not completed within the Week~3 timeline.
+architecture effect.  The sensitivity sweep listed as future work was not
+completed within the original Week~3 timeline.
 
 \paragraph{Single answer LLM and single embedding model.}
 Results are conditioned on \texttt{qwen/qwen3-32b} (Groq) as the answer LLM and

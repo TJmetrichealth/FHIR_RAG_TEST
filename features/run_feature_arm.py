@@ -14,8 +14,6 @@ Produces (all paths relative to project root):
     figures/feature_arm_auc.png
     analysis/feature_extraction.md
 
-Decision-log entry appended to docs/decisions.md.
-
 Hard rules enforced:
   - No API calls.
   - Frozen artefacts (data/, narratives/, questions/, results/scored.csv,
@@ -53,7 +51,6 @@ C_JSONL = ROOT / "results" / "raw_large" / "c.jsonl"
 FEATURES_DIR = ROOT / "features"
 FIGURES_DIR = ROOT / "figures"
 ANALYSIS_DIR = ROOT / "analysis"
-DECISIONS_FILE = ROOT / "docs" / "decisions.md"
 
 SEED = 42
 N_FOLDS = 5
@@ -835,67 +832,7 @@ real signals about information richness.
 
 
 # ---------------------------------------------------------------------------
-# Step 7: Decision-log entry
-# ---------------------------------------------------------------------------
-
-DECISION_ENTRY = """
----
-
-## 2026-05-08 — Feature-arm O6 implementation choices
-
-**Decision:** K=5 stratified folds; LightGBM hyperparams `n_estimators=200,
-learning_rate=0.05, num_leaves=31, random_state=42`; logistic regression with
-`C=1.0, max_iter=1000, class_weight='balanced'`, preprocessed with StandardScaler;
-paired bootstrap (10,000 resamples) for AUC differences between feature sets matched
-at the patient level across OOF predictions; AUC-ROC reported as primary metric,
-AUPRC as secondary; class imbalance kept as-is (14.5% positive / 85.5% negative);
-label threshold: ≥2 consecutive missed doses in final 60d OR median gap in final 90d
-> 1.5× prescribed interval.
-
-**Three feature sets constructed:**
-- FS-Structured: FHIR-derived numerics (MPR 90/180d/full, PDC 90d/full, gap
-  mean/std/max over 90d, event count in 60d, days-since-last-dose, tier one-hot,
-  resource-type counts, patient age).
-- FS-Narrative: heuristic regex features on LLM-generated narratives (date mention
-  count, miss/gap/skip word count, dose-count mentions, tier-label mentions, narrative
-  length, negation-near-dose count). No LLM scoring.
-- FS-Aware: per-patient aggregates from System C retrieval traces (mean expansion
-  chunks, mean distinct resource types retrieved, mean top-5 similarity score,
-  fraction of questions with non-empty type filter, per-type retrieval counts).
-
-**Alternatives considered and rejected:**
-
-- K=10 folds: rejected — with only 200 patients each test fold would contain ~20
-  patients, too few to compute stable per-tier AUC breakdowns.
-- Calibration plots: deferred — not required for the preprint's primary O6 objective.
-- SHAP / feature importance: deferred to follow-up; out of scope for this phase.
-- SMOTE oversampling: rejected to avoid data leakage across folds. Both
-  LightGBM and logistic regression use `class_weight='balanced'` for
-  consistency (per reviewer revision #8; supersedes the earlier choice of
-  leaving LightGBM unweighted).
-
-**Supersedes:** Nothing. New entry covering Phase 6 / Objective O6 feature arm.
-"""
-
-
-def append_decision_log() -> None:
-    """Append the O6 decision entry, but skip if an identical entry already exists.
-
-    Without this guard, every re-run produces another duplicate "Feature-arm O6
-    implementation choices" entry in docs/decisions.md.
-    """
-    existing = DECISIONS_FILE.read_text(encoding="utf-8")
-    marker = "## 2026-05-08 — Feature-arm O6 implementation choices"
-    if marker in existing:
-        print(f"  decision log: O6 entry already present, skipping append")
-        return
-    with DECISIONS_FILE.open("a", encoding="utf-8") as fh:
-        fh.write(DECISION_ENTRY)
-    print(f"  decision log appended: {DECISIONS_FILE}")
-
-
-# ---------------------------------------------------------------------------
-# Step 8: FEATURES.md
+# Step 7: FEATURES.md
 # ---------------------------------------------------------------------------
 
 FEATURES_MD = """\
@@ -1039,10 +976,7 @@ def main() -> None:
     # Step 6: analysis
     write_analysis(labels_df, agg_df, fold_scores)
 
-    # Step 7: decision log
-    append_decision_log()
-
-    # Step 8: FEATURES.md
+    # Step 7: FEATURES.md
     write_features_md()
 
     elapsed = time.time() - t0

@@ -1,16 +1,16 @@
 [
   {
-    "_meta": "Allowlist format: each entry must have 'issue_code' (FHIR issue code string) and 'url_substring' (substring matched against diagnostics or location). An issue is allowlisted when BOTH match. See mh_integration/hl7_validator.py _is_allowlisted() for resolution logic. Do not add entries without a corresponding decision-log entry in docs/decisions.md."
+    "_meta": "Allowlist format: each entry must have 'issue_code' (FHIR issue code string) and 'url_substring' (substring matched against diagnostics or location). An issue is allowlisted when BOTH match. See mh_integration/hl7_validator.py _is_allowlisted() for resolution logic. Every entry must have a 'justification' field explaining why the issue is intentional."
   },
   {
     "issue_code": "code-unknown",
     "url_substring": "fhir-rag.example/CodeSystem/specialty-regimen",
-    "justification": "decision B5 (docs/decisions.md 2026-04-19): synthetic specialty CodeSystem by design; no real RxNorm/SNOMED codes in this dataset"
+    "justification": "synthetic specialty CodeSystem by design; no real RxNorm/SNOMED codes in this dataset"
   },
   {
     "issue_code": "code-unknown",
     "url_substring": "fhir-rag.example",
-    "justification": "all fhir-rag.example/* URIs are intentional synthetic placeholders for this preprint's controlled dataset (decision B5)"
+    "justification": "all fhir-rag.example/* URIs are intentional synthetic placeholders for this preprint's controlled dataset"
   },
   {
     "issue_code": "invalid",

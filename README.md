@@ -4,19 +4,7 @@ Paired-data comparison of structured-FHIR RAG vs. LLM-narrative RAG on adherence
 
 The same clinical facts are rendered into two parallel representations per patient (a FHIR R4B bundle and an LLM-generated narrative derived from the same bundle), 13,800 paired questions are run across three retrieval systems sharing a single answer LLM, and differences are evaluated with paired bootstrap and McNemar tests. Two further arms are included: a no-retrieval baseline (System N) that isolates question-text-attributable accuracy, and a deterministic templated-narrative ablation (System A-T) that isolates narrative format from LLM-specific lexical regularity.
 
-Full plan: [docs/00_PROJECT_PLAN.md](docs/00_PROJECT_PLAN.md). Stack and budget decisions: [docs/07_DECISIONS_v2_FREE_STACK.md](docs/07_DECISIONS_v2_FREE_STACK.md). Append-only decision log: [docs/decisions.md](docs/decisions.md).
-
-## Status
-
-| Stage | State | Tag |
-|---|---|---|
-| Week 1: dataset, narratives, fidelity, question bank | Frozen | `dataset-freeze-v1` |
-| Week 2: three retrieval systems + full 13,800-question matrix | Frozen | `results-freeze-v1` |
-| Week 3: statistics, error taxonomy, figures | Frozen | `results-freeze-v1` |
-| Peer-review revisions: no-retrieval, templated, 1024-token sweep, class-weighted feature arm | Frozen | `results-freeze-v2` |
-| Week 4-5: paper drafting | Complete (LaTeX source in [paper/](paper/)) | n/a |
-| Zenodo deposit (code + dataset + PDF) | Published 2026-05-17 | [doi:10.5281/zenodo.20263384](https://doi.org/10.5281/zenodo.20263384) |
-| arXiv submission | Pending | n/a |
+The combined deposit (preprint PDF + code + synthetic dataset) is published at [doi:10.5281/zenodo.20263384](https://doi.org/10.5281/zenodo.20263384). Frozen artifacts are tagged in git as `dataset-freeze-v1`, `results-freeze-v1`, and `results-freeze-v2`.
 
 ## Headline findings
 
@@ -42,8 +30,6 @@ Free-tier and local-only for narrative generation. Total API spend across the fu
 | Vector store | ChromaDB (local) |
 | Synthetic patients | Synthea + custom 3-tier specialty-regimen overlay |
 
-Details in [docs/07_DECISIONS_v2_FREE_STACK.md](docs/07_DECISIONS_v2_FREE_STACK.md).
-
 ## Repository layout
 
 | Path | Purpose |
@@ -62,7 +48,7 @@ Details in [docs/07_DECISIONS_v2_FREE_STACK.md](docs/07_DECISIONS_v2_FREE_STACK.
 | [scripts/](scripts/) | Synthea setup, dataset freeze, indexing helpers, revision-arm runners |
 | [reproducibility/](reproducibility/) | Repro guide, env, smoke test |
 
-Invariants: `data/` is frozen at the end of W1; `results/` is frozen at the end of W3 (v1) and after peer-review revisions (v2); `eval/cache/` is critical for byte-reproducible rebuilds and is gitignored (back it up separately). See [docs/04_REPO_LAYOUT.md](docs/04_REPO_LAYOUT.md).
+Invariants: `data/` and `results/` are frozen (tags above) and any change requires a new tagged release. `eval/cache/` is critical for byte-reproducible rebuilds and is gitignored, so back it up separately.
 
 ## Quick start
 

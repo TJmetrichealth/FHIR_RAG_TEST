@@ -35,12 +35,12 @@ Terminology server: disabled (-tx n/a; validates against locally bundled R4B + t
 
 ## Allowlist coverage
 
-Issues matched by `mh_integration/expected_warnings.json`. Each entry has a justification documented in that file and traceable to docs/decisions.md.
+Issues matched by `mh_integration/expected_warnings.json`. Each entry has a justification documented in that file.
 
 | Issue code | URL substring pattern | Justification (short) |
 |------------|----------------------|------------------------|
-| `code-unknown` | `fhir-rag.example/CodeSystem/specialty-regimen` | decision B5 (docs/decisions.md 2026-04-19): synthetic specialty CodeSystem by design; no real RxNorm/SNOMED codes in thi |
-| `code-unknown` | `fhir-rag.example` | all fhir-rag.example/* URIs are intentional synthetic placeholders for this preprint's controlled dataset (decision B5) |
+| `code-unknown` | `fhir-rag.example/CodeSystem/specialty-regimen` | synthetic specialty CodeSystem by design; no real RxNorm/SNOMED codes in this dataset |
+| `code-unknown` | `fhir-rag.example` | all fhir-rag.example/* URIs are intentional synthetic placeholders for this preprint's controlled dataset |
 | `invalid` | `Wrong Display Name` | Synthea-inherited LOINC display-name mismatches. The synthetic dataset uses Synthea's base records verbatim; Synthea's t |
 | `invalid` | `Coding has no system` | Synthea-inherited inconsistency in some Practitioner/Organization role codes. Out of scope for the overlay; the bundles  |
 | `structure` | `synthetichealth.github.io/synthea/disability-adjusted-life-y` | Synthea ships its own custom extension URL for DALY metadata without a published StructureDefinition. Inherited at freez |

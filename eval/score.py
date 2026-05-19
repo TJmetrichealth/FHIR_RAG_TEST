@@ -7,7 +7,7 @@ against the programmatic ground truth, and writes:
   results/recall_at_k.csv       -- aggregated recall@k per (system, family, type, tier, k)
   results/latency_tokens.csv    -- per-system latency and token summary stats
 
-Scoring rules (decision logged in docs/decisions.md 2026-05-05):
+Scoring rules:
   - ISO date strings: parse both sides; exact match on YYYY-MM-DD.
   - Numeric (int / float): exact for int; 2% relative tolerance for float.
   - Boolean / yes-no / N/A: case-insensitive canonical match.

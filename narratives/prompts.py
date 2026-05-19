@@ -1,8 +1,8 @@
 """Fixed prompt templates for narrative generation.
 
-All prompts are pinned and hashed. Any change requires a new entry in
-docs/decisions.md and a new prompt version number — the fidelity audit
-records which prompt version generated each narrative.
+All prompts are pinned and hashed. Any change requires a new prompt version
+number; the fidelity audit records which prompt version generated each
+narrative.
 """
 from __future__ import annotations
 

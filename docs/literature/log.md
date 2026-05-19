@@ -16,7 +16,7 @@ Converted the `docs/literature/` directory into a maintained wiki.
 - Existing topic pages were catalogued but not rewritten. They do not yet conform fully to the topic-page shape (most have the bottom-line and papers sections; some are missing an explicit gap-analysis heading). Conformance will accrue lazily — next time a page is touched for ingest, bring it into shape.
 - Block 4 has no dedicated topic page; noted in `index.md`.
 
-Not changed: existing topic pages, `bibliography.bib`, `docs/02_LITERATURE_REVIEW_QUERIES.md`, any project code.
+Not changed: existing topic pages, `bibliography.bib`, any project code.
 
 ## [2026-05-08] ingest | BibTeX stub verification — walonoski2018synthea, hodges2023medication, meeker2022synthea
 

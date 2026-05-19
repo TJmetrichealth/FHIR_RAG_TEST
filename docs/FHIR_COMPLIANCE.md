@@ -32,11 +32,11 @@ Numbers from the last run are in:
 
 ## Known-intentional warnings (allowlist)
 
-The dataset uses synthetic specialty-medication codes by design (decision B5, `docs/decisions.md` 2026-04-19). The HL7 validator legitimately flags these as `code-unknown` because the CodeSystem `https://fhir-rag.example/CodeSystem/specialty-regimen` is not resolvable by any terminology server.
+The dataset uses synthetic specialty-medication codes by design. The HL7 validator legitimately flags these as `code-unknown` because the CodeSystem `https://fhir-rag.example/CodeSystem/specialty-regimen` is not resolvable by any terminology server.
 
 `mh_integration/expected_warnings.json` allowlists these issues. An issue is allowlisted if its `code` matches an entry's `issue_code` **and** its `diagnostics`-or-`location` string contains the entry's `url_substring`. Allowlisted issues are reported as `expected_warnings`, never as errors, and never cause `make fhir-validate` to fail.
 
-Adding a new allowlist entry requires a corresponding entry in `docs/decisions.md` citing the rationale.
+Adding a new allowlist entry requires a `justification` field on the entry explaining the rationale.
 
 ## Reproducibility
 

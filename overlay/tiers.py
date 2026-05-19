@@ -1,7 +1,6 @@
 """Tier definitions for the specialty-regimen overlay.
 
-Uses plausible class-level descriptors only (no real drug names), matching
-docs/07_DECISIONS_v2_FREE_STACK.md §B5 decision (b).
+Uses plausible class-level descriptors only (no real drug names).
 """
 from __future__ import annotations
 
