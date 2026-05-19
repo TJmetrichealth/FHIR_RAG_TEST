@@ -162,7 +162,7 @@ Our search surfaced **no peer-reviewed primary paper that performs RAG over FHIR
 ## Notes on choices (for the author)
 
 - **8 papers, exactly the cap.** Trimmed from a 10-candidate shortlist.
-- **Cut "Large Language Models are not Fair Evaluators" (Wang et al., ACL 2024)** despite its canonical positional-bias finding, because Zheng et al. already establishes positional bias with authoritative weight. If you want a sharper rhetorical hit on positional bias specifically (the Vicuna-beats-ChatGPT-by-reordering result), add Wang et al. arXiv:2305.17926 / `2024.acl-long.511` — subagent 1 supplied the BibTeX.
+- **Cut "Large Language Models are not Fair Evaluators" (Wang et al., ACL 2024)** despite its canonical positional-bias finding, because Zheng et al. already establishes positional bias with authoritative weight. If you want a sharper rhetorical hit on positional bias specifically (the Vicuna-beats-ChatGPT-by-reordering result), add Wang et al. arXiv:2305.17926 / `2024.acl-long.511`.
 - **Cut the RGB benchmark (Chen et al., AAAI 2024)** because its component-wise story overlaps with ARES and Liu et al.
 - **Optional additions if space opens up later**: FActScore (Min et al., EMNLP 2023, arXiv:2305.14251) for atomic-fact faithfulness; Williams et al. medRxiv 2025 (10.1101/2025.10.27.25338910) for direct physician-vs-LLM-judge clinical evidence (but preprint only — not yet peer-reviewed).
 - **TruLens** is an industry framework with no peer-reviewed primary paper; mention in-text without a bib entry.

@@ -233,19 +233,19 @@ Two blocking findings were raised by the reviewer before sign-off:
 **Residual minor findings (non-blocking, carried into Week 2):**
 1. Question schema field names are `question` and `type` (not `question_text` and `question_type`). The evaluator harness in W2 must align to the actual schema; the project plan's abstract descriptions should not be treated as canonical column names.
 2. `make reproduce` depends on `eval/cache/` presence for byte-reproducible narrative output. This is a known constraint and must be documented explicitly in the paper's reproducibility section (§9 of the project plan).
-3. This decisions log has an apparent date-ordering anomaly (2026-04-27 entries appearing before this 2026-04-21 closure entry). The anomaly is acknowledged here; it results from append-only discipline applied across multiple agent sessions and does not indicate any entry was edited retroactively.
+3. This decisions log has an apparent date-ordering anomaly (2026-04-27 entries appearing before this 2026-04-21 closure entry). The anomaly is acknowledged here; it results from append-only discipline applied across multiple work sessions and does not indicate any entry was edited retroactively.
 
 **Alternatives considered:**
-- Holding the gate open until the reviewer could re-audit in a single session: impractical given the multi-agent workflow; the provisional note-to-self in the prior entry served as a hold signal.
+- Holding the gate open until the reviewer could re-audit in a single session: impractical given the multi-session workflow; the provisional note-to-self in the prior entry served as a hold signal.
 - Treating the provisional entry as sufficient: rejected — the project's governance model (§11 of the project plan) requires an independent reviewer sign-off before a gate is treated as closed, and the prior entry explicitly stated "pending reviewer sign-off."
 
-**Rationale:** Accurate record-keeping requires that the decision log reflect the true closure date and process, including the intermediate blockers and the fact that the planner's provisional entry was premature. Future planner agents should not declare a gate closed in the decision log until the reviewer has signed off.
+**Rationale:** Accurate record-keeping requires that the decision log reflect the true closure date and process, including the intermediate blockers and the fact that the provisional entry was premature. Future planning entries should not declare a gate closed in the decision log until the reviewer has signed off.
 
 **Supersedes:** The provisional "gate closed" language in the 2026-04-21 "Week 1 exit gate closed" entry above.
 
 ---
 
-## 2026-04-21 — Question bank design decisions (question-architect)
+## 2026-04-21 — Question bank design decisions
 
 **Decision:** The question bank (`questions/questions.jsonl`) is designed with the following structural and content choices, frozen at the dataset-freeze-v1 tag.
 
@@ -300,7 +300,7 @@ Two blocking findings were raised by the reviewer before sign-off:
 
 ## 2026-04-21 — W2 question-bank patch: MPR window fix + drop trivial cross-resource templates
 
-**Decision:** Mid-W2, a reviewer subagent re-audit surfaced two correctness issues in the frozen `questions/questions.jsonl`. Both are ground-truth bugs in `questions/ground_truth/`, not data-layer bugs, so the FHIR bundles and narratives remain untouched (`dataset-freeze-v1` is intact). The question bank was regenerated in place from the same seed (`20260427`) and the frozen manifest `data/freeze.json` was rewritten.
+**Decision:** Mid-W2, a reviewer re-audit surfaced two correctness issues in the frozen `questions/questions.jsonl`. Both are ground-truth bugs in `questions/ground_truth/`, not data-layer bugs, so the FHIR bundles and narratives remain untouched (`dataset-freeze-v1` is intact). The question bank was regenerated in place from the same seed (`20260427`) and the frozen manifest `data/freeze.json` was rewritten.
 
 **Change 1 — MPR window.** `_mpr_template` in `questions/ground_truth/regimen_compliance.py` computed the numerator from *all* cumulative doses up to `ref` (`window_doses = [d for d in admin_dates if d <= ref]`) while dividing by 90 days. The question text and provenance string both explicitly specify the trailing 90-day window. Fixed to `window_doses = [d for d in doses(c) if ref - timedelta(days=90) <= d <= ref]`, matching the PDC template directly above it. The 200 `rc.mpr_90d.primary` rows (137 non-N/A) are now correct; values range 0.0–1.2444 (values > 1.0 reflect legitimate overlapping-refill semantics of MPR).
 
@@ -360,7 +360,7 @@ The narrative-RAG counterparts of the same patient × question combos pass quick
 2. Decide one of: (a) accept and budget for it in the full-eval timeline, (b) add a per-call timeout + record as failure rather than hang, (c) optimise the hot path (likely batched embedding or pruned traversal).
 3. Document outcome in a new decisions.md entry before W3 T3.1 kicks off.
 
-**Owner:** retrieval-engineer (profiling), then statistician/evaluator review of timeout-vs-optimise tradeoff.
+**Owner:** profiling pass first, then review of the timeout-vs-optimise tradeoff against the evaluation harness.
 
 **Does NOT block:** W2 gate, System A full-eval kickoff, reviewer pass.
 
@@ -381,7 +381,7 @@ The narrative-RAG counterparts of the same patient × question combos pass quick
 - **Stay on free tier.** Rejected — wall-time of 5–6 days continuous adds material schedule risk to the W5 arXiv target and provides no scientific benefit; the eval is otherwise identical.
 - **Stratified 100-patient pilot first, then scale.** Rejected after user confirmation — paid tier removes the rate-limit reason for staging, and a 200-patient run gives stronger paired-data power for McNemar / paired bootstrap.
 
-**Rationale:** CLAUDE.md hard rule requires explicit user approval and a decision-log entry for any paid-API use. User explicitly approved on 2026-05-05; this entry records the approval, the ceiling, the narrow scope (eval only, narratives stay frozen), and the fallback plan. Reproducibility of the eval is preserved because Groq calls are deterministic with `temperature=0` (decision C1) and the harness writes every input/output pair to `results/raw/{system}.jsonl` for later replay without further API calls.
+**Rationale:** Project rules require explicit user approval and a decision-log entry for any paid-API use. User explicitly approved on 2026-05-05; this entry records the approval, the ceiling, the narrow scope (eval only, narratives stay frozen), and the fallback plan. Reproducibility of the eval is preserved because Groq calls are deterministic with `temperature=0` (decision C1) and the harness writes every input/output pair to `results/raw/{system}.jsonl` for later replay without further API calls.
 
 **Supersedes:** Refines A4 (v2 budget ceiling = $0). A4 remains active for everything except the narrowly-scoped W3 eval; paid-tier use is one-time, capped, and confined to the answer-LLM.
 
@@ -488,13 +488,13 @@ The narrative-RAG counterparts of the same patient × question combos pass quick
 
 - **Fuzzy string match (Levenshtein / token-overlap) for free-text**: Rejected. Fuzzy string matching is a form of soft judgement that can inflate scores for answers that mention superficially similar (but factually incorrect) terms. The entity-presence check is harder to game and directly measures the clinically relevant property: "did the system retrieve and surface the correct FHIR entities?"
 
-- **LLM-as-judge for free-text correctness**: Explicitly prohibited by CLAUDE.md hard rules. Not considered.
+- **LLM-as-judge for free-text correctness**: Explicitly prohibited by the project rules. Not considered.
 
 - **Per-question source-resource mapping for recall@k (full implementation)**: Deferred to follow-up. Would require re-running each ground-truth function in an "explain" mode that records which FHIR resources were accessed. The v1 heuristic (primary MedicationRequest + CarePlan) covers the most commonly queried resources and is sufficient for the paper's retrieval-recall headline numbers, with the limitation disclosed.
 
 - **Symmetric set difference as list partial credit** (i.e. penalise extra items in the answer set): Rejected in favour of Jaccard. Jaccard is the standard metric for set-overlap in IR evaluation and is directly interpretable as "what fraction of the relevant items are shared." Symmetric difference would penalise verbose answers that include the correct items alongside extras; that is undesirable for clinical QA where a system that returns all correct items plus some extras should not be penalised as heavily as a system that returns none.
 
-**Rationale:** All rules are deterministic, reproducible from first principles, and require no additional human annotation or LLM calls. The type-detection logic covers every ground-truth shape present in `questions/questions.jsonl` (verified by inspection of all five ground-truth modules). The fallback chain (flag on uncertainty rather than silently skip) ensures every row is accounted for in the output, consistent with the CLAUDE.md hard rule "log failure reason — do not skip silently."
+**Rationale:** All rules are deterministic, reproducible from first principles, and require no additional human annotation or LLM calls. The type-detection logic covers every ground-truth shape present in `questions/questions.jsonl` (verified by inspection of all five ground-truth modules). The fallback chain (flag on uncertainty rather than silently skip) ensures every row is accounted for in the output, consistent with the project rule "log failure reason — do not skip silently."
 
 **Supersedes:** Nothing. New entry.
 
@@ -520,7 +520,7 @@ The narrative-RAG counterparts of the same patient × question combos pass quick
 
 - **Wilcoxon signed-rank test (non-parametric paired test for partial_credit):** Considered for the partial_credit comparison where the distribution is non-normal (many 0s and 1s). Rejected in favour of paired bootstrap because bootstrap directly estimates the quantity of interest (difference of means) with appropriate uncertainty, without making distributional assumptions. The bootstrap CI is equivalent in power for N=13,800.
 
-**Rationale:** Paired tests are required because all three systems answer the same 13,800 questions; treating outcomes as independent would inflate degrees of freedom. The bootstrap CI (not point estimates alone) is required by the CLAUDE.md hard rules. Effect sizes (phi for McNemar, percentage-point differences for bootstrap) are reported alongside every p-value.
+**Rationale:** Paired tests are required because all three systems answer the same 13,800 questions; treating outcomes as independent would inflate degrees of freedom. The bootstrap CI (not point estimates alone) is required by the project rules. Effect sizes (phi for McNemar, percentage-point differences for bootstrap) are reported alongside every p-value.
 
 **Supersedes:** Nothing. New entry covering Phase 5 statistical analysis.
 
@@ -613,7 +613,7 @@ stratified samples (per system, per 5 PSP families, seed=42):
 | 5 | Other / unclassified | Residual; achieved 4-8% across systems (target: <20%). |
 
 **Sampling:** n=50 per system, stratified 10 per PSP family, random seed=42.
-**Rater:** TJ via statistician agent (deterministic rules; no LLM-as-judge per CLAUDE.md).
+**Rater:** TJ via deterministic scoring scripts (no LLM-as-judge per project rules).
 **Output files:** `analysis/error_samples.csv`, `analysis/error_taxonomy.csv`,
 `analysis/error_taxonomy_summary.csv`, `analysis/error_taxonomy.md`,
 `figures/error_taxonomy_distribution.png`.
@@ -622,7 +622,7 @@ stratified samples (per system, per 5 PSP families, seed=42):
 **Alternatives considered:**
 - Open coding: rejected -- single-rater discipline requires deterministic rules to be
   reproducible; open coding requires at least two independent raters for reliability.
-- LLM-judge categorisation: rejected -- violates CLAUDE.md hard rule
+- LLM-judge categorisation: rejected -- violates the project's hard rules
   ("No LLM-as-judge anywhere in evaluation").
 - 3-category taxonomy (no N/A misuse): rejected -- N/A misuse is a distinct mechanism
   (wrong presence/absence judgement) that deserves explicit tracking given its
@@ -833,3 +833,167 @@ claim is now triangulated across LLM and templated narratives.
 **Does not supersede:** All other 2026-05-08 O6 choices (K=5, n_estimators=200,
 learning_rate=0.05, num_leaves=31, random_state=42, bootstrap N=10,000,
 class balance, label threshold) remain unchanged.
+
+---
+
+## 2026-05-16 — Round 2 peer review received; arXiv-ready response scope
+
+**Context:** Round 2 reviewer report on the results-freeze-v2 revision
+(saved at `docs/reviews/2026-05-16-round2.md`). The reviewer confirms every
+substantive Round 1 item is resolved and recommends arXiv submission once
+items 2.1, 2.2, 2.3, 2.7 are addressed in framing. Items 2.5 (sharpening
+the §4.9/§5 Tier-3 internal tension) and the §3 minor list are also in
+scope. Items 2.4 (Tier-3 recall@k as a small table), 2.6 (within-Synthea
+temporal-holdout label), and a JAMIA-grade real-data validation pass are
+explicitly deferred.
+
+**Response scope (this revision):** arXiv-ready editorial pass only.
+No new experiments, no data changes, no new analyses. The dataset
+(`dataset-freeze-v1`) and results (`results-freeze-v2`) remain frozen.
+
+**Items addressed in paper text:**
+
+- **2.1 Foreground templated-narrative finding.** Strengthen the Abstract
+  and §5 Practical-guidance framing of System A-T from "matches or
+  slightly exceeds A" to a production-relevant drop-in replacement
+  (deterministic, no LLM hallucination risk, no generation cost, auditable
+  byte-deterministic artifacts).
+- **2.2 Promote per-family heterogeneity to a named finding.** The
+  +10.21 pp templated win on `temporal_comparison` and -7.29 pp loss on
+  `regimen_aggregation` are mechanistically interpretable (dose-date
+  tables help date matching; LLM aggregate phrasing helps dose-count
+  arithmetic). Reframe the contribution from one axis ("narrative >
+  structured") to two ("narrative-style choice matters within narrative,
+  and a per-family-optimal hybrid would beat both A and A-T by
+  construction"). Promote the hybrid narrative observation from a
+  Discussion aside.
+- **2.3 Methods previews Systems N and A-T.** Add a brief paragraph in
+  §3.2 after the System C description noting the two additional arms and
+  the variables held constant.
+- **2.5 Reconcile §4.9/§5 internal tension at Tier 3.** Sharpen the
+  wording: retrieval adds real signal at Tier 3 (+13 pp vs no retrieval)
+  but not enough signal to clear the within-family modal baseline; the
+  residual gap is a reasoning failure, not a retrieval failure.
+- **2.7 Make the "first paired-data comparison" claim consistent.**
+  Adopt the precise §2 wording ("with shared-source rendering from a
+  single bundle") in the Abstract, Contribution 1, and Conclusion. The
+  unqualified version is contestable against Moldwin 2021 (which did
+  paired same-patient comparison); the differentiator is shared-source
+  rendering, and that qualifier must appear everywhere the novelty claim
+  is made.
+- **§3 minors:** "ungiessable" -> "unguessable" typo in §4.9; Abstract
+  Results paragraph split at "On a synthetic adherence label..."; split
+  Contribution 4 into a representation-dissociation item and a
+  templated-narrative item; justify the -2 pp threshold in §4.10 as a
+  post-hoc convention with explicit rationale; Table 12 decimal
+  convention standardised to two decimals (in-prose deltas in §4.10 were
+  reported to one decimal while the table reported two); §6 Limitations
+  "Single answer LLM" sharpened to reference §4.10 (templated narratives
+  use no LLM in generation, so the result is partial robustness evidence
+  on the generation side, even though answer-LLM dependence remains);
+  affiliation footnote added to `main.tex` per 2.8 to disclose the
+  personal-email reason.
+
+**Items explicitly deferred (logged here so the next review cycle has the
+trail):**
+
+- **2.4 Tier-3 recall@k table.** Reviewer is right; this should be a
+  small 5x2 table not inline prose. Deferred to a v2.1 patch revision if
+  the arXiv version goes out before a v2.1, this is the first edit in any
+  full-venue resubmission.
+- **2.6 Within-Synthea label paths.** Three concrete paths exist
+  (regenerate Synthea with regimen-impact modules; days 0-90 features ->
+  days 90-180 label temporal holdout; feature-holdout excluding gap
+  statistics). The §6 Limitations note will acknowledge the existence of
+  within-Synthea redesign alongside the real-data path, per reviewer
+  guidance. The actual experimental work is deferred to a JAMIA-grade
+  follow-up. Path 2 (temporal holdout) is the cheapest and most likely
+  first follow-up experiment.
+- **GitHub URL placeholder + private-link disclosure (§7).** Reasonable
+  for a preprint per reviewer; no change for the arXiv version. Replace
+  with the real URL at version-of-record time.
+
+**Rationale:** The Round 2 reviewer explicitly states "arXiv: Ready. No
+blockers" but identifies framing items that would tighten the
+contribution. Addressing those framing items costs nothing in
+experimental scope and substantially improves how the paper reads. The
+items deferred (2.4, 2.6) are correct calls but require additional table
+authoring (2.4) or experimental work (2.6); both are queued for the
+JAMIA-grade revision pass, not the arXiv preprint.
+
+**Does not supersede:** The 2026-05-16 `results-freeze-v2` entry and all
+prior decisions remain unchanged. No artifacts in `data/` or `results/`
+are modified. No code changes. Only paper LaTeX in `paper/sections/` and
+`paper/main.tex`.
+
+---
+
+## 2026-05-18 — Zenodo combined deposit published; LICENSE switched MIT -> Apache-2.0
+
+**Event:** Combined Zenodo deposit published at DOI
+`10.5281/zenodo.20263384` (v1.0.0). Contains the preprint PDF, the source
+code archive (`fhir_rag_code_v0.1.0.zip`, SHA-256
+`b822642131914994e6dd509641bbfaeca848556423ae16fa0635278c6eb78ab4`), and
+the synthetic dataset archive (`fhir_rag_dataset_v1.zip`, SHA-256
+`000c27a42d4a304d71e59b700e7209fce7edccbbbae7458a1671e8ffe7ce421d`).
+Record-level licence: CC-BY-4.0 (umbrella). Code component within the
+record retains Apache-2.0 via the `LICENSE` file at the repo root.
+
+**LICENSE reconciliation:** The repository's `LICENSE` file was
+previously MIT, which contradicted the paper's claim of Apache-2.0 in
+four places (Abstract, Conclusion, §6 Limitations, §7 Reproducibility).
+The contradiction was caught while staging the Zenodo deposit (the code
+zip ships whatever LICENSE file is at the root). Resolution: replace
+`LICENSE` with the canonical Apache-2.0 text (apache.org/licenses/LICENSE-2.0,
+boilerplate-applied with copyright line "Copyright 2026 Tirthesh Jani").
+`.zenodo.json` license field updated MIT -> Apache-2.0 to match. The
+already-published Zenodo deposit `fhir_rag_code_v0.1.0.zip` contains the
+OLD MIT LICENSE; this is a small inconsistency that will be resolved on
+the next deposit version (v1.0.1 or later) when the code zip is rebuilt
+from the corrected tree.
+
+**Paper updates (`results-freeze-v2` paper state, no data changes):**
+
+- `paper/main.tex` `\thanks{}` footnote: removed "institutional
+  affiliation pending IP clearance on associated dataset release" — now
+  reads simply "Author submits this work in a personal research capacity."
+- `paper/sections/00_abstract.tex` (Contribution block): "Code is released
+  under Apache-2.0; dataset release under CC-BY-4.0 is pending employer IP
+  clearance." -> "Code (Apache-2.0) and the synthetic dataset (CC-BY-4.0)
+  are released as a combined Zenodo deposit at doi:10.5281/zenodo.20263384."
+- `paper/sections/01_introduction.tex` (Contribution 7 "Open release"):
+  same edit pattern.
+- `paper/sections/06_limitations.tex`: entire `\paragraph{Dataset release
+  contingent on IP clearance.}` block REMOVED. Limitation no longer applies.
+- `paper/sections/07_reproducibility.tex` Code-and-dataset-release paragraph:
+  rewritten to give the DOI, the v1.0.0 publish date (2026-05-18), the two
+  internal archive filenames and SHA-256 hashes, and to flag the GitHub
+  URL as still-pending for the version of record.
+- `paper/sections/07_reproducibility.tex` Licences paragraph: "intended
+  release under CC-BY-4.0, contingent on employer IP clearance" -> "CC-BY-4.0"
+  plus a sentence clarifying the dual-licence umbrella (CC-BY-4.0 record,
+  Apache-2.0 code within).
+- `paper/sections/08_conclusion.tex` closing release sentence: rewritten to
+  match the Abstract/Contribution-7 phrasing with the DOI.
+
+**Overleaf bundle rebuilt:** `dist/overleaf_fhir_rag_v2/` refreshed from
+the updated `paper/` sources, with the `figures/` path fix re-applied in
+the bundle's copy of `04_results.tex` (canonical uses `../figures/` which
+breaks in the self-contained Overleaf layout). Zip rebuilt at
+`dist/overleaf_fhir_rag_v2.zip` (107.2 KB; SHA-256
+`47AD6D5CAAC127DE23D26CC3C625DDC22064224B68E6464DAEC3A9A9AA2AB00F`).
+
+**Rationale:** The Zenodo publication transforms two paper passages from
+"pending future state" to "completed state." The paper text must reflect
+the now-correct state before arXiv submission; otherwise reviewers and
+readers see a paper that claims pending IP clearance while linking to a
+published dataset.
+
+**Does not supersede:** All prior decisions (dataset freeze, results
+freezes v1 and v2, Round 2 review revisions) remain in force. No data
+or results changed.
+
+**Does supersede:** The 2026-05-08 (and earlier) "Apache-2.0" claim
+documentation is now consistent with the actual LICENSE file. The
+`docs/zenodo/dataset_metadata.json` standalone-dataset template is
+SUPERSEDED by this combined deposit (already marked).

@@ -18,7 +18,11 @@ External validity to real de-identified PSP data is the explicit follow-up step.
 Results are conditioned on \path{qwen/qwen3-32b} (Groq) as the answer LLM and
 \path{BAAI/bge-large-en-v1.5} as the embedding model.  Robustness across other
 LLMs or domain-adapted embeddings (MedCPT~\citep{jin2023medcpt}) is flagged as
-future work.
+future work.  The templated-narrative ablation (\S\ref{sec:results:templated})
+provides partial robustness evidence on the narrative-\emph{generation} side:
+System~A-T uses no LLM at any step of narrative production and still matches the
+LLM-narrative arm on QA accuracy.  Robustness on the answer-LLM side remains
+untested and is flagged as future work.
 
 \paragraph{Feature-extraction arm: synthetic adherence label.}
 The near-ceiling FS-Structured AUC (0.997--1.000) is partly entailed by the
@@ -67,10 +71,6 @@ but not eliminating A's lead.  The A $>$ B $>$ C ordering survives at 1024 token
 and Tier-3 accuracy stays below the per-family modal baseline at the larger budget.
 A full sweep across additional budget points (256, 768, 2048) is left for the
 full-venue extension.
-
-\paragraph{Dataset release contingent on IP clearance.}
-Dataset release under CC-BY-4.0 is contingent on employer IP clearance and may be
-delayed.  Code is released unconditionally under Apache-2.0.
 
 \paragraph{Three tiers may not cover all real-world regimen complexity.}
 The three complexity tiers are designed to span simple LAI, cyclic, and multi-drug

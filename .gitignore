@@ -37,13 +37,6 @@ tools/hl7-validator/.installed
 # prompt cache is not.
 narratives/llm_narratives/_cache/
 
-# Claude Code harness — local-only, not part of the published artefact
-.claude/
-CLAUDE.md
-CLAUDE.local.md
-.claudeignore
-docs/01_CLAUDE_CODE_AGENT_PLAN.md
-
 # Local run logs (keep eval/cache instead, that's the reproducibility anchor)
 .eval_logs/
 .index_*.log

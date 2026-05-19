@@ -439,16 +439,16 @@ Three caveats.  First, at Tier~3 retrieval contributes a roughly uniform $+13$~p
 across A, B, and C, but the resulting accuracy ($\approx{20}\%$) still sits below
 the modal baseline (24.8\%).  The interpretation in \S\ref{sec:results:tiers}
 that the systems are ``actively misled by retrieved context relative to a constant
-prediction strategy'' is consistent with this: retrieval is doing real work on
-Tier~3, just not enough work to overcome the LLM's confused reasoning on
-multi-component regimens.  Second, by family the no-retrieval baseline is highest
+prediction strategy'' is consistent with this: retrieval is doing real work at Tier~3
+($+13$~pp lift) but not enough to clear the within-family modal baseline, so
+the residual Tier-3 gap is a reasoning failure, not a retrieval failure.  Second, by family the no-retrieval baseline is highest
 on \texttt{regimen\_compliance} ($34.9\%$) and \texttt{temporal\_lookup} ($33.1\%$),
 indicating that those families contain a high fraction of questions whose modal
 answer is guessable from text (yes/no or canonical dosing-interval responses); the
 retrieval-attributable lift on those families is correspondingly smaller.  The
 \texttt{regimen\_aggregation} family has the lowest no-retrieval baseline ($5.3\%$),
 matching the intuition that arithmetic over administration events is essentially
-ungiessable without the underlying data.  Third, this decomposition holds A/B/C's
+unguessable without the underlying data.  Third, this decomposition holds A/B/C's
 shared answer LLM and prompt template constant; it does not address whether a
 different answer LLM with weaker priors would shift the floor.
 
@@ -491,23 +491,25 @@ between A and A-T.
 A-T achieves $41.3\%$~[$40.5\%$, $42.1\%$] exact-match accuracy, compared to
 A's $40.6\%$~[$39.8\%$, $41.4\%$].  The paired-bootstrap delta
 (A-T~$-$~A; 10{,}000 resamples, seed~42) is $+0.74$~pp [$+0.13$, $+1.34$]:
-the CI excludes zero and lies entirely above $-2$~pp, the threshold below
-which we would conclude that LLM-specific narrative features carry meaningful
-extra signal.  Templated narratives at minimum match LLM-generated narratives
+the CI excludes zero and lies entirely above $-2$~pp.  We treat $-2$~pp as a
+post-hoc convention corresponding to roughly half of the smallest pairwise QA gap
+among A, B, and C (the A vs.\ B gap is $+5.27$~pp; Table~\ref{tab:pairwise}), so
+any LLM-specific contribution larger than approximately $2$~pp would constitute a
+meaningful fraction of the structured-narrative performance gap.  Templated narratives at minimum match LLM-generated narratives
 overall and very slightly beat them.  The ``narrative format wins'' claim
 therefore generalises beyond the specific LLM that generated the original
 narratives.
 
 Per-tier and per-family deltas (Table~\ref{tab:templated}) show meaningful
-heterogeneity.  Templated narratives gain $+3.4$~pp on Tier~1 single-LAI
+heterogeneity.  Templated narratives gain $+3.43$~pp on Tier~1 single-LAI
 regimens (where templated dose-event tables are precise), tie on Tier~2 cyclic
-regimens, and lose $-0.9$~pp on Tier~3 multi-drug regimens (where the LLM's
+regimens, and lose $-0.86$~pp on Tier~3 multi-drug regimens (where the LLM's
 flowing prose may help the answer model navigate a denser narrative).  By
-family, the templated source gains $+10.2$~pp on
+family, the templated source gains $+10.21$~pp on
 \texttt{temporal\_comparison} (missed-dose detection), where deterministic
-date tables outperform LLM prose, and gains $+1.8$~pp on
-\texttt{regimen\_compliance}.  It loses $-2.3$~pp on \texttt{cross\_resource}
-and $-7.3$~pp on \texttt{regimen\_aggregation}, where LLM narrative summaries
+date tables outperform LLM prose, and gains $+1.79$~pp on
+\texttt{regimen\_compliance}.  It loses $-2.25$~pp on \texttt{cross\_resource}
+and $-7.29$~pp on \texttt{regimen\_aggregation}, where LLM narrative summaries
 of dose counts and adjunct components appear to help the answer model.
 
 \begin{table}[htbp]
@@ -535,13 +537,17 @@ Tier 3  & 5{,}106 & 19.6\% & 20.4\% & \textit{$-0.86$~pp $[-1.70, -0.04]$} \\
 \end{tabular}
 \end{table}
 
-The interpretation: narrative \emph{format} is the load-bearing property of
-System~A, not LLM-specific lexical regularity.  The heterogeneity across
-families further suggests that the optimal narrative style is task-dependent:
-deterministic table-like phrasing helps date-arithmetic families, while
-LLM-generated prose helps cross-resource aggregation families.  A practical
-implication is that a templated narrative generator -- which is auditable,
-deterministic, and free of LLM hallucination risk -- is a viable production
-substitute for an LLM-narrative pipeline for this QA workload, and may be
-preferable on the families where it is at parity or better.
+Two findings are co-equal here.  \textbf{Finding 1 (format):} narrative
+\emph{format} is the load-bearing property of System~A, not LLM-specific
+lexical regularity; the templated arm matches or exceeds the LLM arm on overall
+accuracy.  \textbf{Finding 2 (style within format):} narrative \emph{style}
+matters within narrative -- date-arithmetic families benefit from deterministic
+table-like phrasing (\texttt{temporal\_comparison}: $+10.21$~pp), while
+dose-aggregation families benefit from LLM prose (\texttt{regimen\_aggregation}:
+$-7.29$~pp in favour of the LLM arm).  A per-family-optimal hybrid that
+selects narrative style by question family would beat both single-style
+narratives on a mixed workload by construction.  A practical implication is
+that a templated narrative generator -- auditable, deterministic, and free of
+LLM hallucination risk -- is a viable production substitute for an LLM-narrative
+pipeline, and is preferable on the families where it ties or wins.
 

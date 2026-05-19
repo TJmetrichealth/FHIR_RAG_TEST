@@ -358,7 +358,7 @@ Same work, two framings — no double-publication issue because the arXiv prepri
 
 - **Decision log** — `docs/decisions.md` captures every material choice (model, k, chunk size, fidelity threshold, feature-extraction arm scope)
 - **Weekly checkpoint** — end-of-week self-review against plan; slip signals flagged early
-- **External review** — one pass before arXiv submission (reviewer agent per `01_CLAUDE_CODE_AGENT_PLAN.md`)
+- **External review** — one pass before arXiv submission
 - **Change control** — after the week-1 dataset freeze and week-3 results freeze, changes require written justification in the decision log
 - **Drop order under slip** (R17): feature-extraction arm → System C FastAPI packaging → sensitivity sweep. Paper must stand alone on paired-data methodology.
 

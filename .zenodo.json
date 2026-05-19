@@ -1,0 +1,47 @@
+{
+  "title": "FHIR-RAG: Paired-Data Comparison of Structured FHIR and LLM-Narrative Retrieval for Adherence-Indicator Question Answering",
+  "description": "<p>Source code accompanying the preprint <em>Representation Wins on QA, Not on ML: A Paired-Data Comparison of Structured FHIR and LLM-Narrative Retrieval for Adherence-Indicator Question Answering on Long-Acting Specialty Regimens</em> (Jani 2026). For the full combined deposit (preprint PDF + code + synthetic dataset), see DOI 10.5281/zenodo.20263384.</p><p>The repository provides three retrieval systems over 200 paired-representation specialty-medication patient records (FHIR R4B bundles and LLM-generated narratives derived from the same bundles): System A (Narrative RAG), System B (Structured Naive FHIR RAG), and System C (Structured Resource-Aware FHIR RAG). Two further arms are included: System N (no-retrieval baseline) and System A-T (deterministic templated-narrative ablation).</p><p>The evaluation harness scores 13,800 programmatically-verified adherence-indicator questions across five Patient Support Program (PSP) families (next-dose lookup, dose-history aggregation / MPR, coverage-window reasoning / PDC, missed-dose detection, persistence). No LLM-as-judge is used anywhere in evaluation; all ground-truth values are computed from FHIR resources by pure-Python adherence-metric functions.</p>",
+  "upload_type": "software",
+  "publication_date": "2026-05-17",
+  "creators": [
+    {
+      "name": "Jani, Tirthesh",
+      "affiliation": "metricHEALTH",
+      "orcid": "0009-0005-5965-4409"
+    }
+  ],
+  "access_right": "open",
+  "license": "Apache-2.0",
+  "keywords": [
+    "FHIR",
+    "FHIR R4B",
+    "retrieval-augmented generation",
+    "RAG",
+    "large language models",
+    "clinical NLP",
+    "electronic health records",
+    "structured EHR",
+    "narrative EHR",
+    "medication adherence",
+    "specialty pharmacy",
+    "Patient Support Programs",
+    "Synthea",
+    "question answering",
+    "benchmark"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://arxiv.org/abs/PLACEHOLDER",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.20263384",
+      "relation": "isPartOf",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    }
+  ],
+  "notes": "Code is released under Apache-2.0 (see LICENSE at repo root). The combined Zenodo deposit at DOI 10.5281/zenodo.20263384 (v1.0.0, published 2026-05-18) holds the preprint PDF, this code archive, and the synthetic dataset under one CC-BY-4.0 record umbrella; the code component within that deposit remains Apache-2.0 via the included LICENSE file. Future GitHub releases auto-archive to Zenodo via this .zenodo.json under a new DOI in the same Concept family."
+}

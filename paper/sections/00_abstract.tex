@@ -26,21 +26,23 @@ same answer LLM and prompt template, empty context) reaches 25.2\% overall and 6
 at Tier~3, decomposing the A advantage into a $25.2\%$ question-text-attributable
 floor plus a $+15.4$~pp retrieval-attributable lift; the corresponding lifts for B
 and C are $+10.1$ and $+8.2$~pp.
-On a synthetic adherence label whose construction is partly entailed by the
+
+\textbf{Feature extraction.}  On a synthetic adherence label whose construction is partly entailed by the
 structured representation, FS-Structured features achieve AUC~0.997 against
-FS-Narrative AUC~0.843 and FS-Aware AUC~0.793; we discuss the partial-tautology
+FS-Narrative AUC~0.846 and FS-Aware AUC~0.769; we discuss the partial-tautology
 in Results and Discussion.
 
 \textbf{Contribution.}  We demonstrate and empirically characterise a \textit{representation
 dissociation}: the representation that wins narrative QA (narrative $>$ structured) is not
 the same representation that wins downstream ML adherence prediction (structured $\gg$
-narrative).  A deterministic templated-narrative ablation (System~A-T), identical to
-System~A except that the narrative source is a programmatic generator with no LLM,
-matches or slightly exceeds System~A overall (41.3\% vs.\ 40.6\%; paired-bootstrap delta
-$+0.74$~pp [$+0.13$, $+1.34$]), so the narrative-format advantage is not driven by
-LLM-specific lexical regularity.  To our knowledge, this is the first paired-data comparison of narrative RAG, naive
+narrative).  A deterministic templated-narrative generator (System~A-T) eliminates LLM hallucination
+risk and generation cost while matching or slightly exceeding the LLM narrative pipeline
+on QA accuracy (41.3\% vs.\ 40.6\%; paired-bootstrap delta $+0.74$~pp [$+0.13$,
+$+1.34$]); the narrative-format advantage therefore generalises beyond LLM-specific lexical
+regularity.  To our knowledge, this is the first paired-data comparison of narrative RAG, naive
 structured FHIR RAG, and resource-aware structured FHIR RAG in which information
 content is held constant by shared-source rendering from a single bundle, and
-ground truth is produced programmatically rather than by an LLM-as-judge.  Code is released under Apache-2.0; dataset
-release under CC-BY-4.0 is pending employer IP clearance.
+ground truth is produced programmatically rather than by an LLM-as-judge.  Code (Apache-2.0)
+and the synthetic dataset (CC-BY-4.0) are released as a combined Zenodo deposit
+at \href{https://doi.org/10.5281/zenodo.20263384}{doi:10.5281/zenodo.20263384}.
 \end{abstract}

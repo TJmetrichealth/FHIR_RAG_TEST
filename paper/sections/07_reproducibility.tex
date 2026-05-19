@@ -4,12 +4,16 @@
 \label{sec:reproducibility}
 
 \paragraph{Code and dataset release.}
-Code, dataset, and analysis scripts will be released at a public GitHub URL on
-arXiv submission day, archived at Zenodo with a permanent DOI minted at the same
-time.  The repository URL and Zenodo DOI are intentionally left as placeholders
-in this preprint draft and will be populated in the version of record; reviewers
-needing pre-publication access are invited to email the author for a private link.
-Dataset release on Zenodo is contingent on employer IP clearance; see Limitations.
+Code, dataset, and analysis scripts are released as a combined Zenodo deposit at
+\href{https://doi.org/10.5281/zenodo.20263384}{doi:10.5281/zenodo.20263384}
+(v1.0.0, published 2026-05-18).  The deposit
+holds the preprint PDF, the source-code archive
+(\texttt{fhir\_rag\_code\_v0.1.0.zip}, SHA-256
+\texttt{b822642131914994e6dd509641bbfaeca}\linebreak[1]\texttt{848556423ae16fa0635278c6eb78ab4}),
+and the synthetic dataset archive (\texttt{fhir\_rag\_dataset\_v1.zip}, SHA-256
+\texttt{000c27a42d4a304d71e59b700e7209fce}\linebreak[1]\texttt{7edccbbbae7458a1671e8ffe7ce421d}).
+A public GitHub repository will be published in the version of record; the
+Zenodo archive is the canonical citation for reproducibility purposes.
 
 \paragraph{Release tags.}
 The dataset is frozen at release tag \texttt{dataset-freeze-v1}; the original
@@ -80,5 +84,8 @@ Python 3.11; dependencies pinned in \texttt{requirements.txt}.
 A Dockerfile is provided for environment reproducibility.
 
 \paragraph{Licences.}
-Code: Apache-2.0.  Dataset: intended release under CC-BY-4.0, contingent on employer
-IP clearance.  Synthea base data: Apache-2.0 (Mitre Corporation).
+Code: Apache-2.0.  Dataset: CC-BY-4.0.  Synthea base data: Apache-2.0
+(Mitre Corporation).  The combined Zenodo deposit
+(doi:10.5281/zenodo.20263384) uses CC-BY-4.0 as the record-level umbrella;
+the code component within the deposit remains Apache-2.0 via the
+\texttt{LICENSE} file included in \texttt{fhir\_rag\_code\_v0.1.0.zip}.

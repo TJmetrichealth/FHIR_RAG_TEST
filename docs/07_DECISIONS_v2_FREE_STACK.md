@@ -139,10 +139,6 @@ If you have access to a laptop or desktop GPU (even an 8 GB consumer card), you 
 - **§5 Week 2/3 WBS:** note the evaluation-starts-in-Week-2 overlap
 - **§7 Risk register:** added R13 "Groq free tier throttled or deprecated mid-project"
 
-### `01_CLAUDE_CODE_AGENT_PLAN.md`
-- `retrieval-engineer` system prompt: reference Qwen 3 32B via Groq; all clients retry on HTTP 429 with exponential backoff
-- `evaluator` system prompt: schedule evaluation runs to start as soon as each system's smoke test passes
-
 ### `03_PAPER_DRAFT_STRUCTURE.md`
 - Methods section explicitly names the open-weights models and positions the choice as a **reproducibility decision**, not a cost-cutting one
 - Limitations section: "Our narrative generator is Llama 3.3 70B, a strong but not frontier-class model. A more powerful commercial LLM might produce higher-fidelity narratives. The templated-narrative ablation, which represents maximum achievable fidelity, addresses this concern."

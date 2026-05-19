@@ -124,6 +124,19 @@ Medication, Practitioner, and Patient resources;
 the question's reference date are retained.  Dense search then selects top-5 from the
 filtered subset.  Mean tokens-in: 2,175 (51\% less than System~B).
 
+\paragraph{Additional arms.}
+Two further arms are reported in \S\ref{sec:results:noretrieval} and
+\S\ref{sec:results:templated}.  System~N (no-retrieval baseline;
+\S\ref{sec:results:noretrieval}) uses the same answer LLM, system prompt,
+temperature, and max-tokens as A/B/C but receives an empty retrieved context,
+isolating the question-text-attributable component of accuracy.  System~A-T
+(templated-narrative ablation; \S\ref{sec:results:templated}) uses the System~A
+pipeline verbatim -- same chunker, embedder, retriever, answer LLM, and prompt
+template -- but is pointed at deterministic template-generated narratives instead
+of LLM-generated narratives, isolating narrative-format effects from LLM-specific
+lexical regularity.  Both narrative sources pass the same prompted-entity fidelity
+audit at 100\% recall (\S\ref{sec:methods:dataset}).
+
 \subsection{Evaluation}
 \label{sec:methods:eval}
 

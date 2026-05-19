@@ -1,0 +1,80 @@
+{
+  "_comment_purpose": "Template for a standalone Zenodo dataset deposit. NOT auto-read by Zenodo.",
+  "_comment_status": "SUPERSEDED on 2026-05-18 by the combined Zenodo deposit at DOI 10.5281/zenodo.20263384, which bundles dataset + code + preprint PDF under one CC-BY-4.0 umbrella. This template is retained for reference and for any future standalone-dataset deposit (e.g. a v2 dataset release with a new cohort).",
+
+  "title": "FHIR-RAG Synthetic Dataset: 200 Specialty-Medication Patients with Paired FHIR R4B Bundles, LLM and Templated Narratives, and 13,800 PSP Adherence-Indicator Questions",
+  "description": "<p>Synthetic dataset accompanying the preprint <em>Representation Wins on QA, Not on ML</em> (DOI to be added; see related_identifiers).</p><p><strong>Contents.</strong> 200 patients generated with Synthea plus a custom specialty-regimen overlay assigning each patient to one of three complexity tiers (Tier 1: single long-acting injectable; Tier 2: cyclic on/off regimen; Tier 3: multi-drug biologic + oral + PRN). Each patient is rendered in three parallel representations:</p><ul><li><strong>FHIR R4B bundle</strong> (MedicationRequest, MedicationAdministration, Medication, CarePlan, Encounter, Patient, Practitioner), validated against the reference R4B conformance validator with zero mandatory-element failures.</li><li><strong>LLM-generated narrative</strong> (Llama 3.3-70B via Groq, temperature 0.0, fixed prompt hash 518bc71d87b7; 100% prompted-entity recall verified by independent programmatic audit).</li><li><strong>Templated narrative</strong> (deterministic programmatic generator, no LLM; same fidelity audit, 100% recall).</li></ul><p>The dataset further includes a 13,800-question evaluation bank across five PSP adherence-indicator families (temporal_lookup, regimen_aggregation, regimen_compliance, temporal_comparison, cross_resource), all with programmatically-computed ground truth from FHIR resources (no LLM-as-judge anywhere).</p><p><strong>Freeze manifests.</strong> Two byte-reproducibility manifests are included: <code>freeze.json</code> (SHA-256 4d0da93e19c3071414ef5e1045d338104f9628842abe34f548aa050e9d0aa736; original results-freeze-v1 state) and <code>freeze_v2.json</code> (SHA-256 2358e8284338f5f52b66b1b9972fd8811c625cda829b0ed128c784fdf617deb7; results-freeze-v2 state including no-retrieval baseline and templated-narrative arm artifacts).</p><p><strong>No PHI.</strong> All patient data is fully synthetic. The dataset contains no real-patient information and is suitable for unrestricted academic and commercial reuse under CC-BY-4.0.</p><p><strong>Use cases.</strong> Reproducing the preprint results; benchmarking retrieval systems on specialty-medication adherence QA; evaluating clinical RAG architectures on temporally-grounded multi-step reasoning; training/evaluating models for FHIR-structured medication question answering.</p>",
+
+  "upload_type": "dataset",
+  "publication_date": "TBD-FILL-IN-AT-UPLOAD",
+
+  "creators": [
+    {
+      "name": "Jani, Tirthesh",
+      "affiliation": "metricHEALTH",
+      "orcid": "0009-0005-5965-4409"
+    }
+  ],
+
+  "access_right": "open",
+  "license": "CC-BY-4.0",
+
+  "keywords": [
+    "FHIR",
+    "FHIR R4B",
+    "synthetic clinical data",
+    "Synthea",
+    "specialty medications",
+    "long-acting injectables",
+    "biologics",
+    "medication adherence",
+    "Patient Support Programs",
+    "MPR",
+    "PDC",
+    "persistence",
+    "clinical question answering",
+    "retrieval-augmented generation",
+    "RAG benchmark",
+    "structured EHR",
+    "narrative EHR",
+    "paired-data evaluation"
+  ],
+
+  "related_identifiers": [
+    {
+      "identifier": "https://arxiv.org/abs/PLACEHOLDER",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.PLACEHOLDER_CODE_DOI",
+      "relation": "isSupplementedBy",
+      "resource_type": "software",
+      "scheme": "doi"
+    }
+  ],
+
+  "notes": "Synthetic data only; no PHI. Generated with Synthea (Apache-2.0) plus a custom specialty-regimen overlay; LLM narratives produced with Llama 3.3-70B via Groq. The full reproducibility recipe, including model identifiers and prompt hashes, is in section 7 of the accompanying preprint and in the repository docs/.",
+
+  "_files_planned_for_upload": [
+    "data/freeze.json",
+    "data/freeze_v2.json",
+    "data/patients/*.json   (200 FHIR R4B bundles)",
+    "data/narratives_llm/*.txt   (200 LLM-generated narratives)",
+    "data/narratives_templated/*.txt   (200 deterministic templated narratives)",
+    "data/questions.jsonl   (13,800 questions with ground truth)",
+    "README.md   (dataset-only README, separate from repo README)",
+    "LICENSE   (CC-BY-4.0 text)"
+  ],
+
+  "_pre_upload_checklist": [
+    "Employer IP clearance granted (BLOCKING)",
+    "All files listed in _files_planned_for_upload exist and match the freeze manifest SHA-256",
+    "Dataset README written and includes citation block, contents description, and reuse terms",
+    "arXiv URL placeholder in related_identifiers replaced with the real preprint URL",
+    "Zenodo code-deposit DOI placeholder replaced with the real code-archive DOI (mint the code deposit FIRST)",
+    "publication_date set to the actual upload date",
+    "Tarball or zip of dataset files created and SHA-256 recorded for the deposit description"
+  ]
+}

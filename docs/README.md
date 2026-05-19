@@ -11,8 +11,7 @@ Read in this order — each document builds on the previous one.
 | # | File | Purpose | Read when |
 |---|---|---|---|
 | 0 | `00_PROJECT_PLAN.md` | Comprehensive 5-week project plan with WBS, risks, budget, governance, metricHEALTH integration map (§13) | First — the source of truth |
-| 1 | `01_CLAUDE_CODE_AGENT_PLAN.md` | 10 Claude Code subagents with full YAML + system prompts, plus CLAUDE.md routing policy (dual-purpose) | Before setting up the repo |
-| 2 | `02_LITERATURE_REVIEW_QUERIES.md` | 11 topic blocks × 3–6 queries each, prioritised, with researcher-agent anti-patterns | Week 1 (mandatory blocks) + Week 4 |
+| 2 | `02_LITERATURE_REVIEW_QUERIES.md` | 11 topic blocks × 3–6 queries each, prioritised, with anti-patterns for the lit review | Week 1 (mandatory blocks) + Week 4 |
 | 3 | `03_PAPER_DRAFT_STRUCTURE.md` | Section-by-section paper outline, figure plan, writing principles, review checklist (preprint + thesis-chapter framings) | Week 4–5 |
 | 4 | `04_REPO_LAYOUT.md` | Target directory structure and invariants (freeze points, branching), includes `mh_integration/`, `features/`, `thesis_chapter/` | Day 1 of Week 1 |
 | 5 | `05_OPEN_QUESTIONS.md` | Questions that block or shape the plan — A–E resolved in v2, Block F is new for v3 dual-purpose pivot | F block: **this week** |
@@ -25,11 +24,9 @@ Read in this order — each document builds on the previous one.
 1. Read `07_DECISIONS_v2_FREE_STACK.md` (v3 addendum) for the active configuration
 2. Read `05_OPEN_QUESTIONS.md` Block F — resolve F1, F5, F6 this week
 3. Set up the repo structure from `04_REPO_LAYOUT.md` (includes new `mh_integration/`, `features/`, `thesis_chapter/` directories)
-4. Drop the subagent definitions from `01_CLAUDE_CODE_AGENT_PLAN.md` into `.claude/agents/`
-5. Write `CLAUDE.md` using the routing policy in `01` (dual-purpose version)
-6. Create Groq account (free, Google sign-in, no credit card)
-7. Send the revised employer clearance request (F6 / E2) — scope extended to cover `mh_integration/` handoff
-8. Kick off Week 1 with the planner subagent
+4. Create Groq account (free, Google sign-in, no credit card)
+5. Send the revised employer clearance request (F6 / E2) — scope extended to cover `mh_integration/` handoff
+6. Kick off Week 1
 
 ## One-sentence summary
 

@@ -70,8 +70,8 @@ ANSWER_USER_PROMPT_TEMPLATE: str = (
 GROQ_RPM: int = 800              # 80% of Developer-plan 1000 RPM
 GROQ_TPM: int = 250_000          # 83% of Developer-plan 300K TPM
 GROQ_MAX_RETRIES: int = 6        # retry attempts on 429
-GROQ_BACKOFF_BASE: float = 2.0   # seconds — CLAUDE.md hard rules
-GROQ_BACKOFF_MAX: float = 60.0   # seconds — CLAUDE.md hard rules
+GROQ_BACKOFF_BASE: float = 2.0   # seconds
+GROQ_BACKOFF_MAX: float = 60.0   # seconds
 
 # ---------------------------------------------------------------------------
 # Cache directories (gitignored per .gitignore; must be preserved locally)

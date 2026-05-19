@@ -8,7 +8,6 @@ Each block gives the motivation, 3–6 search queries, and what we're trying to 
 
 ## How to use this document
 
-- Feed queries to the `researcher` subagent (see `01_CLAUDE_CODE_AGENT_PLAN.md`)
 - Record findings in `docs/literature/<topic>.md`
 - Target: **maximum 8 papers per topic block**; one paragraph summary each
 - Sources in priority order: **arXiv → ACL Anthology / PubMed / PMC → venue proceedings → blog posts (rare, only for industry signals)**
@@ -263,10 +262,10 @@ Plus `docs/literature/bibliography.bib` — BibTeX entries for everything cited,
 
 ---
 
-## Anti-patterns for the researcher agent
+## Anti-patterns for the literature review
 
 1. **Do not cite abstracts alone.** If the paper isn't open-access, say so and either fetch the preprint or drop the citation.
 2. **Do not trust Google Scholar snippets.** Fetch the PDF / abstract directly.
 3. **Do not overclaim novelty.** The lit review should be written defensively: "no prior work has done X in Y context" — where both X and Y are narrow enough to be true.
 4. **Do not cite a survey when the underlying paper exists.** Go to the source.
-5. **Do not conflate PDC and MPR.** These are distinct metrics with distinct definitions — Block 6 papers will make this clear; the writer agent must preserve the distinction.
+5. **Do not conflate PDC and MPR.** These are distinct metrics with distinct definitions — Block 6 papers will make this clear; the paper must preserve the distinction.

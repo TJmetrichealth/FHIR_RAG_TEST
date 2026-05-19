@@ -6,7 +6,7 @@
 We presented the first paired-data comparison of narrative RAG, naive structured FHIR
 RAG, and resource-aware structured FHIR RAG on specialty-medication adherence-indicator
 question answering, where information content is held constant across representations
-by constructing all three retrieval substrates from the same FHIR bundles.
+by shared-source rendering from a single FHIR bundle per patient.
 Narrative RAG achieves the highest exact-match accuracy (40.6\% vs.\ 33.4--35.3\%).
 A 1024-token sensitivity sweep on a stratified 495-question sample shows the
 structured systems gain $+3.8$ to $+5.1$~pp when the answer budget is doubled while
@@ -31,10 +31,12 @@ a \emph{representation dissociation}: winning natural-language QA and winning
 downstream adherence-outcome ML are different objectives on this cohort, and
 the same representation does not simultaneously optimise both.
 
-Code (three retrieval systems, evaluation harness, feature extractors) and analysis
-scripts are released as a reusable benchmark for the specialty-pharmacy QA research
-community; dataset release (200 patients, 13,800 questions, five PSP adherence-indicator
-families) under CC-BY-4.0 is pending employer IP clearance.
+Code (three retrieval systems, evaluation harness, feature extractors), analysis
+scripts, and the synthetic dataset (200 patients, 13,800 questions, five PSP
+adherence-indicator families) are released as a combined Zenodo deposit at
+\href{https://doi.org/10.5281/zenodo.20263384}{doi:10.5281/zenodo.20263384}
+under Apache-2.0 (code) and CC-BY-4.0 (dataset), providing a reusable benchmark
+for the specialty-pharmacy QA research community.
 
 Future directions include: (1) extending the budget sweep to additional points
 (256, 768, 2048) and to the full 13,800-question matrix; (2) evaluating on real
@@ -42,7 +44,12 @@ de-identified PSP data; (3) testing robustness across multiple answer LLMs and
 embedding models; (4) extending the question bank to additional specialty-medication
 classes and real-world edge cases (infusion regimens, variable-interval dosing,
 bridge therapies); (5) constructing richer synthetic adherence labels to stress-test
-the feature-extraction arm beyond the perfectly-scheduled synthetic scenario; and
+the feature-extraction arm beyond the perfectly-scheduled synthetic scenario;
 (6) a drop-one ablation over System~C's three resource-aware primitives (typed filter,
 reference-chain traversal, temporal pre-filter) to disentangle which primitive drives
-the recall@$k$ gain over System~B.
+the recall@$k$ gain over System~B; and (7) constructing hybrid narratives that select
+deterministic table-like phrasing for date-arithmetic question families (where the
+templated arm beats the LLM arm by $+10.21$~pp on \texttt{temporal\_comparison}) and
+LLM prose for dose-aggregation families (where the LLM arm beats the templated arm
+by $+7.29$~pp on \texttt{regimen\_aggregation}), with the per-family-optimal hybrid
+expected to beat both single-style narratives on a workload mix by construction.

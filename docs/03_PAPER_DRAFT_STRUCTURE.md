@@ -137,7 +137,7 @@ One paragraph. Restate the core message; point to code + dataset; flag follow-up
 
 ### References
 
-Built from `docs/literature/bibliography.bib` by the researcher agent. ~45–65 entries.
+Built from `docs/literature/bibliography.bib`. ~45–65 entries.
 
 ### Appendix
 

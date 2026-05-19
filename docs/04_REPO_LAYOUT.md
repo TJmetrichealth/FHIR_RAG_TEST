@@ -7,29 +7,14 @@ Target directory structure for the project (v3 dual-purpose). Set this up in Wee
 ```
 fhir-rag-preprint/
 ├── README.md                     # Project overview, install, quickstart
-├── CLAUDE.md                     # Claude Code routing policy (see 01_CLAUDE_CODE_AGENT_PLAN.md)
 ├── LICENSE                       # Apache-2.0 (code) per v2
 ├── LICENSE-DATA                  # CC-BY-4.0 (dataset) per v2
 ├── Makefile                      # `make reproduce` runs everything end-to-end
 ├── pyproject.toml                # or requirements.txt — pinned versions
 ├── Dockerfile                    # For strong reproducibility (see C5)
 │
-├── .claude/
-│   └── agents/
-│       ├── planner.md
-│       ├── researcher.md
-│       ├── data-engineer.md
-│       ├── narrative-smith.md
-│       ├── question-architect.md
-│       ├── retrieval-engineer.md
-│       ├── evaluator.md
-│       ├── statistician.md
-│       ├── writer.md
-│       └── reviewer.md
-│
 ├── docs/
 │   ├── 00_PROJECT_PLAN.md
-│   ├── 01_CLAUDE_CODE_AGENT_PLAN.md
 │   ├── 02_LITERATURE_REVIEW_QUERIES.md
 │   ├── 03_PAPER_DRAFT_STRUCTURE.md
 │   ├── 04_REPO_LAYOUT.md
@@ -42,7 +27,7 @@ fhir-rag-preprint/
 │   │   ├── week_2.md
 │   │   └── ...
 │   ├── reviews/
-│   │   └── YYYY-MM-DD.md             # Reviewer-agent reports
+│   │   └── YYYY-MM-DD.md             # Review reports
 │   └── literature/
 │       ├── bibliography.bib
 │       ├── clinical_rag.md
@@ -199,7 +184,7 @@ fhir-rag-preprint/
 - **`paper/sections/*.tex`** is the single source of truth; `paper/main.tex` is a thin `\input` wrapper.
 - **`paper/sections/abstract.tex` must not reference metricHEALTH** (R16 mitigation). The grep check is part of the reviewer's checklist.
 - **`docs/decisions.md`** is append-only. Earlier decisions are never edited — only superseded by later entries.
-- **`features/adherence_metrics.py`** is load-bearing: the question-architect uses it for ground truth, the evaluator uses it for feature extraction, metricHEALTH Phase 3 will use it for ML features. Any edit after the Week 1 freeze requires regenerating ground truth AND all feature extractions.
+- **`features/adherence_metrics.py`** is load-bearing: the question bank uses it for ground truth, the evaluator uses it for feature extraction, metricHEALTH Phase 3 will use it for ML features. Any edit after the Week 1 freeze requires regenerating ground truth AND all feature extractions.
 - **`mh_integration/`** artefacts are designed to be lifted into the metricHEALTH repo as-is. Changes there are cross-repo decisions.
 - **FHIR R4B compliance posture** is documented in [docs/FHIR_COMPLIANCE.md](FHIR_COMPLIANCE.md): what is checked, by which validator, what is intentionally out of scope (profile conformance, real terminology), and how to reproduce `make fhir-validate` locally.
 
@@ -207,7 +192,7 @@ fhir-rag-preprint/
 
 ## Branch strategy
 
-- `main` — only green commits. Merged from feature branches after reviewer-agent gate passes.
+- `main` — only green commits. Merged from feature branches after the review gate passes.
 - `dataset/week1` — dataset construction work, including R4B validator hookup. Merged at Week 1 gate.
 - `systems/week2` — retrieval systems work, including `mh_integration/case_manager_qa.py` FastAPI wrapper. Merged at Week 2 gate.
 - `eval/week3` — evaluation harness, full runs, and feature-extraction arm. Merged at Week 3 gate.

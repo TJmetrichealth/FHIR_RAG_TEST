@@ -49,6 +49,10 @@ recall@5 remains high across four of the five families for both structured syste
 80.0\% / 77.4\% for B and C respectively.  The supporting evidence is in the
 retrieved context on most Tier-3 questions yet the answer LLM still produces wrong
 answers, so the Tier-3 collapse is a reasoning bottleneck, not a retrieval bottleneck.
+The Tier-3 $+13$~pp lift from retrieval (\S\ref{sec:results:noretrieval}) confirms
+the retrieved context carries real signal; the reason this signal does not translate
+into a clearance of the modal baseline is that the answer LLM cannot reliably
+synthesise it under multi-component regimens.
 The 1024-token sweep moves Tier-3 by $+3$--$5$~pp but does not clear the modal
 baseline, indicating that longer outputs alone are insufficient.  The architectural
 implication is that multi-component regimens may require structured intermediate
@@ -76,14 +80,15 @@ The templated-narrative ablation (\S\ref{sec:results:templated}) addresses a
 natural objection: System~A's advantage might be specific to LLM-generated
 text, in which case the result would not transfer to non-LLM narrative sources.
 A-T uses a deterministic template generator with no LLM and matches the
-LLM-narrative arm overall ($+0.74$~pp [$+0.13$, $+1.34$]).  Narrative format,
-not LLM lexical regularity, is the load-bearing property.  The per-family
-heterogeneity (templated narratives are $+10.2$~pp better on
-\texttt{temporal\_comparison} but $-7.3$~pp worse on
-\texttt{regimen\_aggregation}) suggests a follow-up direction: hybrid
-narratives that use deterministic table-like phrasing for date-arithmetic
-families and LLM prose for aggregation families could outperform either
-single-style narrative on a workload mix.
+LLM-narrative arm overall ($+0.74$~pp [$+0.13$, $+1.34$]).  This result
+supports two co-equal conclusions.  First, narrative \emph{format} is the
+load-bearing property, not LLM-specific lexical regularity.  Second, narrative
+\emph{style} matters within the narrative format: templated narratives win by
+$+10.21$~pp on the date-arithmetic family \texttt{temporal\_comparison}
+(where explicit dose-date tables help) and lose by $-7.29$~pp on the
+dose-aggregation family \texttt{regimen\_aggregation} (where LLM prose
+summaries help); neither single-style narrative is uniformly superior.  We
+sketch a hybrid-narrative direction in \S\ref{sec:conclusion}.
 
 \paragraph{The cross-resource family as a scope statement.}
 Structured retrieval should, in theory, have the largest advantage on cross-resource

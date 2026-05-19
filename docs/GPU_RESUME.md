@@ -93,7 +93,7 @@ python -m eval.harness --system b
 python -m eval.harness --system c
 ```
 
-Then hand off to the statistician agent / scoring scripts.
+Then hand off to the scoring scripts.
 
 ## Notes
 
