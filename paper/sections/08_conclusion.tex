@@ -3,53 +3,49 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-We presented the first paired-data comparison of narrative RAG, naive structured FHIR
-RAG, and resource-aware structured FHIR RAG on specialty-medication adherence-indicator
-question answering, where information content is held constant across representations
-by shared-source rendering from a single FHIR bundle per patient.
-Narrative RAG achieves the highest exact-match accuracy (40.6\% vs.\ 33.4--35.3\%).
-A 1024-token sensitivity sweep on a stratified 495-question sample shows the
-structured systems gain $+3.8$ to $+5.1$~pp when the answer budget is doubled while
-the narrative system is unchanged, narrowing but not eliminating A's lead; the
-A $>$ B $>$ C ordering is therefore not a token-budget artefact alone.
-A templated-narrative ablation that uses no LLM
-(\S\ref{sec:results:templated}) matches the LLM-narrative arm overall
-(41.3\% vs.\ 40.6\%, $\Delta{=}{+}0.74$~pp [$+0.13$, $+1.34$]), so the
-narrative-format advantage is not specific to LLM-generated text.  A
-no-retrieval baseline (\S\ref{sec:results:noretrieval}) decomposes each
-system's accuracy into a $25.2\%$ question-text-attributable floor plus
-retrieval-attributable lifts of $+15.4$ (A), $+10.1$ (B), and $+8.2$ (C)~pp,
-all with CIs excluding zero.
-Temporal-anchor failures are a structural weakness of the narrative format that
-persists independent of budget.  In the feature-extraction arm, structured FHIR
-features substantially outperform both narrative-derived and retrieval-trace features
-for adherence classification, on a synthetic label whose alignment with the
-structured representation is acknowledged and discussed (\S\ref{sec:discussion}).
-The pattern -- narrative format wins on QA, structured features encode the
-adherence signal more directly under the synthetic label -- is consistent with
-a \emph{representation dissociation}: winning natural-language QA and winning
-downstream adherence-outcome ML are different objectives on this cohort, and
-the same representation does not simultaneously optimise both.
+We compared narrative RAG, naive structured FHIR RAG, and resource-aware structured FHIR
+RAG on 13,800 programmatically verified adherence-indicator questions over paired
+renderings of 200 synthetic specialty-regimen patients.  On aggregate exact-match the
+narrative arm leads (40.6\% vs.\ 35.3\% and 33.4\%), and the lead survives a
+patient-level cluster bootstrap.  Taking that lead apart shows what it is made of.  Under
+the pre-specified scorer it is entirely abstention: the narrative states which components
+a regimen lacks and the structured record does not, so the narrative arm answers N/A
+correctly far more often, while on the 8,177 questions with a substantive answer all
+three arms score 15--16\% and fall below a constant per-family guess.  A predictor that
+always answers N/A matches the narrative arm overall, and the previously reported Tier-3
+collapse is the disappearance of N/A questions at Tier~3.  Scoring only the final answer
+instead of the whole reasoning trace raises the narrative arm's substantive accuracy to
+28.7\% and leaves the structured arms near 17\%, but the residual lead sits in exactly
+the families whose answers the narrative generation prompt writes into the text and is
+absent where both representations state the answer equally.  We conclude that the
+advantage is a product of explicit absence statements, summary leakage and scorer
+behaviour, not of prose as a format.
 
-Code (three retrieval systems, evaluation harness, feature extractors), analysis
-scripts, and the synthetic dataset (200 patients, 13,800 questions, five PSP
-adherence-indicator families) are released as a combined Zenodo deposit at
-\href{https://doi.org/10.5281/zenodo.20292792}{doi:10.5281/zenodo.20292792}
-under Apache-2.0 (code) and CC-BY-4.0 (dataset), providing a reusable benchmark
-for the specialty-pharmacy QA research community.
+We also disclose three defects found by auditing our own released outputs: the question
+bank's reference date was never passed to the model, the answer LLM ran in thinking mode
+under a 512-token cap and was truncated in roughly a third of responses, and the scorer
+reads the reasoning trace and mis-scores categorical free-text answers.  We have
+quantified each from the frozen data and stated which earlier claims they invalidate,
+rather than reissuing the aggregate result.  The feature-extraction arm is retained as an
+exploratory supplement and no longer supports a representation-dissociation claim.
 
-Future directions include: (1) extending the budget sweep to additional points
-(256, 768, 2048) and to the full 13,800-question matrix; (2) evaluating on real
-de-identified PSP data; (3) testing robustness across multiple answer LLMs and
-embedding models; (4) extending the question bank to additional specialty-medication
-classes and real-world edge cases (infusion regimens, variable-interval dosing,
-bridge therapies); (5) constructing richer synthetic adherence labels to stress-test
-the feature-extraction arm beyond the perfectly-scheduled synthetic scenario;
-(6) a drop-one ablation over System~C's three resource-aware primitives (typed filter,
-reference-chain traversal, temporal pre-filter) to disentangle which primitive drives
-the recall@$k$ gain over System~B; and (7) constructing hybrid narratives that select
-deterministic table-like phrasing for date-arithmetic question families (where the
-templated arm beats the LLM arm by $+10.21$~pp on \texttt{temporal\_comparison}) and
-LLM prose for dose-aggregation families (where the LLM arm beats the templated arm
-by $+7.29$~pp on \texttt{regimen\_aggregation}), with the per-family-optimal hybrid
-expected to beat both single-style narratives on a workload mix by construction.
+The constructive findings are these.  Structured-record RAG needs an explicit mechanism
+for stating absence.  Benchmarks in which N/A is a valid answer must report N/A prevalence
+per stratum and accuracy on N/A and substantive questions separately, alongside a
+constant-N/A baseline.  Any summary generated upstream of retrieval should be audited
+against the question bank, because what it pre-computes will be credited to the retrieval
+pipeline.  A deterministic templated narrative is at least as good a narrative source as
+an LLM for regimen summaries of this kind.  And windowed adherence counts and ratios
+should be computed, not asked of a language model.
+
+Code, analysis scripts, and the synthetic dataset are released as a combined Zenodo
+deposit at \href{https://doi.org/10.5281/zenodo.20292792}{doi:10.5281/zenodo.20292792}
+under Apache-2.0 (code) and CC-BY-4.0 (dataset).  The required next steps, in order, are:
+(1)~interpolate the reference date into every question string; (2)~rerun all arms with
+thinking disabled or a multi-thousand-token budget, stating which; (3)~correct the scorer
+to parse only the final answer and to match categorical ground-truth tokens; (4)~add an
+overlay-only structured arm, a compact structured arm, and a narrative arm with
+aggregates and listed dates removed; (5)~add a tool-calling arm as the reference ceiling;
+(6)~run the drop-one ablation over System~C's primitives; and (7)~report every result
+stratified by N/A status with cluster-robust intervals.  Only after these steps can the
+substrate question this paper set out to answer be answered.

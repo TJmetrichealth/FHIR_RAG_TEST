@@ -1,48 +1,45 @@
 %% 00_abstract.tex
 \begin{abstract}
-Clinical records are increasingly expressed in both structured standards (HL7 FHIR R4B) and
-LLM-generated narrative summaries. When both representations encode the same facts, it is
-unclear which should serve as the retrieval substrate for downstream question answering or
-adherence-risk prediction.  We present a \emph{paired-data} empirical comparison that holds
-information content constant: 200 synthetic patients rendered as FHIR~R4B bundles and as
-LLM-generated narratives from the same underlying facts.  Three retrieval systems answer
-13,800 programmatically-verified adherence-indicator questions across five Patient Support
-Program (PSP) families (next-dose lookup, dose-history aggregation/MPR, coverage-window
-reasoning/PDC, missed-dose detection, and persistence signalling) at three regimen-complexity
-tiers.  A fourth arm extracts features from each representation for a synthetic adherence
-classification task.
+Clinical records are increasingly available both as structured HL7 FHIR R4B resources and
+as LLM-generated narrative summaries.  When both encode the same facts, it is unclear which
+should serve as the retrieval substrate for downstream question answering (QA).  We present
+a paired-data comparison in which 200 synthetic specialty-regimen patients are rendered as
+FHIR~R4B bundles and as narratives generated from the same bundle, and three
+retrieval-augmented generation (RAG) systems answer the same 13,800 programmatically
+verified adherence-indicator questions across five Patient Support Program (PSP) question
+families and three regimen-complexity tiers.  Two further arms (a no-retrieval baseline
+and a deterministic templated-narrative source) isolate the contribution of retrieval and
+of LLM-specific narrative style.
 
-\textbf{Results.}  System~A (Narrative RAG) achieves 40.6\% exact-match accuracy
-(95\% CI [39.8\%, 41.4\%]), outperforming System~B (Structured-Naive, 35.3\%) and
-System~C (Structured-Aware, 33.4\%).  All pairwise gaps are statistically significant
-(McNemar $p<0.001$; paired bootstrap CIs exclude zero).  An error taxonomy attributes
-44--58\% of failures to reasoning truncation under the 512-token output budget; a
-1024-token sensitivity sweep on a stratified 495-question sample recovers $+5.1$~pp
-for System~C and $+3.8$~pp for System~B while leaving System~A unchanged, narrowing
-but not eliminating A's lead.  Tier~3 multi-drug regimens collapse to $\approx$20\%
-across all systems and remain so at the larger budget; this Tier-3 floor is below a
-per-family most-frequent-class baseline at 24.8\%.  A no-retrieval baseline (System~N,
-same answer LLM and prompt template, empty context) reaches 25.2\% overall and 6.9\%
-at Tier~3, decomposing the A advantage into a $25.2\%$ question-text-attributable
-floor plus a $+15.4$~pp retrieval-attributable lift; the corresponding lifts for B
-and C are $+10.1$ and $+8.2$~pp.
+\textbf{Headline result and what it is made of.}  On aggregate exact-match accuracy the
+narrative arm (System~A, 40.6\%) leads the naive structured arm (System~B, 35.3\%) and the
+resource-aware structured arm (System~C, 33.4\%); all pairwise gaps survive a patient-level
+cluster bootstrap.  Three post-hoc analyses show that this gap is not a representation
+effect.  (1)~\emph{Abstention.}  40.7\% of ground-truth answers are N/A because the
+queried component does not exist for that patient; a constant ``always N/A'' predictor
+scores 40.7\%, matching System~A.  Under the pre-specified scorer, the arms score 76.4\%,
+64.7\% and 59.2\% on N/A questions and 16.0\%, 15.1\% and 15.6\% on the 8,177 questions
+with a substantive answer, so the entire aggregate lead is differential abstention, and the
+previously reported Tier-3 ``collapse'' is the fall in N/A prevalence from 54--59\% to
+13.8\%.  (2)~\emph{Scorer artefact.}  The scorer reads the answer LLM's reasoning trace;
+re-scoring only the final answer raises System~A's substantive accuracy to 28.7\% while
+leaving B and C at 16.8\% and 17.7\%, so the substantive-question result is
+scorer-dependent.  (3)~\emph{Summary leakage.}  The narrative advantage that remains under
+final-answer scoring is concentrated in the families whose answers the narrative
+generation prompt writes into the text (last and first administration dates, total
+administration counts), and is absent on the family both representations state equally,
+consistent with the narrative being a curated summary rather than an alternative format
+of equal content.
 
-\textbf{Feature extraction.}  On a synthetic adherence label whose construction is partly entailed by the
-structured representation, FS-Structured features achieve AUC~0.997 against
-FS-Narrative AUC~0.846 and FS-Aware AUC~0.769; we discuss the partial-tautology
-in Results and Discussion.
+\textbf{Design flaws disclosed.}  The question bank refers to a ``reference date'' that
+was never passed to any system, making 7,800 questions unanswerable as posed; the answer
+LLM (Qwen3-32B) ran in thinking mode under a 512-token output cap and 31--38\% of
+responses were truncated inside the reasoning block; and the scorer's free-text path
+credits no correct answers on the missed-dose family.  We quantify each from the released
+raw outputs, report N/A-stratified and cluster-robust statistics throughout, and state
+which conclusions survive.  The feature-extraction arm is retained as an exploratory
+supplement.
 
-\textbf{Contribution.}  We demonstrate and empirically characterise a \textit{representation
-dissociation}: the representation that wins narrative QA (narrative $>$ structured) is not
-the same representation that wins downstream ML adherence prediction (structured $\gg$
-narrative).  A deterministic templated-narrative generator (System~A-T) eliminates LLM hallucination
-risk and generation cost while matching or slightly exceeding the LLM narrative pipeline
-on QA accuracy (41.3\% vs.\ 40.6\%; paired-bootstrap delta $+0.74$~pp [$+0.13$,
-$+1.34$]); the narrative-format advantage therefore generalises beyond LLM-specific lexical
-regularity.  To our knowledge, this is the first paired-data comparison of narrative RAG, naive
-structured FHIR RAG, and resource-aware structured FHIR RAG in which information
-content is held constant by shared-source rendering from a single bundle, and
-ground truth is produced programmatically rather than by an LLM-as-judge.  Code (Apache-2.0)
-and the synthetic dataset (CC-BY-4.0) are released as a combined Zenodo deposit
-at \href{https://doi.org/10.5281/zenodo.20292792}{doi:10.5281/zenodo.20292792}.
+Code (Apache-2.0) and the synthetic dataset (CC-BY-4.0) are released as a combined Zenodo
+deposit at \href{https://doi.org/10.5281/zenodo.20292792}{doi:10.5281/zenodo.20292792}.
 \end{abstract}

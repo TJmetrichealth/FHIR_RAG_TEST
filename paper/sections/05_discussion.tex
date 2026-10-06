@@ -1,164 +1,134 @@
 %% 05_discussion.tex
-% Calibrated to analysis/results.md, analysis/error_taxonomy.md,
-% analysis/feature_extraction.md, analysis/recall_at_k.md
 
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{Interpreting the A $>$ B $>$ C ordering.}
-% Source: analysis/results.md, analysis/error_taxonomy.md, analysis/token_sweep_compare.md
-System~A outperforms both structured variants on exact-match accuracy by 5.3~pp (vs.\ B)
-and 7.2~pp (vs.\ C), with statistically significant pairwise differences.  The error
-taxonomy attributes 44--58\% of failures to reasoning truncation under the 512-token
-output budget, raising the question of whether the ordering is conditional on that
-budget.  The 1024-token sensitivity sweep in \S\ref{sec:results:budget_sweep}
-answers this directly: doubling the answer budget gives no benefit to System~A
-($\Delta = 0.000$), but moves System~B by $+3.8$~pp and System~C by $+5.1$~pp on
-the same paired sample.  C gains slightly more than B, consistent with C's superior
-retrieval recall (0.852 vs.\ 0.762 at $k=5$; Table~\ref{tab:recall}) being partly
-masked by truncation in the 512-token regime.
+\paragraph{What the aggregate ordering actually measures.}
+The A $>$ B $>$ C ordering on aggregate exact-match is real in the sense that it survives
+a patient-level cluster bootstrap, but it is not a representation effect.  Under the
+pre-specified scorer it is the product of a question bank in which 40.7\% of correct
+answers are N/A and of a narrative that states explicitly which components a regimen
+lacks; on questions with a substantive answer the three systems are within one point of
+each other at 15--16\%, and every arm is below a constant per-family guess.  Under
+final-answer scoring the narrative arm does lead on substantive questions, by 11--12~pp,
+but that lead is confined to the families whose answers the narrative generation prompt
+writes into the text and is absent on the one family both representations state equally.
+A reader who wants a single sentence should take this one: the narrative arm's advantage
+is made of explicit statements of absence, a summary that pre-computes answers, and a
+scorer that treated the two kinds of response differently, and none of those is a
+property of prose as a format.
 
-The budget effect is real and quantifiable, but it does not flip the ordering.
-At 1024 tokens, A still leads C by 6.0~pp and B by 5.2~pp.  The A $>$ B $>$ C
-ordering is therefore not an artefact of the 512-token cap alone, even though
-that cap accounts for roughly half of the structured-system deficit.  A practitioner
-choosing between architectures should expect the gap to narrow but not close as the
-output budget grows.
+\paragraph{Abstention is a first-class behaviour that benchmarks must stratify.}
+The abstention result generalises beyond this dataset as a methodological point.  Any QA
+benchmark in which ``not applicable'' is a valid answer, and in which templates fire
+regardless of whether the queried entity exists, will have an N/A prevalence that varies
+across strata (here, by tier).  Aggregate accuracy then mixes two skills, abstaining
+correctly and answering correctly, with stratum-dependent weights, and a representation
+that makes absence explicit will look better than one that does not.  We recommend that
+clinical RAG evaluations report N/A prevalence per stratum, report accuracy separately on
+N/A and substantive questions, and include a constant-N/A predictor alongside the usual
+modal baseline.  Had we done this in the first version, the headline would have been
+different.
 
-The no-retrieval baseline (\S\ref{sec:results:noretrieval}) shows that
-$25.2\%$ of overall accuracy is question-text-attributable: qwen3-32b answers
-this fraction of questions correctly with no patient context at all, drawing on
-prior knowledge of typical specialty-medication dosing patterns and on the
-prevalence of canonical responses in the question phrasing.  The remaining
-accuracy is genuinely retrieval-attributable: A adds $+15.4$~pp on top of the
-floor, B adds $+10.1$~pp, and C adds $+8.2$~pp; all three paired bootstrap CIs
-exclude zero.  The retrieval-attributable component preserves the A $>$ B $>$ C
-ordering, indicating that the QA win of System A is not driven by a higher
-question-text-attributable floor but by how much each retrieval substrate adds to
-the LLM's prior.
+\paragraph{Why the narrative arms abstain better.}
+Both narrative generators produce a closed description of the regimen (``consists of one
+medication component'').  The answer model, instructed to return N/A when the context does
+not contain the answer, can act on an explicit negative.  Serialised FHIR resources are an
+open-world representation: absence of a resource is not stated anywhere, and a question
+about a missing component retrieves the nearest present one.  System~C's typed router
+amplifies this by filtering the candidate pool to medication resources, so the context is
+saturated with records of the component that does exist.  This is a genuine and, we think,
+under-appreciated property of structured-record RAG: it needs an explicit mechanism for
+answering ``there is no such thing'', for example a resource-count summary injected into
+the context, or a pre-retrieval existence check.  The templated arm's stronger abstention
+on the comparison family suggests that even the phrasing of the negative matters.
 
-\paragraph{Tier 3: retriever vs answer LLM.}
-% Source: analysis/tier3_recall_breakdown.md (run_tier3_recall_breakdown.py)
-All three systems sit below the per-family modal baseline at Tier~3
-(\S\ref{sec:results:tiers}, 19.8--20.4\% vs.\ 24.8\%).  This raises the question of
-whether the failure is upstream (retriever missing relevant resources) or downstream
-(answer LLM unable to reason over the retrieved evidence).  At Tier~3, retrieval
-recall@5 remains high across four of the five families for both structured systems:
-\texttt{cross\_resource} 89.7\% / 99.7\%, \texttt{regimen\_aggregation} 83.2\% /
-94.1\%, \texttt{regimen\_compliance} 76.6\% / 89.9\%, and \texttt{temporal\_comparison}
-80.0\% / 77.4\% for B and C respectively.  The supporting evidence is in the
-retrieved context on most Tier-3 questions yet the answer LLM still produces wrong
-answers, so the Tier-3 collapse is a reasoning bottleneck, not a retrieval bottleneck.
-The Tier-3 $+13$~pp lift from retrieval (\S\ref{sec:results:noretrieval}) confirms
-the retrieved context carries real signal; the reason this signal does not translate
-into a clearance of the modal baseline is that the answer LLM cannot reliably
-synthesise it under multi-component regimens.
-The 1024-token sweep moves Tier-3 by $+3$--$5$~pp but does not clear the modal
-baseline, indicating that longer outputs alone are insufficient.  The architectural
-implication is that multi-component regimens may require structured intermediate
-steps -- per-component decomposition, explicit date enumeration before aggregation,
-or chain-of-thought scaffolding -- rather than additional one-shot reasoning budget.
-\texttt{temporal\_lookup} is the one family where System~C does not beat System~B at
-Tier-3 recall (76.5\% vs.\ 78.0\%); a follow-up should examine whether C's temporal
-pre-filter is over-pruning candidate \texttt{Observation} or
-\texttt{MedicationAdministration} resources at the highest complexity tier.
+\paragraph{Summary leakage, not format.}
+The generation prompt asks the narrative to list each component's first three and last
+three administration dates, a mid-window date, the regimen start and end, and the total
+administration count.  The substantive \texttt{temporal\_lookup} templates ask for the
+first, last and next administration and the regimen start and end; the
+\texttt{regimen\_aggregation} templates ask for counts; the \texttt{regimen\_compliance}
+templates ask for windowed counts of the primary component.  These are the three families
+on which the narrative arm leads under final-answer scoring, and the templated arm, which
+writes the same fields in different words, leads on the same three.  On
+\texttt{cross\_resource}, whose answers (component presence, schedule kind, tier) appear
+verbatim in both representations, the arms tie.  The parsimonious explanation is that the
+rendering step did part of the question answering.  The previous version attributed the
+same pattern to ``FHIR JSON serialisation imposing a context-length cost that hurts
+dose-count arithmetic''; we no longer think the evidence supports that reading over the
+leakage one.  Separating them requires an aggregate-stripped narrative arm and a
+structured arm restricted to the overlay resources in a compact rendering, which we list
+as required follow-ups.
 
-\paragraph{Why the narrative format has a temporal weakness.}
-The temporal-anchor failure rate gradient (A:~30\%, B:~18\%, C:~10\%) is the most
-structurally informative finding in the error taxonomy.  Narrative chunks do not
-contain the question's \texttt{reference\_date} (a per-question parameter that changes
-across rows in the question bank), so the LLM must infer a temporal anchor from
-surrounding text.  FHIR resources carry explicit date fields
-(CarePlan.period.start/end, MedicationAdministration.effectiveDateTime,
-MedicationRequest.authoredOn) that enable the LLM to reason about ``when'' even when
-the reference date is absent from the prompt context.  This is a structural property
-that would persist regardless of token budget, and it motivates future work embedding
-reference-date context directly into narrative chunks at indexing time.
+\paragraph{Where the structured arms hold their own.}
+On \texttt{cross\_resource} substantive questions the structured arms match or edge the
+narrative arm under both scorings, and System~C edges System~B on substantive questions
+overall, consistent with its higher retrieval recall.  These are the questions for which a
+single FHIR field is the answer.  The structured arms' aggregate deficit relative to the
+narrative arm, and C's deficit relative to B, are N/A effects.
 
-\paragraph{Format vs.\ LLM lexical regularity.}
-The templated-narrative ablation (\S\ref{sec:results:templated}) addresses a
-natural objection: System~A's advantage might be specific to LLM-generated
-text, in which case the result would not transfer to non-LLM narrative sources.
-A-T uses a deterministic template generator with no LLM and matches the
-LLM-narrative arm overall ($+0.74$~pp [$+0.13$, $+1.34$]).  This result
-supports two co-equal conclusions.  First, narrative \emph{format} is the
-load-bearing property, not LLM-specific lexical regularity.  Second, narrative
-\emph{style} matters within the narrative format: templated narratives win by
-$+10.21$~pp on the date-arithmetic family \texttt{temporal\_comparison}
-(where explicit dose-date tables help) and lose by $-7.29$~pp on the
-dose-aggregation family \texttt{regimen\_aggregation} (where LLM prose
-summaries help); neither single-style narrative is uniformly superior.  We
-sketch a hybrid-narrative direction in \S\ref{sec:conclusion}.
+\paragraph{Retrieval versus reasoning at Tier~3.}
+The earlier version located the Tier-3 problem in the answer LLM's reasoning, on the
+grounds that retrieval recall stayed high while accuracy collapsed.  With the N/A
+stratification the picture is simpler.  Substantive accuracy is low at every tier, and
+Tier~3 is only somewhat lower than Tiers~1--2; what collapses at Tier~3 is the supply of
+N/A questions.  Retrieval does contribute (about 13~pp over the no-retrieval arm at Tier~3
+for every system under the pre-specified scorer), so ``actively misled by context'' was
+the wrong description.  The more accurate statement is that a general-purpose LLM reading
+either rendering of a multi-component regimen, without the anchor date it needs, under a
+budget it frequently exhausts mid-reasoning, produces a correct windowed count or ratio a
+small fraction of the time.
 
-\paragraph{The cross-resource family as a scope statement.}
-Structured retrieval should, in theory, have the largest advantage on cross-resource
-questions that require traversing FHIR references (e.g.\ linking a CarePlan to its
-MedicationRequests to their Medications).  In practice, cross-resource accuracy is at
-parity across all three systems (A=43.4\%, B=44.5\%, C=43.4\%;
-Table~\ref{tab:family_results}).  The retained \texttt{cross\_resource} templates target
-tier label, schedule kind, and component presence: each of these resolves a single FHIR
-reference rather than a multi-hop traversal.  The current question bank therefore does
-not exercise multi-hop reference traversal, and we do not claim evidence for or against
-a structural advantage of resource-aware retrieval on harder cross-resource templates.
-Whether such an advantage emerges under multi-hop traversal questions is a scope
-question for follow-up work, not a methodological miss in this evaluation.
+\paragraph{The three defects in perspective.}
+The missing reference date (Defect~1) is a benchmark construction error that makes 7,800
+questions unanswerable as posed and is the most consequential of the three; it must be
+fixed by interpolating the date into the question before any rerun.  Thinking mode under
+a 512-token cap (Defect~2) truncates roughly a third of responses before a final answer;
+the 1024-token sweep shows this is not merely a budget problem, since 12--16\% of
+responses are still truncated and substantive accuracy does not move.  A rerun should
+either disable thinking (\texttt{reasoning\_effort=none}) or allow a budget of several
+thousand tokens, and should state which.  The scorer's reach into the reasoning trace
+(Defect~3) turned out to be far from neutral: it cost the narrative arm about 13~pp of
+substantive accuracy and the structured arms about 2~pp, presumably because the
+narrative's think blocks mention the total count and several dates before arriving at the
+answer, so the ``first value'' heuristic picked the wrong one.  The free-text path's
+failure on comparator and component-name answers is a plain bug that a corrected scorer
+must fix.  We have chosen to publish the audit rather than delay until all three are
+repaired, because the aggregate tables in the previous version have been cited and the
+corrective is of value now.
 
-\paragraph{The representation dissociation: QA winner $\neq$ ML-feature winner.}
-The central finding of the feature-extraction arm is a \emph{dissociation} between
-QA performance and adherence-prediction performance.  System~A wins the QA comparison
-(40.6\% vs.\ 33.4--35.3\%), but FS-Structured features substantially outperform
-FS-Narrative features on adherence classification (LightGBM class-weighted AUC 0.997
-vs.\ 0.846; bootstrap CI excludes zero).  FS-Narrative and FS-Aware are tied within
-the bootstrap interval ($\Delta{=}+0.071$ [$-0.039$, $+0.190$]).
+\paragraph{Does this pairing hold anything constant?}
+The honest answer is: the source, and the question set.  It does not hold information
+content constant, because the narrative is a curated overlay summary with a precomputed
+count and few dates, while the bundle is a complete record with every date and a large
+irrelevant base.  Nor does it hold retrieval constant, because the narrative arm never
+retrieves.  The comparison is therefore between an ``LLM summary in context'' pipeline and
+two ``retrieve from a full record'' pipelines, which is a realistic deployment contrast
+but not the causal isolation we originally described.  Disentangling representation from
+summarisation requires at least three additional arms: a structured arm over the overlay
+resources only, a compact structured rendering without JSON boilerplate, and a narrative
+arm with aggregates and listed dates removed.
 
-The practical implication is that the choice of representation should be made
-\emph{separately} for each downstream task.  A clinical workflow that uses narrative RAG
-for case-manager Q\&A (where A wins) and structured FHIR features for an adherence
-risk-stratification model (where FS-Structured wins) would outperform a workflow that
-uses a single representation for both.  This finding complements prior work by Nateghi
-Haredasht et al.~\citep{nateghi2025predicting} (LLM-extracted narrative features
-for MOUD retention) and Gao et al.~\citep{gao2024raw} (raw numeric features
-often match or beat LLM embeddings), which together establish that neither representation
-uniformly dominates across downstream use cases.
+\paragraph{Why not a tool-calling arm?}
+Ground truth is computed by deterministic functions over FHIR, so a SQL-on-FHIR or
+function-calling arm would approach 100\% on this bank by construction and would not
+inform the question of which text substrate a free-text RAG system should use.  The
+free-text setting is motivated by ambient-scribe deployments in which narratives already
+exist and case-manager questions arrive in natural language.  We accept that this
+argument establishes relevance, not necessity: in a production PSP, a case manager's
+count question should be answered by a query, not by an LLM doing arithmetic in its head,
+and a tool-calling arm belongs in a follow-up as the reference ceiling against which any
+retrieval pipeline's substantive accuracy should be judged.
 
-\paragraph{A point where readers may disagree.}
-A reasonable reviewer might argue that the near-perfect FS-Structured AUC (0.997--1.000)
-renders the feature-arm comparison trivial: if structured features are essentially
-tautological summaries of the labelling rule, the ``dissociation'' finding collapses to
-``the features used to generate the label also predict the label.''  We acknowledge this
-directly.  The synthetic-label design (consecutive missed doses OR gap $>$ 1.5$\times$
-interval) was chosen for reproducibility and programmatic verifiability; its alignment
-with the FS-Structured feature set is intentional and documented.  The meaningful signal
-is not the absolute FS-Structured AUC, but (1) the tied CI between FS-Narrative and FS-Aware
-despite very different feature sources, and (2) the relative ordering (Structured $\gg$
-Narrative $\approx$ Aware) which is robust across both classifiers.  We do not claim
-that structured features will achieve near-perfect AUC on a real noisy cohort; we claim
-that they encode the adherence signal more directly than narrative-derived or
-retrieval-trace features, a claim that should hold under richer real-world labels as well.
-
-A non-tautological remediation -- replacing the synthetic label with a Synthea-derived
-clinical-outcome label (e.g., a disease-progression encounter, treatment switch, or
-hospitalisation event post-regimen-start) -- was investigated before submission and is
-not feasible on the current cohort.  The synthetic bundles do not contain post-regimen
-disease-progression events of the kind that would yield such a label; in a representative
-positive Tier-2 case there is exactly one encounter post-medication-start and no condition
-or observation that could plausibly proxy a non-adherence outcome.  Constructing such a
-label requires either regenerating the Synthea data with regimen-impact modules or moving
-to a real PSP cohort, both of which are deferred to full-venue follow-up work.
-
-\paragraph{Practical guidance for system designers.}
-For practitioners building RAG over specialty-medication clinical records, the choice of
-representation should follow the downstream task.  When the answer LLM's output budget
-is constrained, narrative RAG is the lower-risk choice: its compact context (490 mean
-tokens-in vs.\ 4,463 for System~B) allows more reasoning headroom within a fixed token
-limit.  If output budgets are generous, structured RAG closes part of the gap but does
-not overtake narrative RAG on QA accuracy in our evaluation: the 1024-token sweep
-recovers $+5.1$~pp for System~C and $+3.8$~pp for System~B while leaving System~A
-unchanged, narrowing but not eliminating A's lead (\S\ref{sec:results:budget_sweep}).
-For downstream adherence risk stratification, structured FHIR features are preferable
-to reusing the narrative representation: extracting numeric adherence metrics directly
-from FHIR resources is both more interpretable and more predictive in this evaluation.
-Finally, LLM-generated narratives should be treated as summaries, not as drop-in
-replacements for the structured record.  The fidelity audit confirms 100\% entity
-recovery after prompt iteration, but entity recovery does not guarantee that every
-temporal relation is preserved in a form the answer LLM can exploit during reasoning.
+\paragraph{Practical guidance.}
+For practitioners the durable lessons are modest.  First, stratify by abstention before
+believing any representation effect.  Second, if a structured record is the retrieval
+substrate, add an explicit statement of what the record does not contain.  Third, if the
+answer model is a hybrid reasoning model, decide deliberately whether thinking is on and
+give it a budget that lets it finish; then score only the final answer.  Fourth, if a
+summary is generated upstream of retrieval, recognise that whatever it pre-computes will
+show up as ``QA accuracy'' downstream, and audit the summary prompt against the question
+bank.  Fifth, a deterministic template is an acceptable narrative source for this kind of
+regimen summary, which removes hallucination risk and generation cost.  Sixth, for
+windowed adherence counts and ratios, compute them; do not ask a language model to.

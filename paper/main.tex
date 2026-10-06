@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage{amsmath}
 \usepackage{microtype}
@@ -19,15 +20,22 @@
   urlcolor=blue
 }
 
-\title{Representation Wins on QA, Not on ML: \\
-A Paired-Data Comparison of Structured FHIR and LLM-Narrative Retrieval \\
-for Adherence-Indicator Question Answering on Long-Acting Specialty Regimens}
+\title{Anatomy of a Narrative-over-FHIR RAG Advantage: \\
+Abstention, Summary Leakage and Scorer Artefacts in a Paired-Data \\
+Adherence-Indicator Question-Answering Benchmark}
 
+% Affiliation note: the author is employed by metricHEALTH but this work was
+% carried out in a personal capacity. The affiliation line therefore reads
+% "Independent researcher" and the employer is disclosed in the footnote.
+% TODO(TJ): obtain written sign-off from metricHEALTH on the footnote wording
+% before submission, or remove the employer mention entirely.
 \author{Tirthesh Jani \\
-  metricHEALTH \\
-  \texttt{tirtheshjani@gmail.com}\thanks{Author submits this work in a personal research capacity.}}
+  Independent researcher \\
+  \texttt{tirtheshjani@gmail.com}\thanks{The author is employed by metricHEALTH.
+  This work was conducted in a personal research capacity, without company
+  data, funding, or resources, and does not represent the views of metricHEALTH.}}
 
-\date{May 2026 \\ \small arXiv preprint}
+\date{Revised September 2026 \\ \small arXiv preprint (v2)}
 
 \begin{document}
 

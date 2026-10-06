@@ -2,31 +2,31 @@
 \section{Introduction}
 \label{sec:intro}
 
-Specialty medications -- biologics, long-acting injectables (LAIs), and cyclic chemotherapy
-regimens -- now account for an estimated 51\% of US prescription drug spending despite
+Specialty medications (biologics, long-acting injectables, and cyclic chemotherapy
+regimens) now account for an estimated 51\% of US prescription drug spending despite
 representing only a small fraction of claims~\citep{niu2024specialty}.  In Canada, biologics
 alone constituted 29.6\% of public drug-plan spending from just 2.4\% of claims in
 2022~\citep{cihi2023prescribed}.  Patient Support Programs (PSPs) provide the clinical
 infrastructure that tracks adherence for these high-cost, administration-intensive
-regimens~\citep{grundy2023psp}.  The questions PSP case managers ask every day -- ``When
+regimens~\citep{grundy2023psp}.  The questions PSP case managers ask every day (``When
 is this patient's next scheduled injection?'', ``How many doses were administered in the
-past 90 days?'', ``Has the patient missed any doses recently?'' -- map directly onto
+past 90 days?'', ``Has the patient missed any doses recently?'') map directly onto
 canonical adherence indicators: Medication Possession Ratio (MPR), Proportion of Days
 Covered (PDC), and persistence~\citep{lociganic2015using}.  Answering them requires
 multi-step temporal reasoning over regimen structure that standard free-text search cannot
 reliably perform~\citep{yao2024chemotimelines}.
 
 Concurrently, LLM-powered ambient scribes have entered enterprise deployment at scale:
-as of 2025-2026, systems from Abridge, Nuance DAX Copilot, and Ambience Healthcare
+as of 2025--2026, systems from Abridge, Nuance DAX Copilot, and Ambience Healthcare
 collectively serve millions of clinical encounters across academic health
 systems~\citep{tierney2024ambient,rotenstein2026changes}.  These systems generate clinical
 narratives as a by-product of documentation, creating a practical question: when the same
-clinical facts are encoded in both a structured standard (FHIR) \emph{and} an LLM-generated
+clinical facts are encoded in both a structured standard (FHIR) and an LLM-generated
 narrative, which representation should a retrieval-augmented generation (RAG)
 system~\citep{lewis2020retrieval} retrieve from?
 
-Prior work has not answered this question because existing comparisons \emph{confound
-representation with information content}.  Studies on MIMIC-based predictive modelling
+Prior work has not answered this question because existing comparisons confound
+representation with information content.  Studies on MIMIC-based predictive modelling
 use independently authored structured and narrative sources for the same patient, so
 performance differences reflect both representation and content coverage
 simultaneously~\citep{moldwin2021empirical}.  DrugEHRQA pairs structured tables and
@@ -39,47 +39,68 @@ CLEAR~\citep{lopez2025clinical} compares entity-aware vs.\ embedding RAG, but on
 narrative notes, not FHIR resources.
 
 \paragraph{This paper.}
-We resolve the confound by constructing a \emph{paired dataset}: 200 synthetic patients
-each rendered as a FHIR~R4B bundle and as an LLM-generated narrative derived from the
-same bundle, with 100\% recovery of the eight prompted entity classes from the narrative,
-verified by an independent programmatic audit (\S\ref{sec:methods:dataset}).  Three retrieval systems answer the same
-13,800 questions from both representations; differences in accuracy are therefore attributable
-to \emph{representation and retrieval strategy alone}.  A fourth measurement compares features
-derived from each representation on a synthetic adherence classification task, providing
-evidence about which representation is preferable for downstream ML.
+We attempt to reduce the confound by constructing a paired dataset: 200 synthetic
+patients each rendered as a FHIR~R4B bundle and as an LLM-generated narrative derived from
+the same bundle, with 100\% recovery of eight prompted entity classes from the narrative
+verified by a programmatic audit (\S\ref{sec:methods:dataset}).  Three retrieval systems
+answer the same 13,800 questions from both representations.  We had originally described
+the design as holding information content constant, so that accuracy differences would be
+attributable to representation alone.  Reviewer scrutiny and a subsequent audit of our own
+artefacts showed that this claim was too strong, in two directions: the narrative
+contains a precomputed administration count that the FHIR serialisation does not state
+explicitly, and the narrative omits most individual administration dates that the FHIR
+bundle contains.  The narrative is also short enough (median 84 words) to fit in a single
+retrieval chunk, so the narrative arm performs no retrieval in practice.  We therefore
+present the comparison as a paired evaluation of two \emph{rendering pipelines} over a
+common source, not as a clean isolation of representation.
+
+\paragraph{What we found.}
+The aggregate result is that the narrative arm scores highest (40.6\% vs.\ 35.3\% and
+33.4\%).  Stratifying by whether the ground-truth answer is N/A, which is the case for
+40.7\% of the question bank, shows that under the pre-specified scorer this lead comes
+entirely from abstention: on questions whose correct answer is N/A the narrative arm is
+far better at saying so, while on questions with a substantive answer all three arms score
+15--16\% and are statistically indistinguishable under a patient-level cluster bootstrap.
+A constant ``always N/A'' predictor matches the narrative arm overall.  Re-scoring only the
+final answer, rather than the whole response including the reasoning trace, changes the
+substantive picture: the narrative arm rises to 28.7\% while the structured arms stay near
+17\%, and the residual lead sits in exactly the families whose answers the narrative
+generation prompt writes into the text.  We therefore read the narrative advantage as a
+combination of explicit statements of absence, summary leakage, and scorer behaviour, none
+of which is a property of narrative as a format.  We also disclose three design flaws
+found during the audit (a reference date that was never passed to the model, a
+thinking-mode LLM under a tight output cap, and a scorer that reads the reasoning trace)
+and quantify their reach.  We believe these cautionary findings are useful to the
+clinical-RAG community precisely because the aggregate numbers looked like a clean
+representation effect.
 
 \paragraph{Contributions.}
 \begin{enumerate}
-\item \textbf{Paired-data methodology.}  First head-to-head comparison of narrative RAG,
-  naive structured FHIR RAG, and resource-aware structured FHIR RAG with shared-source
-  rendering from a single FHIR bundle, holding information content constant across
-  representations.
+\item \textbf{Paired-rendering benchmark.}  A released benchmark of 200 synthetic
+  specialty-regimen patients rendered as FHIR~R4B bundles, LLM narratives, and templated
+  narratives from a single source, with 13,800 programmatically verified questions across
+  five PSP adherence-indicator families and three complexity tiers.  No LLM-as-judge is
+  used anywhere.
 
-\item \textbf{Resource-aware FHIR retriever.}  System~C adds typed resource filtering,
-  reference-chain traversal (MedicationRequest $\rightarrow$ Medication, Practitioner,
-  Patient), and temporal pre-filtering to standard dense retrieval, extending prior
-  schema-aware retrieval approaches~\citep{jiang2023structgpt} to the FHIR R4B resource
-  graph.
+\item \textbf{Resource-aware FHIR retriever.}  System~C adds a deterministic regex
+  question router to a resource-type allowlist, one-hop reference-chain expansion, and
+  temporal pre-filtering to standard dense retrieval, extending prior schema-aware
+  retrieval approaches~\citep{jiang2023structgpt} to the FHIR R4B resource graph.
 
-\item \textbf{PSP adherence-indicator question grounding.}  Five question families (next-dose
-  lookup, dose-history aggregation / MPR, coverage-window / PDC, missed-dose detection,
-  persistence) with programmatic ground truth over FHIR bundles; no LLM-as-judge.
+\item \textbf{Decomposition of the narrative advantage.}  We show that the
+  narrative-over-structured gap on aggregate exact-match is an abstention effect under
+  the pre-specified scorer, that it explains the apparent complexity gradient across
+  tiers, and that the substantive-question lead which appears under final-answer scoring
+  is confined to families whose answers the narrative summary states near-verbatim.
 
-\item \textbf{Representation dissociation finding.}  The representation that wins
-  natural-language QA (narrative $>$ structured) is not the same one that wins downstream
-  adherence prediction (structured $\gg$ narrative), demonstrated empirically on paired data.
+\item \textbf{Cluster-robust inference.}  All pairwise comparisons are re-estimated with
+  a patient-level cluster bootstrap (200 clusters of 69 questions), and we report which
+  effects narrow or lose significance relative to the question-level analysis.
 
-\item \textbf{Templated-narrative ablation and per-family heterogeneity.}  A deterministic
-  templated-narrative generator (System~A-T) matches the LLM narrative arm overall and
-  reveals a second-axis finding: narrative \emph{style} matters within narrative.
-  Templated narratives win the date-arithmetic family \texttt{temporal\_comparison} by
-  $+10.21$~pp and lose the dose-aggregation family \texttt{regimen\_aggregation} by
-  $-7.29$~pp.  This implies a per-family-optimal hybrid would beat both single-style
-  narratives by construction.
-
-\item \textbf{Error taxonomy.}  Five-category deterministic taxonomy (four primary failure modes plus a residual ``Other'' bucket) showing that reasoning truncation (not structural RAG architecture) is the dominant cause
-  of inaccuracy, and that temporal-anchor failures are a structural weakness of the
-  narrative format.
+\item \textbf{Audit of our own pipeline.}  We document three benchmark and pipeline
+  defects (missing reference date, thinking-mode truncation, scorer reach into the
+  reasoning trace), quantify their prevalence from the released raw outputs, and state
+  which claims they invalidate.
 
 \item \textbf{Open release.}  Code (Apache-2.0) and the 200-patient synthetic
   dataset (CC-BY-4.0) are released as a combined Zenodo deposit at

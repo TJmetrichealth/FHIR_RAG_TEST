@@ -51,6 +51,7 @@ results/raw_1024/
 results/raw_large/
 results/raw_templated/
 results/raw_noretrieval/
+results/raw_postthink/
 results/raw_templated.log
 results/raw_noretrieval.log
 

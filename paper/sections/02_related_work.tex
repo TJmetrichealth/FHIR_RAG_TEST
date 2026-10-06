@@ -6,7 +6,7 @@
 Lewis et al.~\citep{lewis2020retrieval} introduced RAG as a paradigm for knowledge-intensive
 NLP tasks; the MIRAGE benchmark~\citep{xiong2024benchmarking} established medical RAG evaluation
 over literature corpora, and Almanac~\citep{zakka2024almanac} demonstrated clinical guideline
-grounding.  These systems retrieve over \emph{population-level} knowledge (publications,
+grounding.  These systems retrieve over population-level knowledge (publications,
 guidelines), not per-patient EHR data.  Schmiedmayer et al.~\citep{schmiedmayer2024llmonfhir}
 built LLM~on~FHIR, a function-calling retrieval system over patient-level FHIR bundles,
 validated on Synthea data with physician Likert ratings.  The peer-reviewed version,
@@ -30,7 +30,10 @@ comparison is within-narrative, not FHIR-structured.
 \paragraph{FHIR and ML/LLM.}
 FHIR-Former~\citep{engelke2025fhirformer} applies FHIR-structured resources plus notes to
 clinical prediction tasks.  SQL-on-FHIR~\citep{grimes2025sqlonfhir} and Pathling~\citep{grimes2022pathling}
-provide analytics-oriented FHIR access, complementary to but distinct from semantic retrieval.
+provide analytics-oriented FHIR access; because our ground truth is computed by
+deterministic functions over FHIR, a SQL-on-FHIR or tool-calling arm would approach
+ceiling accuracy by construction, and we discuss in \S\ref{sec:limitations} why we did
+not include one.
 FHIR-GPT~\citep{li2024fhirgpt} and the FHIR Workbench~\citep{idrissiyaghir2025fhirworkbench}
 characterise LLM competence on FHIR production and understanding tasks.
 Kothari and Gupta~\citep{kothari2025patientqa} propose a two-stage pipeline for FHIR
@@ -51,9 +54,10 @@ GPT-4 reaching only 60.1\% correctness despite a 32k context window.
 TIMER~\citep{cui2025timer} introduces a dedicated temporal instruction benchmark for
 longitudinal clinical records and reports a 6.6\% completeness improvement from specialised
 instruction tuning, confirming that temporal grounding is a distinct skill not inherited
-from general language modelling.
-Our error taxonomy provides a complementary characterisation of temporal-anchor failures
-specifically within structured-FHIR and narrative RAG retrieval contexts.
+from general language modelling.  Our benchmark adds a cautionary data point: a temporal
+anchor that is referenced but never supplied to the model produces failures that look
+like temporal-reasoning weakness but are in fact a benchmark construction error
+(\S\ref{sec:results:flaws}).
 
 \paragraph{Adherence-indicator ML.}
 Lo-Ciganic et al.~\citep{lociganic2015using} established the canonical feature set for
@@ -62,14 +66,15 @@ reference AUC benchmark (0.664--0.677).  Nateghi Haredasht et al.~\citep{nateghi
 demonstrate LLM-extracted narrative features for medication retention prediction on a MOUD
 cohort; Anderson et al.~\citep{anderson2025paging} apply the same design to mortality.
 Gao et al.~\citep{gao2024raw} show that raw numerical features often match or beat LLM
-embeddings on tabular clinical tasks.  Our feature-extraction arm extends this line to a non-MOUD
-specialty-regimen adherence task with matched FHIR-structured and narrative feature sets.
+embeddings on tabular clinical tasks.  Our exploratory feature-extraction arm
+(\S\ref{sec:results:o6}) sits in this line but on a synthetic label that is partly entailed
+by the structured features, which limits what it can show.
 
 \paragraph{Novelty claim.}
 To our knowledge, no prior work evaluates narrative RAG, naive structured FHIR RAG, and
-resource-aware structured FHIR RAG on \emph{paired data} for specialty-medication
-adherence-indicator questions with programmatic ground truth, nor compares these
-representations as feature sources for adherence classification on the same patient cohort.
-The four-part intersection -- (1) paired same-bundle rendering, (2) resource-aware vs.\
-naive structured retrieval, (3) specialty-medication QA domain, (4) feature-extraction
-comparison -- is unoccupied in the literature we surveyed.
+resource-aware structured FHIR RAG on paired renderings of the same FHIR bundles for
+specialty-medication adherence-indicator questions with programmatic ground truth.  The
+abstention decomposition we report, in which an apparent representation effect on
+aggregate accuracy is fully explained by differential N/A behaviour, has not to our
+knowledge been documented for clinical RAG benchmarks, and we suggest it as a standard
+check for any benchmark in which ``not applicable'' is a valid answer.
